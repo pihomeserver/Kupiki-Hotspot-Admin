@@ -1,0 +1,29 @@
+<header class="app-header navbar">
+  <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">&#9776;</button>
+  <a class="navbar-brand" ui-sref="app.main"></a>
+  <ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item">
+      <a class="nav-link navbar-toggler sidebar-toggler" href="#">
+        &#9776;
+      </a>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav ml-auto d-md-down-none">
+    <li class="nav-item dropdown" ng-hide="!$ctrl.isLoggedIn()">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <!--<img src="/assets/images/pi.png" class="img-avatar" alt="">-->
+        <span class="d-md-down-none">{{ $ctrl.getCurrentUser().name }}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+
+        <div class="dropdown-header text-center">
+          <strong>Account</strong>
+        </div>
+
+        <a class="dropdown-item" ui-sref="settings"><i class="fa fa-user"></i> Profile</a>
+        <a class="dropdown-item" ui-sref="logout"><i class="icofont icofont-exit"></i> Logout</a>
+      </div>
+    </li>
+
+  </ul>
+</header>

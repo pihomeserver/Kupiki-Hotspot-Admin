@@ -1,0 +1,27 @@
+@import "../assets/scss/coreui";
+
+$icon-font-path: '/assets/fonts/bootstrap/';
+//@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+//$fa-font-path: '/assets/fonts/font-awesome/';
+$fa-font-path: '~font-awesome/fonts/';
+@import '~font-awesome/scss/font-awesome';
+
+$simple-line-font-path: '/assets/fonts/Simple-Line/';
+@import '~simple-line-icons/scss/simple-line-icons';
+
+/**
+ * App-wide Styles
+ */
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+@import "../assets/scss/kupiki";
+
+@import "../components/widget/widget";
+@import "../components/card/card";
