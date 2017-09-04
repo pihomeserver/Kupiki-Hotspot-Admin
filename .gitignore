@@ -6,7 +6,8 @@ public
 client/bower_components
 client/index.html
 dist
-/server/config/local.env.js
+server/config/local.env.js
 npm-debug.log
 coverage
-/dev.sqlite
+dev.sqlite
+package-lock.json
