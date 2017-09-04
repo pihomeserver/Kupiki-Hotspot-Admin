@@ -3,8 +3,8 @@
     <widget bg-color="card-primary"
             text-color="text-white"
             icon="icofont icofont-hard-disk"
-            title="{{ $ctrl.disk.free }}"
-            subtitle="Total disk space : {{ $ctrl.disk.total }}"
+            title="{{ $ctrl.disk.free }}<sup>{{ $ctrl.disk.freeUnit }}</sup>"
+            subtitle="Of {{ $ctrl.disk.total }}{{ $ctrl.disk.totalUnit }}"
             progress="{{ $ctrl.disk.percent }}"
             progress-color="{{ $ctrl.disk.class }}"></widget>
   </div>
@@ -12,8 +12,8 @@
     <widget bg-color="card-primary"
             text-color="text-white"
             icon="fa fa-microchip"
-            title="{{ $ctrl.memory.free }}"
-            subtitle="System memory : {{ $ctrl.memory.total }}"
+            title="{{ $ctrl.memory.free }}<sup>{{ $ctrl.memory.freeUnit }}</sup>"
+            subtitle="System memory : {{ $ctrl.memory.total }}{{ $ctrl.memory.totalUnit }}"
             progress="{{ $ctrl.memory.percent }}"
             progress-color="{{ $ctrl.memory.class }}"></widget>
   </div>
@@ -21,17 +21,15 @@
     <widget bg-color="card-primary"
             text-color="text-white"
             icon="icofont icofont-heart-beat-alt"
-            title="{{ $ctrl.cpu.instant }}"
-            subtitle="cpu usage"
-            progress="{{ $ctrl.cpu.percent }}"
-            progress-color="{{ $ctrl.cpu.class }}"></widget>
+            title="{{ $ctrl.cpu['1m'] }}<sup>1m</sup>"
+            subtitle="5m:{{ $ctrl.cpu['5m'] }} | 15m:{{ $ctrl.cpu['15m'] }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
     <widget bg-color="card-primary"
             text-color="text-white"
             icon="icofont icofont-heartbeat"
-            title="{{ $ctrl.uptime.days }}"
-            subtitle="{{ $ctrl.uptime.unit }}"></widget>
+            title="{{ $ctrl.uptime.title }}<sup>{{ $ctrl.uptime.unit }}</sup>"
+            subtitle="{{ $ctrl.uptime.subtitle }}"></widget>
   </div>
 </div>
 <div class="row">

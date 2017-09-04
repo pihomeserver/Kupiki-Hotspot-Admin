@@ -2,7 +2,7 @@
   <div class="card-body pb-0 widget-container">
     <div class="widget-icon {{ $ctrl.icon }}"></div>
     <div class="widget-body">
-      <p class="widget-body-title">{{ $ctrl.title }}</p>
+      <p class="widget-body-title" ng-bind-html="$ctrl.title"></p>
       <div ng-class="{'progress': $ctrl.progressColor && $ctrl.progress}" class="progress-xs mt-2">
         <div ng-if="$ctrl.progressColor && $ctrl.progress" class="progress-bar {{ $ctrl.progressColor }}" role="progressbar" style="width: {{ $ctrl.progress }}%"></div>
       </div>

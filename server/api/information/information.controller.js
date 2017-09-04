@@ -1,11 +1,15 @@
 'use strict';
 
+const os = require('os');
+
 export function index(req, res) {
   var information = {
-    hostname: 'pihotspot',
-    kernel: 'k1',
-    p1: 'p1',
-    p2: 'p2'
+    'Architecture' : os.arch(),
+    'CPU' : os.cpus().length,
+    'Hostname' : os.hostname(),
+    'OS Type' : os.type(),
+    'Plateform' : os.platform(),
+    'Release' : os.release()
   };
   res.status(200).json(information);
 }

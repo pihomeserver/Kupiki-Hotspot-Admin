@@ -3,6 +3,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
+import moment from 'moment';
 
 export class MainController {
   /*@ngInject*/
@@ -48,10 +49,32 @@ export class MainController {
       });
     this.$http.get('/api/uptime')
       .then(response => {
-        this.uptime = response.data;
+        // this.uptime = response.data;
+        var duration = moment.duration(parseInt(response.data), 'seconds');
+        console.log(duration._data)
+        this.uptime = {
+          days : duration._data.days,
+          hours : duration._data.hours,
+          minutes : duration._data.minutes,
+        };
+        this.uptime.subtitle = "";
+        if (this.uptime.minutes !== 0) {
+          this.uptime.title = this.uptime.minutes;
+          this.uptime.unit = "min";
+          this.uptime.subtitle = this.uptime.minutes+"m";
+        }
+        if (this.uptime.hours !== 0) {
+          this.uptime.title = this.uptime.hours;
+          this.uptime.unit = "hours";
+          this.uptime.subtitle = this.uptime.hours+"h "+this.uptime.subtitle;
+        }
+        if (this.uptime.days !== 0) {
+          this.uptime.title = this.uptime.days;
+          this.uptime.unit = "days";
+          this.uptime.subtitle = this.uptime.days+"d "+this.uptime.subtitle;
+        }
+        this.uptime.subtitle = "Uptime "+this.uptime.subtitle;
         this.uptime.class = "bg-info";
-        if (this.uptime.percent > 60) this.uptime.class = "bg-warning";
-        if (this.uptime.percent > 90) this.uptime.class = "bg-danger";
       });
   }
 
