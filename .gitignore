@@ -11,3 +11,4 @@ npm-debug.log
 coverage
 dev.sqlite
 package-lock.json
+/dev.sqlite

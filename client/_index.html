@@ -10,6 +10,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   </head>
   <body class="app header-fixed sidebar-fixed">
+    <img id="backgroundLoginImage" src="" class="loginImage"/>
+    <img id="backgroundLoginImageNext" src="" class="loginImage"/>
     <!--[if lt IE 9]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -29,7 +31,7 @@
 
     <div class="app-body">
       <div ui-view name="sidebar"></div>
-      <div ui-view name="content" class="main container-fluid animated fadeIn" style="margin-top:15px"></div>
+      <div ui-view name="content" class="main container-fluid animated fadeIn margin-top-15px"></div>
     </div>
 
   </body>

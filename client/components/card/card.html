@@ -1,6 +1,12 @@
 <div class="card">
   <div class="card-header">
     {{ $ctrl.title }}
+    <label ng-if="$ctrl.switch === 'on'" class="switch switch-sm switch-text switch-info float-right mb-0">
+      <input type="checkbox" class="switch-input" ng-model="filterSwitch" ng-change="$ctrl.switchFunction(filterSwitch)">
+      <span class="switch-label" data-on="On" data-off="Off"></span>
+      <span class="switch-handle"></span>
+    </label>
+    <p class="small">{{ $ctrl.subtitle }}</p>
   </div>
   <div class="card-block">
     <ng-transclude></ng-transclude>

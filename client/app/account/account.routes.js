@@ -4,15 +4,24 @@ export default function routes($stateProvider) {
   'ngInject';
 
   $stateProvider.state('login', {
-    url: '/login',
-    views: {
-      content: {
-        template: require('./login/login.html'),
-        controller: 'LoginController',
-        controllerAs: 'vm'
+      url: '/login',
+      views: {
+        content: {
+          template: require('./login/login.html'),
+          controller: 'LoginController',
+          controllerAs: 'vm'
+        }
+      },
+      onEnter: function(){
+        $("body.app").toggleClass('sidebar-fixed').toggleClass('header-fixed');
+        $("div[name=content]").toggleClass('margin-top-15px');
+      },
+      onExit: function(){
+        $("body.app").toggleClass('sidebar-fixed').toggleClass('header-fixed');
+        $("div[name=content]").toggleClass('margin-top-15px');
+        // $(document.body).css('background', '');
       }
-    }
-  })
+    })
     .state('logout', {
       url: '/logout?referrer',
       views: {
@@ -23,28 +32,6 @@ export default function routes($stateProvider) {
         }
       }
     })
-    // .state('logout', {
-    //   url: '/logout?referrer',
-    //   referrer: 'main',
-    //   template: '',
-    //   controller: function($state, Auth) {
-    //     'ngInject';
-    //
-    //     console.log('logout 1');
-    //
-    //     var referrer = $state.params.referrer
-    //       || $state.current.referrer
-    //       || 'main';
-    //
-    //     console.log('logout 2');
-    //
-    //     Auth.logout();
-    //
-    //     console.log('logout 3');
-    //
-    //     $state.go(referrer);
-    //   }
-    // })
     .state('settings', {
       url: '/settings',
       authenticate: true,

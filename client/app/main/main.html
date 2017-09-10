@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-6 col-lg-3">
-    <widget bg-color="card-primary"
+    <widget bg-color="bg-primary"
             text-color="text-white"
             icon="icofont icofont-hard-disk"
             title="{{ $ctrl.disk.free }}<sup>{{ $ctrl.disk.freeUnit }}</sup>"
@@ -35,24 +35,7 @@
 <div class="row">
   <div class="col-sm-6 col-lg-8">
     <card title="Services">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th style="text-align: center">Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="service in $ctrl.services">
-          <td>{{ service.name }}</td>
-          <td style="text-align: center">
-            <span class="badge">
-              <i class="fa" ng-class="{'fa-circle text-success': service.status=='up', 'fa-circle-o text-danger': service.status != 'up'}"/>
-            </span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div  ui-grid="$ctrl.services" ng-if="$ctrl.services.data" class="myGrid"></div>
     </card>
   </div>
   <div class="col-sm-6 col-lg-4">

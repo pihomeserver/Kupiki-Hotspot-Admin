@@ -1,8 +1,9 @@
 import angular from 'angular';
 
 export class CardComponent {
-  constructor() {
+  constructor($scope) {
     'ngInject';
+    this.$scope = $scope;
   }
 }
 
@@ -12,7 +13,10 @@ export default angular.module('directives.card', [])
     controller: CardComponent,
     transclude: true,
     bindings: {
-      title: '@'
+      title: '@',
+      subtitle: '@',
+      switch: '@',
+      switchFunction: '='
     }
   })
   .name;

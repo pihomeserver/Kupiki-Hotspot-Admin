@@ -79,12 +79,8 @@ function sidebarNavDynamicResizeDirective($window, $timeout) {
   return directive;
 
   function link(scope, element, attrs) {
-
-    console.log('**** Entering');
-
     if (element.hasClass('sidebar-nav') && angular.element('body').hasClass('fixed-nav')) {
       var bodyHeight = angular.element(window).height();
-      console.log('**** bodyHeight : '+bodyHeight);
       scope.$watch(function(){
         var headerHeight = angular.element('header').outerHeight();
 

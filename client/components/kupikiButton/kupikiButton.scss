@@ -1,0 +1,90 @@
+.buttons span {
+  //margin-right: 30px;
+  width:100%;
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  position: relative;
+  line-height: 64px;
+  background-color: #eaeaea;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#eaeaea));
+  background-image: -webkit-linear-gradient(top, #f6f6f6, #eaeaea);
+  background-image: -moz-linear-gradient(top, #f6f6f6, #eaeaea);
+  background-image: -ms-linear-gradient(top, #f6f6f6, #eaeaea);
+  background-image: -o-linear-gradient(top, #f6f6f6, #eaeaea);
+  background-image: linear-gradient(top, #f6f6f6, #eaeaea);
+  -moz-border-radius: 32px;
+  -webkit-border-radius: 32px;
+  border-radius: 32px;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+}
+.buttons span:active {
+  top: 1px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#eaeaea), to(#f6f6f6));
+  background-image: -webkit-linear-gradient(top, #eaeaea, #f6f6f6);
+  background-image: -moz-linear-gradient(top, #eaeaea, #f6f6f6);
+  background-image: -ms-linear-gradient(top, #eaeaea, #f6f6f6);
+  background-image: -o-linear-gradient(top, #eaeaea, #f6f6f6);
+  background-image: linear-gradient(top, #eaeaea, #f6f6f6);
+}
+$border-thickness: -2px;
+.buttons span::before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: $border-thickness;
+  right: $border-thickness;
+  bottom: $border-thickness;
+  left: $border-thickness;
+  background-color: #eaeaea;
+  -moz-border-radius: 140px;
+  -webkit-border-radius: 140px;
+  border-radius: 140px;
+  opacity: 0.5;
+}
+.buttons span:active::before {
+  //top: -9px;
+}
+.buttons span:hover::before {
+  opacity: 1;
+}
+.buttons span.button-icon:hover::before {
+  background-color: $brand-primary;
+}
+.buttons span {
+  font-size: 50px;
+  text-align: center;
+  padding-top: 0px;
+
+  margin-left: -webkit-calc(50% - 32px);
+  margin-left:    -moz-calc(50% - 32px);
+  margin-left:         calc(50% - 32px);
+}
+.buttons span.button-icon {
+  color: $brand-primary;
+}
+.buttons span.button-icon:hover {
+  color: $brand-danger;
+}
+.buttons {
+  width:100%;
+}
+.buttonsTitle {
+  width:100%;
+  margin-top: 5px;
+  text-align: center;
+}
+.flexButton {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+.flexButton > div {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-transition: width 0.7s ease-out;
+  transition: width 0.7s ease-out;
+}

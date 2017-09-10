@@ -16,6 +16,7 @@ import 'angular-socket-io';
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
 import 'angular-validation-match';
+import uiGrid from 'angular-ui-grid';
 
 import {
   routeConfig
@@ -24,23 +25,45 @@ import {
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
-import coreuiComponents from '../components/coreui/coreui.components';
 import coreuiDirectives from '../components/coreui/coreui.directives';
 import sidebar from '../components/sidebar/sidebar.component';
 import navbar from '../components/navbar/navbar.component';
-import footer from '../components/footer/footer.component';
+import kupikiButton from '../components/kupikiButton/kupikiButton.component';
 import widget from '../components/widget/widget.component';
 import card from '../components/card/card.component';
-import main from './main/main.component';
+import MainComponent from './main/main.component';
+import SysadminComponent from './sysadmin/sysadmin.component';
 import constants from './app.constants';
+import KupikiModal from '../components/kupikiModal/kupikiModal.service';
 import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('kupikiHotspotAdminApp', [ngCookies, ngResource, ngSanitize, 'btford.socket-io',
-  uiRouter, uiBootstrap, _Auth, account, admin, 'validation.match', coreuiComponents, coreuiDirectives, navbar, sidebar, footer,
-  widget, card, main, constants, socket, util
+angular.module('kupikiHotspotAdminApp', [
+  ngCookies,
+  ngResource,
+  ngSanitize,
+  'btford.socket-io',
+  uiRouter,
+  uiBootstrap,
+  _Auth,
+  'validation.match',
+  coreuiDirectives,
+  account,
+  admin,
+  navbar,
+  sidebar,
+  widget,
+  card,
+  KupikiModal,
+  kupikiButton,
+  MainComponent,
+  SysadminComponent,
+  constants,
+  socket,
+  util,
+  uiGrid
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {

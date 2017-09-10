@@ -4,6 +4,8 @@
 
 @import "/assets/css/icofont.css";
 
+@import "toggle";
+
 a.nav-link.dropdown-toggle {
   padding-right: 15px !important;
 }
@@ -13,3 +15,20 @@ p.widget-body-title sup {
   font-size: 25%;
 }
 
+.margin-top-15px {
+  margin-top:15px;
+}
+
+.loginImage {
+  position:absolute;
+  z-index: -1;
+  max-width: 100%;
+}
+
+@keyframes spin {
+  to{transform:rotateZ(360deg)}
+}
+
+i.rotate:hover {
+  animation: spin 3000ms;
+}

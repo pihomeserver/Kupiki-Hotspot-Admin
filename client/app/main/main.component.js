@@ -1,7 +1,8 @@
 'use strict';
+const angular = require('angular');
 
-import angular from 'angular';
-import uiRouter from 'angular-ui-router';
+const uiRouter = require('angular-ui-router');
+
 import routing from './main.routes';
 import moment from 'moment';
 
@@ -45,13 +46,23 @@ export class MainController {
       });
     this.$http.get('/api/services')
       .then(response => {
-        this.services = response.data;
+        var cellTemplateButton = "" +
+          "<label class='tgl tgl-disabled' style='font-size:10px'>" +
+          "<input type='checkbox' disabled ng-checked='row.entity.status'/>" +
+          "<span data-on='On' data-off='Off'></span>" +
+          "</label>";
+        this.services = {
+          enableSorting: true,
+          data: response.data,
+          columnDefs: [
+            { name: "Service", field: 'name', width: '80%' },
+            { name: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
+          ]
+        };
       });
     this.$http.get('/api/uptime')
       .then(response => {
-        // this.uptime = response.data;
         var duration = moment.duration(parseInt(response.data), 'seconds');
-        console.log(duration._data)
         this.uptime = {
           days : duration._data.days,
           hours : duration._data.hours,
