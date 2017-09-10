@@ -12,3 +12,4 @@ coverage
 dev.sqlite
 package-lock.json
 /dev.sqlite
+/dist.sqlite
