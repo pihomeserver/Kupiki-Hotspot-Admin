@@ -6,6 +6,10 @@
 
 @import "toggle";
 
+.modal-backdrop.in {
+  opacity: 0.5;
+}
+
 a.nav-link.dropdown-toggle {
   padding-right: 15px !important;
 }

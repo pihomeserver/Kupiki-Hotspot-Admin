@@ -5,13 +5,13 @@ import angular from 'angular';
 export function KupikiModal($rootScope, $uibModal) {
   'ngInject';
 
-  function openModal(scope = {}, modalClass = 'kupikiModal-default') {
+  function openModal(scope = {}, modalClass = 'modal-default') {
     var modalScope = $rootScope.$new();
 
     angular.extend(modalScope, scope);
 
     return $uibModal.open({
-      templateUrl: '../../components/kupikiModal/kupikiModal.html',
+      template: require('./kupikiModal.html'),
       animation: false,
       size: 'md',
       windowClass: modalClass,
@@ -20,7 +20,7 @@ export function KupikiModal($rootScope, $uibModal) {
   }
 
   return {
-    confirmModal: function (modalScope = {}, modalClass = 'kupikiModal-default', confirmFunc) {
+    confirmModal: function (modalScope = {}, modalClass = 'modal-default', confirmFunc) {
       var modalOptions = $rootScope.$new();
       angular.extend(modalOptions, modalScope);
 

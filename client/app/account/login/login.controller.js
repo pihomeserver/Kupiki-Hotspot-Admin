@@ -16,26 +16,19 @@ export default class LoginController {
     this.Auth = Auth;
     this.$state = $state;
 
-    var backgrounds = ['../../assets/images/backgrounds/0.jpg',
-      '../../assets/images/backgrounds/1.jpg',
-      '../../assets/images/backgrounds/2.jpg',
-      '../../assets/images/backgrounds/3.jpg',
-      '../../assets/images/backgrounds/4.jpg',
-      '../../assets/images/backgrounds/5.jpg'
-    ];
-
+    var backgroundsElements = 6;
     var oldBackground = undefined;
 
     var changeBackground = function() {
       if ($state.current.name === 'login') {
         $('#backgroundLoginImageNext').hide();
         do
-          var randBackground = Math.floor(Math.random()*backgrounds.length);
+          var randBackground = Math.floor(Math.random()*backgroundsElements);
         while (randBackground === oldBackground);
-        $('#backgroundLoginImageNext').attr('src', backgrounds[randBackground]);
+        $('#backgroundLoginImageNext').attr('src', '/assets/backgrounds/'+randBackground+'.jpg');
         $('#backgroundLoginImageNext').fadeIn(1200);
         $('#backgroundLoginImage').fadeOut(1200, function() {
-          $('#backgroundLoginImage').attr('src', backgrounds[randBackground]);
+          $('#backgroundLoginImageNext').attr('src', '/assets/backgrounds/'+randBackground+'.jpg');
           $('#backgroundLoginImage').show();
         });
         oldBackground = randBackground;
