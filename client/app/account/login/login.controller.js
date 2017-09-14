@@ -16,38 +16,40 @@ export default class LoginController {
     this.Auth = Auth;
     this.$state = $state;
 
-    var backgroundsElements = 6;
-    var oldBackground = undefined;
+    let backgroundsElements = 6;
+    let oldBackground = undefined;
 
-    var changeBackground = function() {
+    let changeBackground = function() {
       if ($state.current.name === 'login') {
         $('#backgroundLoginImageNext').hide();
         do
           var randBackground = Math.floor(Math.random()*backgroundsElements);
         while (randBackground === oldBackground);
         $('#backgroundLoginImageNext').attr('src', '/assets/backgrounds/'+randBackground+'.jpg');
-        $('#backgroundLoginImageNext').fadeIn(1200);
-        $('#backgroundLoginImage').fadeOut(1200, function() {
-          $('#backgroundLoginImageNext').attr('src', '/assets/backgrounds/'+randBackground+'.jpg');
+        $('#backgroundLoginImageNext').fadeIn(1500);
+        $('#backgroundLoginImage').fadeOut(1500, function() {
+          $('#backgroundLoginImage').attr('src', '/assets/backgrounds/'+randBackground+'.jpg');
           $('#backgroundLoginImage').show();
         });
         oldBackground = randBackground;
       }
-    }
+    };
 
     $('body').css('overflow', 'hidden');
+    $('[name="content"]').css('padding', '0px');
+    $('[name="content"]').css('margin-top', '0px');
 
     changeBackground();
 
-    var changeBackgroundTimer = $interval(changeBackground, 5000);
+    let changeBackgroundTimer = $interval(changeBackground, 7000);
 
     $scope.$on('$destroy', function() {
       $interval.cancel(changeBackgroundTimer);
       $('body').css('overflow', 'auto');
-      $('#backgroundLoginImage').hide();
-      $('#backgroundLoginImageNext').hide();
       $('#backgroundLoginImage').attr('src', '');
       $('#backgroundLoginImageNext').attr('src', '');
+      $('#backgroundLoginImage').hide();
+      $('#backgroundLoginImageNext').hide();
     });
   }
 

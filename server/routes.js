@@ -9,7 +9,6 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
-  // app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
   app.use('/api/cpu', require('./api/cpu'));
   app.use('/api/disk', require('./api/disk'));
@@ -17,6 +16,7 @@ export default function(app) {
   app.use('/api/memory', require('./api/memory'));
   app.use('/api/services', require('./api/services'));
   app.use('/api/uptime', require('./api/uptime'));
+  app.use('/api/system', require('./api/system'));
 
   app.use('/auth', require('./auth').default);
 

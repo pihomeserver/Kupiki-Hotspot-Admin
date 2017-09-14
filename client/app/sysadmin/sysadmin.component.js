@@ -7,9 +7,36 @@ import routes from './sysadmin.routes';
 
 export class SysadminComponent {
   /*@ngInject*/
-  constructor($scope, $http, KupikiModal) {
+  constructor($scope, $http, socket, toastr, KupikiModal) {
     this.$http = $http;
     this.$scope = $scope;
+    this.socket = socket;
+    this.KupikiModal = KupikiModal;
+    this.toastr = toastr;
+
+    this.socket.socket.on('system:updateEnd', function(data) {
+      if (data) {
+        console.log(data)
+        switch (data.status) {
+          case 'success' :
+            toastr.success('System update finished');
+            break;
+          case 'failed' :
+            toastr.error('Error '+data.result.code+'<br/>'+data.result.stderr, 'System update failed', {
+              closeButton: true,
+              allowHtml: true,
+              timeOut: 0
+            });
+            console.log(data.result)
+            break;
+        }
+      } else {
+        toastr.error('Unable to get update status.', 'System update', {
+          closeButton: true,
+          timeOut: 0
+        });
+      }
+    });
 
     this.reboot = function() {
       var options = {
@@ -17,13 +44,25 @@ export class SysadminComponent {
         title: 'System reboot',
         html: 'Please confirm that you want to restart the system'
       };
-      KupikiModal.confirmModal(options, 'modal-danger', function() {
+      KupikiModal.confirmModal(options, 'danger', function() {
         console.log('Go for reboot')
       });
     };
 
     this.$scope.switchService = function(elt) {
-        console.log(elt)
+      console.log("switch service")
+      console.log(elt)
+    };
+
+    this.shutdown = function() {
+      var options = {
+        dismissable: true,
+        title: 'System shutdown',
+        html: 'Please confirm that you want to shutdown the system'
+      };
+      KupikiModal.confirmModal(options, 'danger', function() {
+        console.log('Go for shutdown')
+      });
     };
 
     this.$scope.filterServices = function(switchStatus) {
@@ -58,15 +97,54 @@ export class SysadminComponent {
           ]
         };
       });
+    this.$http.get('/api/system/upgrade')
+      .then(response => {
+        // console.log('** Response')
+        // console.log(response.data)
+        // console.log(response.data.status)
+        this.availableUpgrades = undefined;
+        switch (response.data.status) {
+          case 'success' :
+            if (parseInt(response.data.result) !== 0) {
+              this.availableUpgrades = parseInt(response.data.result);
+              this.toastr.info(this.availableUpgrades+' packages available. Please update your system.', 'System update');
+            }
+            break;
+          case 'failed' :
+            this.toastr.error('Unable to get available upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+              closeButton: true,
+              allowHtml: true,
+              timeOut: 0
+            });
+            break;
+          }
+      })
+      .catch(error => {
+        // console.log('** Error')
+        // console.log(error)
+        this.availableUpgrades = undefined;
+      });
   }
 
   update() {
-    console.log("update")
-  }
-
-  shutdown() {
-    console.log("shutdown")
-  }
+    var options = {
+      dismissable: true,
+      title: 'System update',
+      html: 'Please confirm that you want to update the system'
+    };
+    var $http = this.$http;
+    var toastr = this.toastr;
+    this.KupikiModal.confirmModal(options, 'primary', function() {
+      console.log('Go for update --');
+      $http.get('/api/system/update')
+        .then(response => {
+          toastr.info('The update of the system has been started.', 'System update');
+        })
+        .catch(function() {
+          toastr.error('The update of the system can not be started.', 'System update');
+        });
+    });
+  };
 }
 
 export default angular.module('kupikiHotspotAdminApp.sysadmin', [uiRouter])

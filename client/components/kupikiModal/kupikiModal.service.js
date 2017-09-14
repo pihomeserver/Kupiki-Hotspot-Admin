@@ -5,7 +5,7 @@ import angular from 'angular';
 export function KupikiModal($rootScope, $uibModal) {
   'ngInject';
 
-  function openModal(scope = {}, modalClass = 'modal-default') {
+  function openModal(scope = {}, modalClass = 'default') {
     var modalScope = $rootScope.$new();
 
     angular.extend(modalScope, scope);
@@ -14,18 +14,18 @@ export function KupikiModal($rootScope, $uibModal) {
       template: require('./kupikiModal.html'),
       animation: false,
       size: 'md',
-      windowClass: modalClass,
+      windowClass: 'modal-' + modalClass,
       scope: modalScope
     });
   }
 
   return {
-    confirmModal: function (modalScope = {}, modalClass = 'modal-default', confirmFunc) {
+    confirmModal: function (modalScope = {}, modalClass = 'default', confirmFunc) {
       var modalOptions = $rootScope.$new();
       angular.extend(modalOptions, modalScope);
 
       modalOptions.buttons= [{
-        classes: 'btn-danger',
+        classes: 'btn-'+modalClass,
         text: 'Confirm',
         click(e) {
           modalObj.close(e);

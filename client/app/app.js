@@ -17,6 +17,7 @@ import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
 import 'angular-validation-match';
 import uiGrid from 'angular-ui-grid';
+import toastr from  'angular-toastr';
 
 import {
   routeConfig
@@ -42,6 +43,7 @@ import './app.scss';
 
 angular.module('kupikiHotspotAdminApp', [
   ngCookies,
+  // ngAnimate,
   ngResource,
   ngSanitize,
   'btford.socket-io',
@@ -63,7 +65,8 @@ angular.module('kupikiHotspotAdminApp', [
   constants,
   socket,
   util,
-  uiGrid
+  uiGrid,
+  toastr
 ])
   .config(routeConfig)
   .run(function($rootScope, $location, Auth) {
