@@ -11,7 +11,7 @@ export function register(socketToRegister) {
 }
 
 export function upgrade(req, res) {
-  var command = "apt-get upgrade -s | grep -P '^\d+ upgraded' | cut -d' ' -f1";
+  var command = "/usr/bin/apt-get upgrade -s | /bin/grep -P '^\d+ upgraded' | /usr/bin/cut -d' ' -f1";
   // var command = "echo 2";
   exec(command)
       .then(function (result) {
