@@ -2,6 +2,7 @@
 
 const os = require('os');
 const exec = require('child-process-promise').exec;
+const spawn = require('child-process-promise').spawn;
 
 let socket = undefined;
 
@@ -11,28 +12,38 @@ export function register(socketToRegister) {
 }
 
 export function upgrade(req, res) {
-  var command = "/usr/bin/apt-get upgrade -s | /bin/grep -P '^\d+ upgraded' | /usr/bin/cut -d' ' -f1";
-  // var command = "echo 2";
-  exec(command)
-      .then(function (result) {
-        console.log('** Result')
-        console.log(result)
-        if (!result.stderr) {
-          var n = result.stdout.replace(/\n$/, "")
-          if (!isNaN(parseFloat(n)) && isFinite(n)) {
-            res.status(200).json({ status: 'success', result: n });
-          } else {
-            res.status(200).json({ status: 'failed', result: {code : -1, message : 'Not numeric value returned'} });
-          }
-        } else {
-          res.status(200).json({ status: 'failed', result: {code : result.code, message : result.stderr} });
-        }
-      })
-      .catch(function (err) {
-        console.log('** Error')
-        console.log(err)
-        res.status(200).json({ status: 'failed', result: {code : err.code, message : err.stderr} });
-      });
+  // var command = "/usr/bin/apt-get upgrade -s | /bin/grep -P '^\d+ upgraded' | /usr/bin/cut -d' ' -f1";
+  spawn('/usr/bin/apt-get', ['upgrade', '-s'], { capture: [ 'stdout', 'stderr' ]})
+  // spawn('ls', ['-l'], { capture: [ 'stdout', 'stderr' ]})
+    .then(function (result) {
+      // var p = spawn('/bin/grep', ['-P', "'^\d+ upgraded'"], { capture: ["stdout"] })
+      // var c2 = spawn('grep', ['x'], { capture: ["stdout"] })
+      var c2 = spawn('/bin/grep', ['-P', "'^\d+ upgraded'"], { capture: ["stdout"] })
+              .progress(function(childProcess) {
+                childProcess.stdin.write(new Buffer(result.stdout));
+                childProcess.stdin.end();
+              })
+              .then(function(c2_result) {
+                var c3 = spawn('/usr/bin/cut', ["-d' '", '-f1'], { capture: ["stdout"] })
+                        .progress(function(childProcess) {
+                          childProcess.stdin.write(new Buffer(c2_result.stdout));
+                          childProcess.stdin.end();
+                        })
+                        .then(function(c3_result) { return c3_result })
+                        .catch(function(err) {
+                          res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
+                        });
+                c3.then(function(c3_result) {
+                  res.status(200).json({ status: 'success', result: c3_result.stdout.trim() });
+                })
+              })
+              .catch(function(err) {
+                res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
+              });
+    })
+    .catch(function (err) {
+        res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
+    });
 }
 
 export function reboot(req, res) {
