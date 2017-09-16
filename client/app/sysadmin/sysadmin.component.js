@@ -108,6 +108,8 @@ export class SysadminComponent {
             if (parseInt(response.data.result) !== 0) {
               this.availableUpgrades = parseInt(response.data.result);
               this.toastr.info(this.availableUpgrades+' packages available. Please update your system.', 'System update');
+            } else {
+              this.toastr.info('Your system is up to date.', 'System update');
             }
             break;
           case 'failed' :

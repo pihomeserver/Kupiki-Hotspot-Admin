@@ -1,8 +1,7 @@
 'use strict';
 
 const os = require('os');
-const exec = require('child-process-promise').exec;
-const spawn = require('child-process-promise').spawn;
+const spawn = require('child_process').spawn;
 
 let socket = undefined;
 
@@ -12,38 +11,65 @@ export function register(socketToRegister) {
 }
 
 export function upgrade(req, res) {
-  // var command = "/usr/bin/apt-get upgrade -s | /bin/grep -P '^\d+ upgraded' | /usr/bin/cut -d' ' -f1";
-  spawn('/usr/bin/apt-get', ['upgrade', '-s'], { capture: [ 'stdout', 'stderr' ]})
-  // spawn('ls', ['-l'], { capture: [ 'stdout', 'stderr' ]})
-    .then(function (result) {
-      // var p = spawn('/bin/grep', ['-P', "'^\d+ upgraded'"], { capture: ["stdout"] })
-      // var c2 = spawn('grep', ['x'], { capture: ["stdout"] })
-      var c2 = spawn('/bin/grep', ['-P', "'^\d+ upgraded'"], { capture: ["stdout"] })
-              .progress(function(childProcess) {
-                childProcess.stdin.write(new Buffer(result.stdout));
-                childProcess.stdin.end();
-              })
-              .then(function(c2_result) {
-                var c3 = spawn('/usr/bin/cut', ["-d' '", '-f1'], { capture: ["stdout"] })
-                        .progress(function(childProcess) {
-                          childProcess.stdin.write(new Buffer(c2_result.stdout));
-                          childProcess.stdin.end();
-                        })
-                        .then(function(c3_result) { return c3_result })
-                        .catch(function(err) {
-                          res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
-                        });
-                c3.then(function(c3_result) {
-                  res.status(200).json({ status: 'success', result: c3_result.stdout.trim() });
-                })
-              })
-              .catch(function(err) {
-                res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
-              });
-    })
-    .catch(function (err) {
-        res.status(200).json({ status: 'failed', result: { code : err.code, message : err.stderr} });
-    });
+  const apt = spawn('/usr/bin/apt-get', ['upgrade', '-s']);
+  const tail = spawn('tail', ['-1']);
+  const cut = spawn('cut', ['-f1', '-d ']);
+  let result = '';
+
+  apt.stdout.on('data', (data) => {
+    try {
+      tail.stdin.write(data);
+    } catch (err) {
+    }
+  });
+
+  tail.stdout.on('data', (data) => {
+    try {
+      cut.stdin.write(data);
+    } catch(err) {
+    }
+  });
+
+  cut.stdout.on('data', (data) => {
+    result += data.toString();
+  });
+
+  apt.stderr.on('data', (data) => {
+    console.log(`apt stderr: ${data}`);
+  });
+
+  tail.stderr.on('data', (data) => {
+    console.log(`tail stderr: ${data}`);
+  });
+
+  cut.stderr.on('data', (data) => {
+    console.log(`cut stderr: ${data}`);
+  });
+
+  apt.on('close', (code) => {
+    if (code !== 0) {
+      console.log(`apt process exited with code ${code}`);
+      res.status(200).json({ status: 'failed', result: { code : code, message : 'apt-get process exited abnormaly.'} });
+    }
+    tail.stdin.end();
+  });
+
+  tail.on('close', (code) => {
+    if (code !== 0) {
+      console.log(`tail process exited with code ${code}`);
+      res.status(200).json({ status: 'failed', result: { code : code, message : 'tail process exited abnormaly.'} });
+    }
+    cut.stdin.end();
+  });
+
+  cut.on('close', (code) => {
+    if (code !== 0) {
+      console.log(`cut process exited with code ${code}`);
+      res.status(200).json({ status: 'failed', result: { code : code, message : 'cut process exited abnormaly.'} });
+    } else {
+      res.status(200).json({ status: 'success', result: result.trim() });
+    }
+  });
 }
 
 export function reboot(req, res) {
@@ -60,18 +86,18 @@ export function update(req, res) {
   var command = 'apt-get update -y -qq && apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade';
   if (socket) {
     exec(command)
-        .then(function (result) {
-          socket.emit('system:updateEnd', { status: 'success', result: result });
-            // var stdout = result.stdout;
-            // var stderr = result.stderr;
-            // console.log('stdout: ', stdout);
-            // console.log('stderr: ', stderr);
-        })
-        .catch(function (err) {
-          console.log('** Error')
-          console.log(err)
-          socket.emit('system:updateEnd', {status: 'failed', result: err});
-        });
+      .then(function (result) {
+        socket.emit('system:updateEnd', { status: 'success', result: result });
+        // var stdout = result.stdout;
+        // var stderr = result.stderr;
+        // console.log('stdout: ', stdout);
+        // console.log('stderr: ', stderr);
+      })
+      .catch(function (err) {
+        console.log('** Error')
+        console.log(err)
+        socket.emit('system:updateEnd', {status: 'failed', result: err});
+      });
     // setTimeout(function() {
     //   if (socket) {
     //     socket.emit('system:updateEnd', {status: 'failed'});
