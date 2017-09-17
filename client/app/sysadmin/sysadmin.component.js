@@ -99,9 +99,7 @@ export class SysadminComponent {
       });
     this.$http.get('/api/system/upgrade')
       .then(response => {
-        // console.log('** Response')
-        console.log(response.data)
-        // console.log(response.data.status)
+        // console.log(response.data)
         this.availableUpgrades = undefined;
         switch (response.data.status) {
           case 'success' :

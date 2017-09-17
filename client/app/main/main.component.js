@@ -9,8 +9,22 @@ import moment from 'moment';
 export class MainController {
   /*@ngInject*/
   // constructor($http, $scope, socket) {
-  constructor($http) {
+  constructor($http, $scope) {
     this.$http = $http;
+    this.$scope = $scope;
+
+    this.$scope.filterServices = function(switchStatus) {
+      if (switchStatus) {
+        let filters = ['chilli', 'freeradius', 'nginx', 'hostapd'];
+        let filterByName = function(service) {
+          return filters.includes(service.name);
+        };
+        this.dataFiltered = this.$scope.$parent.$ctrl.data.filter(filterByName);
+        this.$scope.$parent.$ctrl.services.data = this.dataFiltered;
+      } else {
+        this.$scope.$parent.$ctrl.services.data = this.$scope.$parent.$ctrl.data;
+      }
+    }
     // this.socket = socket;
 
     // $scope.$on('$destroy', function() {
@@ -51,6 +65,7 @@ export class MainController {
           "<input type='checkbox' disabled ng-checked='row.entity.status'/>" +
           "<span data-on='On' data-off='Off'></span>" +
           "</label>";
+        this.data = response.data;
         this.services = {
           enableSorting: true,
           data: response.data,

@@ -88,3 +88,11 @@ $border-thickness: -2px;
   -webkit-transition: width 0.7s ease-out;
   transition: width 0.7s ease-out;
 }
+
+.kupiki-badge {
+  position: absolute;
+  z-index: 1040;
+  left: -webkit-calc(50% + 16px);
+  left:    -moz-calc(50% + 16px);
+  left:         calc(50% + 16px);
+}

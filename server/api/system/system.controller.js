@@ -11,65 +11,69 @@ export function register(socketToRegister) {
 }
 
 export function upgrade(req, res) {
-  const apt = spawn('/usr/bin/apt-get', ['upgrade', '-s']);
-  const tail = spawn('tail', ['-1']);
-  const cut = spawn('cut', ['-f1', '-d ']);
-  let result = '';
+  if (os.platform() === 'linux') {
+    const apt = spawn('/usr/bin/apt-get', ['upgrade', '-s']);
+    const tail = spawn('tail', ['-1']);
+    const cut = spawn('cut', ['-f1', '-d ']);
+    let result = '';
 
-  apt.stdout.on('data', (data) => {
-    try {
-      tail.stdin.write(data);
-    } catch (err) {
-    }
-  });
+    apt.stdout.on('data', (data) => {
+      try {
+        tail.stdin.write(data);
+      } catch (err) {
+      }
+    });
 
-  tail.stdout.on('data', (data) => {
-    try {
-      cut.stdin.write(data);
-    } catch(err) {
-    }
-  });
+    tail.stdout.on('data', (data) => {
+      try {
+        cut.stdin.write(data);
+      } catch(err) {
+      }
+    });
 
-  cut.stdout.on('data', (data) => {
-    result += data.toString();
-  });
+    cut.stdout.on('data', (data) => {
+      result += data.toString();
+    });
 
-  apt.stderr.on('data', (data) => {
-    console.log(`apt stderr: ${data}`);
-  });
+    apt.stderr.on('data', (data) => {
+      console.log(`apt stderr: ${data}`);
+    });
 
-  tail.stderr.on('data', (data) => {
-    console.log(`tail stderr: ${data}`);
-  });
+    tail.stderr.on('data', (data) => {
+      console.log(`tail stderr: ${data}`);
+    });
 
-  cut.stderr.on('data', (data) => {
-    console.log(`cut stderr: ${data}`);
-  });
+    cut.stderr.on('data', (data) => {
+      console.log(`cut stderr: ${data}`);
+    });
 
-  apt.on('close', (code) => {
-    if (code !== 0) {
-      console.log(`apt process exited with code ${code}`);
-      res.status(200).json({ status: 'failed', result: { code : code, message : 'apt-get process exited abnormaly.'} });
-    }
-    tail.stdin.end();
-  });
+    apt.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`apt process exited with code ${code}`);
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'apt-get process exited abnormaly.'} });
+      }
+      tail.stdin.end();
+    });
 
-  tail.on('close', (code) => {
-    if (code !== 0) {
-      console.log(`tail process exited with code ${code}`);
-      res.status(200).json({ status: 'failed', result: { code : code, message : 'tail process exited abnormaly.'} });
-    }
-    cut.stdin.end();
-  });
+    tail.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`tail process exited with code ${code}`);
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'tail process exited abnormaly.'} });
+      }
+      cut.stdin.end();
+    });
 
-  cut.on('close', (code) => {
-    if (code !== 0) {
-      console.log(`cut process exited with code ${code}`);
-      res.status(200).json({ status: 'failed', result: { code : code, message : 'cut process exited abnormaly.'} });
-    } else {
-      res.status(200).json({ status: 'success', result: result.trim() });
-    }
-  });
+    cut.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`cut process exited with code ${code}`);
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'cut process exited abnormaly.'} });
+      } else {
+        res.status(200).json({ status: 'success', result: result.trim() });
+      }
+    });
+  } else {
+    res.status(200).json({ status: 'failed', result: { code : -1, message : 'Unsupported platform'} });
+  }
 }
 
 export function reboot(req, res) {

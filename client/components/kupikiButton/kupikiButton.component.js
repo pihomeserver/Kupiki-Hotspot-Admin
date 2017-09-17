@@ -13,7 +13,8 @@ export default angular.module('directives.kupikiButton', [])
     transclude: true,
     bindings: {
         title: '@',
-        icon: '@'
+        icon: '@',
+        badge: '@'
     }
   })
   .name;
