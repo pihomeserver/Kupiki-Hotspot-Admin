@@ -78,7 +78,6 @@ export function upgrade(req, res) {
 }
 
 export function reboot(req, res) {
-  console.log('** Reboot in progress');
   if (os.platform() === 'linux') {
     const reboot = exec('sudo shutdown -r -t 1');
     reboot.stderr.on('data', (data) => {
@@ -87,7 +86,7 @@ export function reboot(req, res) {
     reboot.on('close', (code) => {
       if (code !== 0) {
         console.log(`reboot process exited with code ${code}`);
-        res.status(200).json({ status: 'failed', result: { code : code, message : 'reboot process exited abnormaly.<br/>Check server logs.'} });
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'Reboot process exited abnormaly.<br/>Check server logs.'} });
       } else {
         res.status(200).json({ status: 'success', result: 'Reboot executed in one minute' });
       }
@@ -98,7 +97,6 @@ export function reboot(req, res) {
 }
 
 export function shutdown(req, res) {
-  console.log('** Shutdown in progress');
   if (os.platform() === 'linux') {
     const shutdown = exec('sudo shutdown -t 1');
     shutdown.stderr.on('data', (data) => {
@@ -107,7 +105,7 @@ export function shutdown(req, res) {
     shutdown.on('close', (code) => {
       if (code !== 0) {
         console.log(`shutdown process exited with code ${code}`);
-        res.status(200).json({ status: 'failed', result: { code : code, message : 'shutdown process exited abnormaly.<br/>Check server logs.'} });
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'Shutdown process exited abnormaly.<br/>Check server logs.'} });
       } else {
         res.status(200).json({ status: 'success', result: 'Shutdown executed in one minute' });
       }

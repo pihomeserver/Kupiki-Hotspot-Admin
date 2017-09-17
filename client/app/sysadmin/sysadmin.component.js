@@ -43,17 +43,6 @@ export class SysadminComponent {
       console.log(elt)
     };
 
-    this.shutdown = function() {
-      var options = {
-        dismissable: true,
-        title: 'System shutdown',
-        html: 'Please confirm that you want to shutdown the system'
-      };
-      KupikiModal.confirmModal(options, 'danger', function() {
-        console.log('Go for shutdown')
-      });
-    };
-
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
         let filterByName = function(service) {
@@ -87,7 +76,6 @@ export class SysadminComponent {
       });
     this.$http.get('/api/system/upgrade')
       .then(response => {
-        // console.log(response.data)
         this.availableUpgrades = undefined;
         switch (response.data.status) {
           case 'success' :
@@ -114,6 +102,36 @@ export class SysadminComponent {
       });
   }
 
+  shutdown () {
+    var options = {
+      dismissable: true,
+      title: 'System shutdown',
+      html: 'Please confirm that you want to shutdown the system'
+    };
+    var $http = this.$http;
+    var toastr = this.toastr;
+    this.KupikiModal.confirmModal(options, 'danger', function() {
+      $http.get('/api/system/shutdown')
+        .then(response => {
+          switch (response.data.status) {
+            case 'success':
+              toastr.success('The shutdown of the system has been started.', 'System shutdown');
+              break;
+            case 'failed':
+              toastr.error('Unable to perform the shutdown.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+                closeButton: true,
+                allowHtml: true,
+                timeOut: 0
+              });
+              break;
+            };
+        })
+        .catch(function() {
+          toastr.error('The shutdown of the system can not be started.', 'System shutdown');
+        });
+    });
+  };
+
   reboot() {
     var options = {
       dismissable: true,
@@ -123,13 +141,11 @@ export class SysadminComponent {
     var $http = this.$http;
     var toastr = this.toastr;
     this.KupikiModal.confirmModal(options, 'danger', function() {
-      console.log('Go for reboot --');
       $http.get('/api/system/reboot')
         .then(response => {
-          console.log(response.data)
           switch (response.data.status) {
             case 'success':
-              toastr.info('The reboot of the system has been started.', 'System reboot');
+              toastr.success('The reboot of the system has been started.', 'System reboot');
               break;
             case 'failed':
               toastr.error('Unable to perform the reboot.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
@@ -141,7 +157,7 @@ export class SysadminComponent {
             };
         })
         .catch(function() {
-          toastr.error('The reboot of the system can not be started.', 'System update');
+          toastr.error('The reboot of the system can not be started.', 'System shutdown');
         });
     });
   };
@@ -155,10 +171,9 @@ export class SysadminComponent {
     var $http = this.$http;
     var toastr = this.toastr;
     this.KupikiModal.confirmModal(options, 'primary', function() {
-      console.log('Go for update --')
       $http.get('/api/system/update')
         .then(response => {
-          toastr.info('The update of the system is in progress', 'System reboot');
+          toastr.success('The update of the system is in progress', 'System reboot');
         })
         .catch(function() {
           toastr.error('The update of the system can not be executed.', 'System reboot');
