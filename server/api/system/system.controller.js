@@ -78,7 +78,23 @@ export function upgrade(req, res) {
 
 export function reboot(req, res) {
   console.log('** Reboot in progress');
-  res.status(200).json('');
+  if (os.platform() !== 'linux') {
+    const reboot = spawn('/sbin/reboot');
+    reboot.stderr.on('data', (data) => {
+      console.log(`reboot stderr: ${data}`);
+      res.status(200).json({ status: 'failed', result: { code : 1, message : `${data}`} });
+    });
+    reboot.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`reboot process exited with code ${code}`);
+        // res.status(200).json({ status: 'failed', result: { code : code, message : 'reboot process exited abnormaly.'} });
+      } else {
+        res.status(200).json({ status: 'success', result: '' });
+      }
+    });
+  } else {
+    res.status(200).json({ status: 'failed', result: { code : -1, message : 'Unsupported platform'} });
+  }
 }
 
 export function shutdown(req, res) {

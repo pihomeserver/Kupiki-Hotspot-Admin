@@ -7,7 +7,7 @@ import routes from './sysadmin.routes';
 
 export class SysadminComponent {
   /*@ngInject*/
-  constructor($scope, $http, socket, toastr, KupikiModal) {
+  constructor($scope, $http, socket, toastr, KupikiModal, appConfig) {
     this.$http = $http;
     this.$scope = $scope;
     this.socket = socket;
@@ -16,7 +16,7 @@ export class SysadminComponent {
 
     this.socket.socket.on('system:updateEnd', function(data) {
       if (data) {
-        console.log(data)
+        // console.log(data)
         switch (data.status) {
           case 'success' :
             toastr.success('System update finished');
@@ -38,17 +38,6 @@ export class SysadminComponent {
       }
     });
 
-    this.reboot = function() {
-      var options = {
-        dismissable: true,
-        title: 'System reboot',
-        html: 'Please confirm that you want to restart the system'
-      };
-      KupikiModal.confirmModal(options, 'danger', function() {
-        console.log('Go for reboot')
-      });
-    };
-
     this.$scope.switchService = function(elt) {
       console.log("switch service")
       console.log(elt)
@@ -67,9 +56,8 @@ export class SysadminComponent {
 
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
-        let filters = ['chilli', 'freeradius', 'nginx', 'hostapd'];
         let filterByName = function(service) {
-          return filters.includes(service.name);
+          return appConfig.servicesFilters.includes(service.name);
         };
         this.dataFiltered = this.$scope.$parent.$ctrl.data.filter(filterByName);
         this.$scope.$parent.$ctrl.services.data = this.dataFiltered;
@@ -126,6 +114,38 @@ export class SysadminComponent {
       });
   }
 
+  reboot() {
+    var options = {
+      dismissable: true,
+      title: 'System reboot',
+      html: 'Please confirm that you want to restart the system'
+    };
+    var $http = this.$http;
+    var toastr = this.toastr;
+    this.KupikiModal.confirmModal(options, 'danger', function() {
+      console.log('Go for reboot --');
+      $http.get('/api/system/reboot')
+        .then(response => {
+          console.log(response.data)
+          switch (response.data.status) {
+            case 'success':
+              toastr.info('The reboot of the system has been started.', 'System reboot');
+              break;
+            case 'failed':
+              toastr.error('Unable to perform the reboot.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+                closeButton: true,
+                allowHtml: true,
+                timeOut: 0
+              });
+              break;
+            };
+        })
+        .catch(function() {
+          toastr.error('The reboot of the system can not be started.', 'System update');
+        });
+    });
+  };
+
   update() {
     var options = {
       dismissable: true,
@@ -135,16 +155,18 @@ export class SysadminComponent {
     var $http = this.$http;
     var toastr = this.toastr;
     this.KupikiModal.confirmModal(options, 'primary', function() {
-      console.log('Go for update --');
+      console.log('Go for update --')
       $http.get('/api/system/update')
         .then(response => {
-          toastr.info('The update of the system has been started.', 'System update');
+          toastr.info('The update of the system is in progress', 'System reboot');
         })
         .catch(function() {
-          toastr.error('The update of the system can not be started.', 'System update');
+          toastr.error('The update of the system can not be executed.', 'System reboot');
         });
     });
   };
+
+
 }
 
 export default angular.module('kupikiHotspotAdminApp.sysadmin', [uiRouter])

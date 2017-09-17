@@ -8,16 +8,14 @@ import moment from 'moment';
 
 export class MainController {
   /*@ngInject*/
-  // constructor($http, $scope, socket) {
-  constructor($http, $scope) {
+  constructor($http, $scope, appConfig) {
     this.$http = $http;
     this.$scope = $scope;
 
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
-        let filters = ['chilli', 'freeradius', 'nginx', 'hostapd'];
         let filterByName = function(service) {
-          return filters.includes(service.name);
+          return appConfig.servicesFilters.includes(service.name);
         };
         this.dataFiltered = this.$scope.$parent.$ctrl.data.filter(filterByName);
         this.$scope.$parent.$ctrl.services.data = this.dataFiltered;
@@ -33,6 +31,7 @@ export class MainController {
   }
 
   $onInit() {
+    this.switch = false;
     this.$http.get('/api/cpu')
       .then(response => {
         this.cpu = response.data;
@@ -74,6 +73,7 @@ export class MainController {
             { name: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
           ]
         };
+        // this.switch = true;
       });
     this.$http.get('/api/uptime')
       .then(response => {

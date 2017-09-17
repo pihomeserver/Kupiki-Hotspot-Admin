@@ -2,7 +2,7 @@
   <div class="card-header">
     {{ $ctrl.title }}
     <label ng-if="$ctrl.switch === 'on'" class="switch switch-sm switch-text switch-info float-right mb-0">
-      <input type="checkbox" class="switch-input" ng-model="filterSwitch" ng-change="$ctrl.switchFunction(filterSwitch)">
+      <input type="checkbox" class="switch-input" ng-model="switchActivated" ng-change="$ctrl.switchFunction(switchActivated)">
       <span class="switch-label" data-on="On" data-off="Off"></span>
       <span class="switch-handle"></span>
     </label>
