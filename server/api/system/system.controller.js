@@ -78,7 +78,7 @@ export function upgrade(req, res) {
 
 export function reboot(req, res) {
   console.log('** Reboot in progress');
-  if (os.platform() !== 'linux') {
+  if (os.platform() === 'linux') {
     const reboot = spawn('/sbin/reboot');
     reboot.stderr.on('data', (data) => {
       console.log(`reboot stderr: ${data}`);
