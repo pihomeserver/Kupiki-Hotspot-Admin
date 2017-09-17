@@ -2,6 +2,7 @@
 
 const os = require('os');
 const spawn = require('child_process').spawn;
+const exec = require('child_process').exec;
 
 let socket = undefined;
 
@@ -79,17 +80,16 @@ export function upgrade(req, res) {
 export function reboot(req, res) {
   console.log('** Reboot in progress');
   if (os.platform() === 'linux') {
-    const reboot = spawn('/sbin/reboot');
+    const reboot = exec('sudo shutdown -r -t 1');
     reboot.stderr.on('data', (data) => {
       console.log(`reboot stderr: ${data}`);
-      res.status(200).json({ status: 'failed', result: { code : 1, message : `${data}`} });
     });
     reboot.on('close', (code) => {
       if (code !== 0) {
         console.log(`reboot process exited with code ${code}`);
-        // res.status(200).json({ status: 'failed', result: { code : code, message : 'reboot process exited abnormaly.'} });
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'reboot process exited abnormaly.<br/>Check server logs.'} });
       } else {
-        res.status(200).json({ status: 'success', result: '' });
+        res.status(200).json({ status: 'success', result: 'Reboot executed in one minute' });
       }
     });
   } else {
@@ -99,7 +99,22 @@ export function reboot(req, res) {
 
 export function shutdown(req, res) {
   console.log('** Shutdown in progress');
-  res.status(200).json('');
+  if (os.platform() === 'linux') {
+    const shutdown = exec('sudo shutdown -t 1');
+    shutdown.stderr.on('data', (data) => {
+      console.log(`shutdown stderr: ${data}`);
+    });
+    shutdown.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`shutdown process exited with code ${code}`);
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'shutdown process exited abnormaly.<br/>Check server logs.'} });
+      } else {
+        res.status(200).json({ status: 'success', result: 'Shutdown executed in one minute' });
+      }
+    });
+  } else {
+    res.status(200).json({ status: 'failed', result: { code : -1, message : 'Unsupported platform'} });
+  }
 }
 
 export function update(req, res) {
