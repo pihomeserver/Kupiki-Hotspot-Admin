@@ -21,13 +21,19 @@ export class SysadminComponent {
           case 'success' :
             toastr.success('System update finished');
             break;
+          case 'already' :
+            toastr.info('System update is already in progress');
+            break;
+          case 'progress' :
+            toastr.info('System update in progress');
+            break;
           case 'failed' :
             toastr.error('Error '+data.result.code+'<br/>'+data.result.stderr, 'System update failed', {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
             });
-            console.log(data.result)
+            // console.log(data.result)
             break;
         }
       } else {
@@ -173,11 +179,28 @@ export class SysadminComponent {
     this.KupikiModal.confirmModal(options, 'primary', function() {
       $http.get('/api/system/update')
         .then(response => {
-          toastr.success('The update of the system is in progress', 'System reboot');
+          switch (response.data.status) {
+            case 'success':
+              toastr.success('The update of the system has been started.', 'System update');
+              break;
+            case 'failed':
+              toastr.error('Unable to perform the update.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+                closeButton: true,
+                allowHtml: true,
+                timeOut: 0
+              });
+              break;
+          };
         })
         .catch(function() {
-          toastr.error('The update of the system can not be executed.', 'System reboot');
+          toastr.error('The update of the system can not be started.', 'System shutdown');
         });
+        // .then(response => {
+        //   toastr.success('The update of the system is in progress', 'System reboot');
+        // })
+        // .catch(function() {
+        //   toastr.error('The update of the system can not be executed.', 'System reboot');
+        // });
     });
   };
 
