@@ -14,7 +14,7 @@ export class SysadminComponent {
     this.KupikiModal = KupikiModal;
     this.toastr = toastr;
 
-    this.socket.socket.on('system:updateEnd', function(data) {
+    this.socket.socket.on('system:update', function(data) {
       if (data) {
         // console.log(data)
         switch (data.status) {
@@ -85,8 +85,9 @@ export class SysadminComponent {
         this.availableUpgrades = undefined;
         switch (response.data.status) {
           case 'success' :
-            if (parseInt(response.data.result) !== 0) {
-              this.availableUpgrades = parseInt(response.data.result);
+            console.log(response.data)
+            if (parseInt(response.data.result.message) !== 0) {
+              this.availableUpgrades = parseInt(response.data.result.message);
               this.toastr.info(this.availableUpgrades+' packages available. Please update your system.', 'System update');
             } else {
               this.toastr.info('Your system is up to date.', 'System update');
@@ -99,11 +100,9 @@ export class SysadminComponent {
               timeOut: 0
             });
             break;
-          }
+        }
       })
       .catch(error => {
-        // console.log('** Error')
-        // console.log(error)
         this.availableUpgrades = undefined;
       });
   }
@@ -130,7 +129,7 @@ export class SysadminComponent {
                 timeOut: 0
               });
               break;
-            };
+          };
         })
         .catch(function() {
           toastr.error('The shutdown of the system can not be started.', 'System shutdown');
@@ -160,7 +159,7 @@ export class SysadminComponent {
                 timeOut: 0
               });
               break;
-            };
+          };
         })
         .catch(function() {
           toastr.error('The reboot of the system can not be started.', 'System shutdown');
@@ -179,9 +178,11 @@ export class SysadminComponent {
     this.KupikiModal.confirmModal(options, 'primary', function() {
       $http.get('/api/system/update')
         .then(response => {
+          console.log(response)
           switch (response.data.status) {
             case 'success':
               toastr.success('The update of the system has been started.', 'System update');
+              this.availableUpgrades = undefined;
               break;
             case 'failed':
               toastr.error('Unable to perform the update.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
@@ -195,12 +196,6 @@ export class SysadminComponent {
         .catch(function() {
           toastr.error('The update of the system can not be started.', 'System shutdown');
         });
-        // .then(response => {
-        //   toastr.success('The update of the system is in progress', 'System reboot');
-        // })
-        // .catch(function() {
-        //   toastr.error('The update of the system can not be executed.', 'System reboot');
-        // });
     });
   };
 

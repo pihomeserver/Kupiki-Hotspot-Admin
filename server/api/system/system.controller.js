@@ -16,22 +16,27 @@ export function register(socketToRegister) {
 export function upgrade(req, res) {
   if (os.platform() === 'linux') {
     const apt = spawn('/usr/bin/apt-get', ['upgrade', '-s']);
+    const grep = spawn('grep', ['-v', 'Conf\\\|Inst']);
     const tail = spawn('tail', ['-1']);
     const cut = spawn('cut', ['-f1', '-d ']);
     let result = '';
 
     apt.stdout.on('data', (data) => {
       try {
+        grep.stdin.write(data);
+      } catch (err) {}
+    });
+
+    grep.stdout.on('data', (data) => {
+      try {
         tail.stdin.write(data);
-      } catch (err) {
-      }
+      } catch(err) {}
     });
 
     tail.stdout.on('data', (data) => {
       try {
         cut.stdin.write(data);
-      } catch(err) {
-      }
+      } catch(err) {}
     });
 
     cut.stdout.on('data', (data) => {
@@ -40,6 +45,10 @@ export function upgrade(req, res) {
 
     apt.stderr.on('data', (data) => {
       console.log(`apt stderr: ${data}`);
+    });
+
+    grep.stderr.on('data', (data) => {
+      console.log(`grep stderr: ${data}`);
     });
 
     tail.stderr.on('data', (data) => {
@@ -54,6 +63,14 @@ export function upgrade(req, res) {
       if (code !== 0) {
         console.log(`apt process exited with code ${code}`);
         res.status(200).json({ status: 'failed', result: { code : code, message : 'apt-get process exited abnormaly.'} });
+      }
+      grep.stdin.end();
+    });
+
+    grep.on('close', (code) => {
+      if (code !== 0) {
+        console.log(`grep process exited with code ${code}`);
+        res.status(200).json({ status: 'failed', result: { code : code, message : 'grep process exited abnormaly.'} });
       }
       tail.stdin.end();
     });
@@ -118,25 +135,25 @@ export function shutdown(req, res) {
 }
 
 export function update(req, res) {
-  var command = 'apt-get update -y -qq && apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade';
   if (socket) {
-    execPromise(command)
+    socket.emit('system:update', { status: 'progress', result: '' });
+    execPromise('sudo /usr/bin/apt-get update -y -qq')
       .then(function (result) {
-        socket.emit('system:updateEnd', { status: 'progress', result: result });
-        // res.status(200).json({ status : 'success', result: { code : 0, message : 'System updated successfully' }});
-        res.status(200).json({ status : 'progress', result: { code : 0, message : 'System updated started' }});
+        execPromise('sudo /usr/bin/apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade')
+          .then(function(result) {
+            res.status(200).json({ status : 'success', result: { code : 0, message : 'System updated finished.' }});
+          })
+          .catch(function(err) {
+            console.log('System ugrade error')
+            console.log(err);
+            res.status(200).json({ status : 'failed', result: { code : err.code, message : err.stderr }});
+          })
       })
       .catch(function (err) {
-        console.log('Update error')
-        console.log(err)
+        console.log('System update error')
+        console.log(err);
         res.status(200).json({ status : 'failed', result: { code : err.code, message : err.stderr }});
-        // socket.emit('system:updateEnd', {status: 'failed', result: err});
       });
-    // setTimeout(function() {
-    //   if (socket) {
-    //     socket.emit('system:updateEnd', {status: 'failed'});
-    //   }
-    // }, 2000);
   } else {
     res.status(200).json({ status : 'failed', result: { code : -1, message : 'Socket not registred' }});
   }
