@@ -59,21 +59,38 @@ export class MainController {
       });
     this.$http.get('/api/services')
       .then(response => {
-        var cellTemplateButton = "" +
-          "<label class='tgl tgl-disabled' style='font-size:10px'>" +
-          "<input type='checkbox' disabled ng-checked='row.entity.status'/>" +
-          "<span data-on='On' data-off='Off'></span>" +
-          "</label>";
-        this.data = response.data;
-        this.services = {
-          enableSorting: true,
-          data: response.data,
-          columnDefs: [
-            { name: "Service", field: 'name', width: '80%' },
-            { name: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
-          ]
+        switch (response.data.status) {
+          case 'success' :
+            let cellTemplateButton = "" +
+              "<label class='tgl' style='font-size:10px'>" +
+              "<input type='checkbox' ng-checked='row.entity.status' ng-model='row.entity.status' ng-change='grid.appScope.switchService(row.entity)'/>" +
+              "<span data-on='On' data-off='Off'></span>" +
+              "</label>";
+            this.data = response.data.result.message;
+            this.services = {
+              enableSorting: true,
+              data: response.data.result.message,
+              columnDefs: [
+                { displayName: "Service", field: 'name', width: '80%' },
+                { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
+              ]
+            };
+            break;
+          case 'failed' :
+            this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+              closeButton: true,
+              allowHtml: true,
+              timeOut: 0
+            });
+            break;
         };
-        // this.switch = true;
+      })
+      .catch(error => {
+        this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+          closeButton: true,
+          allowHtml: true,
+          timeOut: 0
+        });
       });
     this.$http.get('/api/uptime')
       .then(response => {

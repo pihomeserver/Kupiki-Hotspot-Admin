@@ -63,29 +63,47 @@ export class SysadminComponent {
   }
 
   $onInit() {
-    let cellTemplateButton = "" +
-      "<label class='tgl' style='font-size:10px'>" +
-      "<input type='checkbox' ng-checked='row.entity.status' ng-model='row.entity.status' ng-change='grid.appScope.switchService(row.entity)'/>" +
-      "<span data-on='On' data-off='Off'></span>" +
-      "</label>";
     this.$http.get('/api/services')
       .then(response => {
-        this.data = response.data;
-        this.services = {
-          enableSorting: true,
-          data: response.data,
-          columnDefs: [
-            { displayName: "Service", field: 'name', width: '80%' },
-            { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
-          ]
+        switch (response.data.status) {
+          case 'success' :
+            let cellTemplateButton = "" +
+              "<label class='tgl' style='font-size:10px'>" +
+              "<input type='checkbox' ng-checked='row.entity.status' ng-model='row.entity.status' ng-change='grid.appScope.switchService(row.entity)'/>" +
+              "<span data-on='On' data-off='Off'></span>" +
+              "</label>";
+            this.data = response.data.result.message;
+            this.services = {
+              enableSorting: true,
+              data: response.data.result.message,
+              columnDefs: [
+                { displayName: "Service", field: 'name', width: '80%' },
+                { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
+              ]
+            };
+            break;
+          case 'failed' :
+            this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+              closeButton: true,
+              allowHtml: true,
+              timeOut: 0
+            });
+            break;
         };
+      })
+      .catch(error => {
+        this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+          closeButton: true,
+          allowHtml: true,
+          timeOut: 0
+        });
       });
     this.$http.get('/api/system/upgrade')
       .then(response => {
         this.availableUpgrades = undefined;
         switch (response.data.status) {
           case 'success' :
-            console.log(response.data)
+            // console.log(response.data)
             if (parseInt(response.data.result.message) !== 0) {
               this.availableUpgrades = parseInt(response.data.result.message);
               this.toastr.info(this.availableUpgrades+' packages available. Please update your system.', 'System update');
@@ -103,6 +121,8 @@ export class SysadminComponent {
         }
       })
       .catch(error => {
+        // console.log('** Error')
+        // console.log(error)
         this.availableUpgrades = undefined;
       });
   }
@@ -182,7 +202,6 @@ export class SysadminComponent {
           switch (response.data.status) {
             case 'success':
               toastr.success('The update of the system has been started.', 'System update');
-              this.availableUpgrades = undefined;
               break;
             case 'failed':
               toastr.error('Unable to perform the update.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
@@ -196,6 +215,12 @@ export class SysadminComponent {
         .catch(function() {
           toastr.error('The update of the system can not be started.', 'System shutdown');
         });
+      // .then(response => {
+      //   toastr.success('The update of the system is in progress', 'System reboot');
+      // })
+      // .catch(function() {
+      //   toastr.error('The update of the system can not be executed.', 'System reboot');
+      // });
     });
   };
 
