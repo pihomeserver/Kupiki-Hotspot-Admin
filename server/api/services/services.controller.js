@@ -1,9 +1,10 @@
 'use strict';
 
 const execPromise = require('child-process-promise').exec;
+const shared = require('../../config/environment/shared');
 
 export function index(req, res) {
-  execPromise('sudo /usr/sbin/service --status-all', { timeout : 20000 })
+  execPromise('sudo /usr/sbin/service --status-all', { timeout : shared.httpSudoTimeout })
     .then(function (result) {
       var services = [];
       result.stdout.split('\n').forEach(function(elt) {

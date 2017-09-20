@@ -1,7 +1,8 @@
 <div class="row">
   <div class="col-sm-12 col-lg-9">
-    <card title="Services" subtitle="Use toggle buttons to stop/start services" switch="on" switch-function="filterServices">
-      <div  ui-grid="$ctrl.services" ng-if="$ctrl.services.data" class="myGrid"></div>
+    <card title="Services" switch="$ctrl.services.switch" switch-function="filterServices" switch-activated="$ctrl.switch" spinner=true loading="$ctrl.loading.services">
+      <div ng-if="$ctrl.services.data" ui-grid="$ctrl.services" ng-if="$ctrl.services.data" class="myGrid"></div>
+      <div ng-if="$ctrl.services.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load services data</div>
     </card>
   </div>
   <div class="col-sm-12 col-lg-3">
@@ -15,10 +16,6 @@
       </div>
       <div class="col-sm-4 col-lg-4">
         <kupiki-button title="Shutdown" icon="rotate fa fa-power-off" ng-click="$ctrl.shutdown()"></kupiki-button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-lg-12">
       </div>
     </div>
   </div>

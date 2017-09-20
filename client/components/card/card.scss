@@ -1,0 +1,235 @@
+.cardErrorMessage {
+  text-align: center;
+}
+
+.card-block.indicator {
+  margin: 20px 0px;
+}
+
+.indicator {
+  padding-left: 50%;
+  transform: scale(3);
+}
+
+.indicator svg polyline {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.indicator svg polyline#back {
+  stroke: rgba(32,168,216,0.3);
+}
+
+.indicator svg polyline#front {
+  stroke: #20a8d8;
+  stroke-dasharray: 12, 36;
+  stroke-dashoffset: 48;
+  animation: dash 1s linear infinite;
+}
+
+.cta {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  color: #222;
+  font-weight: bold;
+}
+
+@-moz-keyframes dash {
+  62.5% {
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes dash {
+  62.5% {
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-o-keyframes dash {
+  62.5% {
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash {
+  62.5% {
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+// **********************
+// **********************
+// **********************
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: $brand-primary;
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+      -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    } 100% {
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+      }
+}
+
+.cssload-bell {
+  width: 72px;
+  height: 74px;
+  border-radius: 100%;
+  position: absolute;
+  left: calc(50% - 36px);
+}
+
+.cssload-circle {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.cssload-circle .cssload-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  border: 4px solid rgba(0,255,170,0.7);
+  border-right: none;
+  border-top: none;
+  background-clip: padding;
+  box-shadow: inset 0px 0px 7px rgba(0,255,170,0.15);
+}
+
+.cssload-circle:nth-of-type(0) {
+  transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+}
+.cssload-circle:nth-of-type(0) .cssload-inner {
+  animation: cssload-spin 2s infinite linear;
+  -o-animation: cssload-spin 2s infinite linear;
+  -ms-animation: cssload-spin 2s infinite linear;
+  -webkit-animation: cssload-spin 2s infinite linear;
+  -moz-animation: cssload-spin 2s infinite linear;
+}
+
+.cssload-circle:nth-of-type(1) {
+  transform: rotate(70deg);
+  -o-transform: rotate(70deg);
+  -ms-transform: rotate(70deg);
+  -webkit-transform: rotate(70deg);
+  -moz-transform: rotate(70deg);
+}
+.cssload-circle:nth-of-type(1) .cssload-inner {
+  animation: cssload-spin 2s infinite linear;
+  -o-animation: cssload-spin 2s infinite linear;
+  -ms-animation: cssload-spin 2s infinite linear;
+  -webkit-animation: cssload-spin 2s infinite linear;
+  -moz-animation: cssload-spin 2s infinite linear;
+}
+
+.cssload-circle:nth-of-type(2) {
+  transform: rotate(140deg);
+  -o-transform: rotate(140deg);
+  -ms-transform: rotate(140deg);
+  -webkit-transform: rotate(140deg);
+  -moz-transform: rotate(140deg);
+}
+.cssload-circle:nth-of-type(2) .cssload-inner {
+  animation: cssload-spin 2s infinite linear;
+  -o-animation: cssload-spin 2s infinite linear;
+  -ms-animation: cssload-spin 2s infinite linear;
+  -webkit-animation: cssload-spin 2s infinite linear;
+  -moz-animation: cssload-spin 2s infinite linear;
+}
+
+.cssload-bell {
+  animation: cssload-spin 5s infinite linear;
+  -o-animation: cssload-spin 5s infinite linear;
+  -ms-animation: cssload-spin 5s infinite linear;
+  -webkit-animation: cssload-spin 5s infinite linear;
+  -moz-animation: cssload-spin 5s infinite linear;
+}
+
+
+
+@keyframes cssload-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes cssload-spin {
+  from {
+    -o-transform: rotate(0deg);
+  }
+  to {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@-ms-keyframes cssload-spin {
+  from {
+    -ms-transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes cssload-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes cssload-spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}

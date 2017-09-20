@@ -15,8 +15,10 @@ export default angular.module('directives.card', [])
     bindings: {
       title: '@',
       subtitle: '@',
-      switch: '@',
-      switchFunction: '='
+      switch: '=',
+      switchFunction: '=',
+      spinner: '@',
+      loading: '='
     }
   })
   .name;

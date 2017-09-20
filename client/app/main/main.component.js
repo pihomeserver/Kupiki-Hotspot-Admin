@@ -33,6 +33,13 @@ export class MainController {
 
   $onInit() {
     this.switch = false;
+    this.loading = {
+      cpu : true,
+      disk: true,
+      information: true,
+      memory: true,
+      services: true
+    };
     this.$http.get('/api/cpu')
       .then(response => {
         this.cpu = response.data;
@@ -50,6 +57,7 @@ export class MainController {
     this.$http.get('/api/information')
       .then(response => {
         this.information = response.data;
+        this.loading.information = false;
       });
     this.$http.get('/api/memory')
       .then(response => {
@@ -60,7 +68,7 @@ export class MainController {
       });
     this.$http.get('/api/services')
       .then(response => {
-        console.log(response)
+        this.services = {};
         switch (response.data.status) {
           case 'success' :
             var cellTemplateButton = "" +
@@ -70,6 +78,8 @@ export class MainController {
               "</label>";
             this.data = response.data.result.message;
             this.services = {
+              error: false,
+              switch: 'on',
               enableSorting: true,
               data: response.data.result.message,
               columnDefs: [
@@ -77,6 +87,7 @@ export class MainController {
                 { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
               ]
             };
+            this.loading.services = false;
             break;
           case 'failed' :
             this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
@@ -84,6 +95,8 @@ export class MainController {
               allowHtml: true,
               timeOut: 0
             });
+            this.loading.services = false;
+            this.services.error = true;
             break;
         };
       })
@@ -93,6 +106,8 @@ export class MainController {
           allowHtml: true,
           timeOut: 0
         });
+        this.loading.services = false;
+        this.services.error = true;
       });
     this.$http.get('/api/uptime')
       .then(response => {

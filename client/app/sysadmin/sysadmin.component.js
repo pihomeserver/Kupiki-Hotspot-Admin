@@ -45,7 +45,6 @@ export class SysadminComponent {
     });
 
     this.$scope.switchService = function(elt) {
-      console.log(elt)
       $http({
         url: '/api/services',
         method: "POST",
@@ -95,8 +94,12 @@ export class SysadminComponent {
   }
 
   $onInit() {
+    this.loading = {
+      services: true
+    };
     this.$http.get('/api/services')
       .then(response => {
+        this.services = {};
         switch (response.data.status) {
           case 'success' :
             let cellTemplateButton = "" +
@@ -106,6 +109,8 @@ export class SysadminComponent {
               "</label>";
             this.data = response.data.result.message;
             this.services = {
+              error: false,
+              switch: 'on',
               enableSorting: true,
               data: response.data.result.message,
               columnDefs: [
@@ -113,6 +118,7 @@ export class SysadminComponent {
                 { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
               ]
             };
+            this.loading.services = false;
             break;
           case 'failed' :
             this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
@@ -120,6 +126,8 @@ export class SysadminComponent {
               allowHtml: true,
               timeOut: 0
             });
+            this.loading.services = false;
+            this.services.error = true;
             break;
         };
       })
@@ -129,6 +137,8 @@ export class SysadminComponent {
           allowHtml: true,
           timeOut: 0
         });
+        this.loading.services = false;
+        this.services.error = true;
       });
     this.$http.get('/api/system/upgrade')
       .then(response => {
