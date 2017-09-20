@@ -47,6 +47,18 @@ export class SysadminComponent {
     this.$scope.switchService = function(elt) {
       console.log("switch service")
       console.log(elt)
+      $http({
+        url: '/api/services',
+        method: "POST",
+        data: { 'service' : elt.name, 'status' : elt.status
+        }
+      })
+        .then(function(response) {
+          console.log('OK')
+        },
+        function(response) {
+          console.log('KO')
+        });
     };
 
     this.$scope.filterServices = function(switchStatus) {

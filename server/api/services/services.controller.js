@@ -3,8 +3,7 @@
 const execPromise = require('child-process-promise').exec;
 
 export function index(req, res) {
-
-  execPromise('sudo /usr/sbin/service --status-all')
+  execPromise('sudo /usr/sbin/service --status-all', { timeout : 20000 })
     .then(function (result) {
       var services = [];
       result.stdout.split('\n').forEach(function(elt) {
@@ -26,4 +25,10 @@ export function index(req, res) {
       console.log(error)
       res.status(200).json({ status: 'failed', result: { code : error.code, message : error.stderr }});
     });
+}
+
+export function switchService(req, res) {
+  console.log(req.body)
+  // console.log(res)
+  res.status(200).json({ status: 'failed', result: { code : 0, message : '' }});
 }

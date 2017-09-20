@@ -8,9 +8,10 @@ import moment from 'moment';
 
 export class MainController {
   /*@ngInject*/
-  constructor($http, $scope, appConfig) {
+  constructor($http, $scope, appConfig, toastr) {
     this.$http = $http;
     this.$scope = $scope;
+    this.toastr = toastr;
 
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
@@ -59,11 +60,12 @@ export class MainController {
       });
     this.$http.get('/api/services')
       .then(response => {
+        console.log(response)
         switch (response.data.status) {
           case 'success' :
-            let cellTemplateButton = "" +
-              "<label class='tgl' style='font-size:10px'>" +
-              "<input type='checkbox' ng-checked='row.entity.status' ng-model='row.entity.status' ng-change='grid.appScope.switchService(row.entity)'/>" +
+            var cellTemplateButton = "" +
+              "<label class='tgl tgl-disabled' style='font-size:10px'>" +
+              "<input type='checkbox' disabled ng-checked='row.entity.status'/>" +
               "<span data-on='On' data-off='Off'></span>" +
               "</label>";
             this.data = response.data.result.message;
