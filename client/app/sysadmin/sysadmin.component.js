@@ -45,7 +45,6 @@ export class SysadminComponent {
     });
 
     this.$scope.switchService = function(elt) {
-      console.log("switch service")
       console.log(elt)
       $http({
         url: '/api/services',
@@ -54,10 +53,31 @@ export class SysadminComponent {
         }
       })
         .then(function(response) {
-          console.log('OK')
+          switch (response.data.status) {
+            case 'success' :
+              var message = elt.name+" service started";
+              if (!elt.status) message = elt.name+" service stoped";
+              toastr.success(message);
+              break;
+            case 'failed' :
+              var message = "Unable to start service ";
+              if (!elt.status) message = "Unable to stop service ";
+              message += elt.name+'<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message;
+              toastr.error(message, 'Service ' + elt.name, {
+                closeButton: true,
+                allowHtml: true,
+                timeOut: 0
+              });
+              break;
+          }
         },
         function(response) {
-          console.log('KO')
+          var message = "Unable to start "+elt.name+" service";
+          if (!elt.status) message = "Unable to stop "+elt.name+" service";
+          toastr.error(message, 'Service ' + elt.name, {
+            closeButton: true,
+            timeOut: 0
+          });
         });
     };
 

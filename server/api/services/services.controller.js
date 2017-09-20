@@ -14,7 +14,7 @@ export function index(req, res) {
             status: (arrTmp[1] === '+' ? true : false)
           });
         }
-      })
+      });
       if (services.length === 0) {
         res.status(200).json({status: 'failed', result: {code: -1, message: 'No services found' }});
       } else {
@@ -22,13 +22,27 @@ export function index(req, res) {
       }
     })
     .catch(function (error) {
-      console.log(error)
+      console.log(error);
       res.status(200).json({ status: 'failed', result: { code : error.code, message : error.stderr }});
     });
 }
 
 export function switchService(req, res) {
-  console.log(req.body)
-  // console.log(res)
-  res.status(200).json({ status: 'failed', result: { code : 0, message : '' }});
+  if (req.body) {
+    if (req.body.service) {
+      let command = 'sudo /usr/sbin/service '+req.body.service;
+      (req.body.status)?command += ' start':command += ' stop';
+      execPromise(command, { timeout : 20000 })
+        .then(function (result) {
+          res.status(200).json({ status: 'success', result: { code : 0, message : '' }});
+        })
+        .catch(function (error) {
+          res.status(200).json({ status: 'failed', result: { code : error.code, message : error.stderr }});
+        })
+    } else {
+      res.status(200).json({ status: 'failed', result: { code : -1, message : 'Switch service - Unable to detect service' }});
+    }
+  } else {
+    res.status(200).json({ status: 'failed', result: { code : -1, message : 'Switch service - Unable to get parameters' }});
+  }
 }
