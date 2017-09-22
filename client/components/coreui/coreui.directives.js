@@ -44,7 +44,7 @@ function bootstrapCollapseDirective() {
 }
 
 /**
- * @desc Genesis main navigation - Siedebar menu
+ * @desc Genesis sysdashboard navigation - Siedebar menu
  * @example <li class="nav-item nav-dropdown"></li>
  */
 function navigationDirective() {

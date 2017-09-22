@@ -1,12 +1,12 @@
 'use strict';
-const angular = require('angular');
+// const angular = require('angular');
 
-const uiRouter = require('angular-ui-router');
+// const uiRouter = require('angular-ui-router');
 
-import routing from './main.routes';
+// import routing from './sysdashboard.routes';
 import moment from 'moment';
 
-export class MainController {
+export default class SysdashboardController {
   /*@ngInject*/
   constructor($http, $scope, appConfig, toastr) {
     this.$http = $http;
@@ -152,10 +152,10 @@ export class MainController {
   // }
 }
 
-export default angular.module('kupikiHotspotAdminApp.main', [uiRouter])
-  .config(routing)
-  .component('main', {
-    template: require('./main.html'),
-    controller: MainController
-  })
-  .name;
+// export default angular.module('kupikiHotspotAdminApp.sysdashboard', [uiRouter])
+//   .config(routing)
+//   .component('sysdashboard', {
+//     template: require('./sysdashboard.html'),
+//     controller: MainController
+//   })
+//   .name;

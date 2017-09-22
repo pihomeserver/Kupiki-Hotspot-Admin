@@ -3,7 +3,7 @@
 export default class LogoutController {
   /*@ngInject*/
   constructor(Auth, $state) {
-    var referrer = $state.params.referrer || $state.current.referrer || 'main';
+    var referrer = $state.params.referrer || $state.current.referrer || 'sysdashboard';
     Auth.logout();
     $state.go(referrer);
   }

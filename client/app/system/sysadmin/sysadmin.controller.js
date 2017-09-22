@@ -1,11 +1,6 @@
 'use strict';
-const angular = require('angular');
 
-const uiRouter = require('angular-ui-router');
-
-import routes from './sysadmin.routes';
-
-export class SysadminComponent {
+export default class SysadminController {
   /*@ngInject*/
   constructor($scope, $http, socket, toastr, KupikiModal, appConfig) {
     this.$http = $http;
@@ -33,7 +28,6 @@ export class SysadminComponent {
               allowHtml: true,
               timeOut: 0
             });
-            // console.log(data.result)
             break;
         }
       } else {
@@ -163,8 +157,6 @@ export class SysadminComponent {
         }
       })
       .catch(error => {
-        // console.log('** Error')
-        // console.log(error)
         this.availableUpgrades = undefined;
       });
   }
@@ -257,22 +249,6 @@ export class SysadminComponent {
         .catch(function() {
           toastr.error('The update of the system can not be started.', 'System shutdown');
         });
-      // .then(response => {
-      //   toastr.success('The update of the system is in progress', 'System reboot');
-      // })
-      // .catch(function() {
-      //   toastr.error('The update of the system can not be executed.', 'System reboot');
-      // });
     });
   };
-
-
 }
-
-export default angular.module('kupikiHotspotAdminApp.sysadmin', [uiRouter])
-  .config(routes)
-  .component('sysadmin', {
-    template: require('./sysadmin.html'),
-    controller: SysadminComponent
-  })
-  .name;

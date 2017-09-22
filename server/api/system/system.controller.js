@@ -3,8 +3,10 @@
 const os = require('os');
 const spawn = require('child_process').spawn;
 const exec = require('child_process').exec;
-const spawnPromise = require('child-process-promise').spawn;
+// const spawnPromise = require('child-process-promise').spawn;
 const execPromise = require('child-process-promise').exec;
+
+const shared = require('../../config/environment/shared');
 
 let socket = undefined;
 
@@ -98,7 +100,7 @@ export function upgrade(req, res) {
 
 export function reboot(req, res) {
   if (os.platform() === 'linux') {
-    const reboot = exec('sudo shutdown -r -t 1');
+    const reboot = exec('sudo shutdown -r -t 1', { timeout : shared.httpSudoTimeout });
     reboot.stderr.on('data', (data) => {
       console.log(`reboot stderr: ${data}`);
     });
@@ -117,7 +119,7 @@ export function reboot(req, res) {
 
 export function shutdown(req, res) {
   if (os.platform() === 'linux') {
-    const shutdown = exec('sudo shutdown -t 1');
+    const shutdown = exec('sudo shutdown -t 1', { timeout : shared.httpSudoTimeout });
     shutdown.stderr.on('data', (data) => {
       console.log(`shutdown stderr: ${data}`);
     });
@@ -137,9 +139,9 @@ export function shutdown(req, res) {
 export function update(req, res) {
   if (socket) {
     socket.emit('system:update', { status: 'progress', result: '' });
-    execPromise('sudo /usr/bin/apt-get update -y -qq')
+    execPromise('sudo /usr/bin/apt-get update -y -qq', { timeout : shared.httpSudoTimeout })
       .then(function (result) {
-        execPromise('sudo /usr/bin/apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade')
+        execPromise('sudo /usr/bin/apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade', { timeout : shared.httpSudoTimeout })
           .then(function(result) {
             res.status(200).json({ status : 'success', result: { code : 0, message : 'System updated finished.' }});
           })

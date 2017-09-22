@@ -33,7 +33,7 @@ export function switchService(req, res) {
     if (req.body.service) {
       let command = 'sudo /usr/sbin/service '+req.body.service;
       (req.body.status)?command += ' start':command += ' stop';
-      execPromise(command, { timeout : 20000 })
+      execPromise(command, { timeout : shared.httpSudoTimeout })
         .then(function (result) {
           res.status(200).json({ status: 'success', result: { code : 0, message : '' }});
         })

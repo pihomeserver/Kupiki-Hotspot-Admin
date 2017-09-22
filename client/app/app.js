@@ -26,14 +26,15 @@ import {
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
+import system from './system';
 import coreuiDirectives from '../components/coreui/coreui.directives';
 import sidebar from '../components/sidebar/sidebar.component';
 import navbar from '../components/navbar/navbar.component';
 import kupikiButton from '../components/kupikiButton/kupikiButton.component';
 import widget from '../components/widget/widget.component';
 import card from '../components/card/card.component';
-import MainComponent from './main/main.component';
-import SysadminComponent from './sysadmin/sysadmin.component';
+// import MainComponent from './system/sysdashboard/sysdashboard.component';
+// import SysadminComponent from './system/sysadmin/sysadmin.component';
 import constants from './app.constants';
 import KupikiModal from '../components/kupikiModal/kupikiModal.service';
 import util from '../components/util/util.module';
@@ -60,8 +61,9 @@ angular.module('kupikiHotspotAdminApp', [
   card,
   KupikiModal,
   kupikiButton,
-  MainComponent,
-  SysadminComponent,
+  // MainComponent,
+  // SysadminComponent,
+  system,
   constants,
   socket,
   util,

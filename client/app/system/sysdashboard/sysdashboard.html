@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm-6 col-lg-3">
+    <widget bg-color="bg-primary"
+            text-color="text-white"
+            icon="icofont icofont-hard-disk"
+            title="{{ vm.disk.free }}<sup>{{ vm.disk.freeUnit }}</sup>"
+            subtitle="Of {{ vm.disk.total }}{{ vm.disk.totalUnit }}"
+            progress="{{ vm.disk.percent }}"
+            progress-color="{{ vm.disk.class }}"></widget>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <widget bg-color="card-primary"
+            text-color="text-white"
+            icon="fa fa-microchip"
+            title="{{ vm.memory.free }}<sup>{{ vm.memory.freeUnit }}</sup>"
+            subtitle="System memory : {{ vm.memory.total }}{{ vm.memory.totalUnit }}"
+            progress="{{ vm.memory.percent }}"
+            progress-color="{{ vm.memory.class }}"></widget>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <widget bg-color="card-primary"
+            text-color="text-white"
+            icon="icofont icofont-heart-beat-alt"
+            title="{{ vm.cpu['1m'] }}<sup>1m</sup>"
+            subtitle="5m:{{ vm.cpu['5m'] }} | 15m:{{ vm.cpu['15m'] }}"></widget>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <widget bg-color="card-primary"
+            text-color="text-white"
+            icon="icofont icofont-heartbeat"
+            title="{{ vm.uptime.title }}<sup>{{ vm.uptime.unit }}</sup>"
+            subtitle="{{ vm.uptime.subtitle }}"></widget>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-lg-8">
+    <card title="Services" switch="vm.services.switch" switch-function="filterServices" switch-activated="vm.switch" spinner=true loading="vm.loading.services">
+      <div ng-if="vm.services.data" ui-grid="vm.services" ng-if="vm.services.data" class="myGrid"></div>
+      <div ng-if="vm.services.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load services data</div>
+    </card>
+  </div>
+  <div class="col-sm-6 col-lg-4">
+    <card title="System summary" spinner=true loading="vm.loading.information">
+      <table class="table">
+        <tbody>
+        <tr ng-repeat="(key, value) in vm.information">
+          <td>{{ key }}</td>
+          <td>{{ value }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </card>
+  </div>
+</div>
