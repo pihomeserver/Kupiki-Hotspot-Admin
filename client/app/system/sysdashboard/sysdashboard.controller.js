@@ -18,10 +18,10 @@ export default class SysdashboardController {
         let filterByName = function(service) {
           return appConfig.servicesFilters.includes(service.name);
         };
-        this.dataFiltered = this.$scope.$parent.$ctrl.data.filter(filterByName);
-        this.$scope.$parent.$ctrl.services.data = this.dataFiltered;
+        this.dataFiltered = this.$scope.$parent.vm.data.filter(filterByName);
+        this.$scope.$parent.vm.services.data = this.dataFiltered;
       } else {
-        this.$scope.$parent.$ctrl.services.data = this.$scope.$parent.$ctrl.data;
+        this.$scope.$parent.vm.services.data = this.$scope.$parent.vm.data;
       }
     }
     // this.socket = socket;

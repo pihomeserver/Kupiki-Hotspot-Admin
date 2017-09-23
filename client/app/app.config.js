@@ -3,7 +3,7 @@
 export function routeConfig($urlRouterProvider, $locationProvider, toastrConfig) {
   'ngInject';
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/sysdashboard');
 
   $locationProvider.html5Mode(true);
 
