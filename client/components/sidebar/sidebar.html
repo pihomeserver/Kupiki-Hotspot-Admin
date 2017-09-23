@@ -1,24 +1,20 @@
 <div class="sidebar">
   <nav class="sidebar-nav">
     <ul class="nav">
-      <li class="nav-title">
-        System
+      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('system')}">
+        <a class="nav-link nav-dropdown-toggle" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-gear"></i> System </a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icofont icofont-dashboard-web"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icofont icofont-gears"></i> Administration</a>
+          </li>
+        </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="sysdashboard"><i class="icofont icofont-dashboard-web"></i> Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="sysadmin"><i class="icofont icofont-gears"></i> Administration</a>
-      </li>
-
-      <!--
       <li class="divider"></li>
-      <li class="nav-title">
-        System
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="app.charts"><i class="icon-settings"></i> Administration</a>
-      </li>
+      <!--
+
 
       <li class="nav-title">
         Hotspot

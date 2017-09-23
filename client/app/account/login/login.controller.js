@@ -63,7 +63,7 @@ export default class LoginController {
       })
         .then(() => {
           // Logged in, redirect to home
-          this.$state.go('sysdashboard');
+          this.$state.go('system.sysdashboard');
         })
         .catch(err => {
           this.errors.login = err.message;

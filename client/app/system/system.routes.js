@@ -3,17 +3,23 @@
 export default function routes($stateProvider) {
   'ngInject';
 
-  $stateProvider.state('sysdashboard', {
+  $stateProvider .state('system', {
+    abstract: true,
+    url: '/system',
+    authenticate: true
+  });
+
+  $stateProvider.state('system.sysdashboard', {
     url: '/sysdashboard',
     authenticate: true,
     views: {
-      navbar: {
+      'navbar@': {
         template: '<navbar></navbar>'
       },
-      sidebar: {
+      'sidebar@': {
         template: '<sidebar></sidebar>'
       },
-      content: {
+      'content@': {
         template: require('./sysdashboard/sysdashboard.html'),
         controller: 'SysdashboardController',
         controllerAs: 'vm'
@@ -21,18 +27,17 @@ export default function routes($stateProvider) {
     }
   });
 
-  $stateProvider
-    .state('sysadmin', {
+  $stateProvider.state('system.sysadmin', {
       url: '/sysadmin',
       authenticate: true,
       views: {
-        navbar: {
+        'navbar@': {
           template: '<navbar></navbar>'
         },
-        sidebar: {
+        'sidebar@': {
           template: '<sidebar></sidebar>'
         },
-        content: {
+        'content@': {
           template: require('./sysadmin/sysadmin.html'),
           controller: 'SysadminController',
           controllerAs: 'vm'

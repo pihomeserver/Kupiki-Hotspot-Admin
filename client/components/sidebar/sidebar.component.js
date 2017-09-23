@@ -4,12 +4,13 @@
 import angular from 'angular';
 
 export class SidebarComponent {
-  constructor(Auth) {
+  constructor(Auth, $state) {
     'ngInject';
 
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
+    this.$state = $state;
   }
 
 }
