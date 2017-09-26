@@ -17,6 +17,7 @@ export default function(app) {
   app.use('/api/services', require('./api/services'));
   app.use('/api/uptime', require('./api/uptime'));
   app.use('/api/system', require('./api/system'));
+  app.use('/api/hotspot', require('./api/hotspot'));
 
   app.use('/auth', require('./auth').default);
 

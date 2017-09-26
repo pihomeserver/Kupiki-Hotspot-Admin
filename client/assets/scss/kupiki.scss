@@ -6,6 +6,12 @@
 
 @import "toggle";
 
+.tooltip {
+  opacity: 1;
+}
+.tooltip-inner {
+  text-align: justify;
+}
 .modal-backdrop.in {
   opacity: 0.5;
 }
@@ -19,14 +25,41 @@ p.widget-body-title sup {
   font-size: 25%;
 }
 
-.margin-top-15px {
-  margin-top:15px;
+$listSize: 1px 2px 5px 10px 15px;
+
+@each $size in $listSize {
+  .margin-right-#{$size} { margin-right: $size }
+  .margin-left-#{$size} { margin-left: $size }
+  .margin-top-#{$size} { margin-top: $size }
+  .margin-bottom-#{$size} { margin-bottom: $size }
+
+  .padding-right-#{$size} { padding-right: $size }
+  .padding-left-#{$size} { padding-left: $size }
+  .padding-top-#{$size} { padding-top: $size }
+  .padding-bottom-#{$size} { padding-bottom: $size }
 }
 
 .loginImage {
   position:absolute;
   z-index: -1;
-  max-width: 100%;
+}
+
+@media screen and (min-aspect-ratio: 3/2) {
+  .loginImage {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-aspect-ratio: 3/2) {
+  .loginImage {
+    max-height: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .app-body {
+    margin-top: 0px;
+  }
 }
 
 @keyframes spin {

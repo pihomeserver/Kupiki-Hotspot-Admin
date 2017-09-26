@@ -9,10 +9,9 @@ $fa-font-path: '~font-awesome/fonts/';
 
 $simple-line-font-path: '/assets/fonts/Simple-Line/';
 @import '~simple-line-icons/scss/simple-line-icons';
-
 @import '~angular-ui-grid/ui-grid.css';
-
 @import '~angular-toastr/dist/angular-toastr.css';
+@import '~angular-xeditable/dist/css/xeditable.css';
 
 /**
  * App-wide Styles
@@ -27,7 +26,9 @@ $simple-line-font-path: '/assets/fonts/Simple-Line/';
 
 @import "../assets/scss/kupiki";
 
+@import "system/sysadmin/sysadmin";
 @import "system/sysdashboard/sysdashboard";
+@import "hotspot/hotspotadmin/hotspotadmin";
 
 @import "../components/widget/widget";
 @import "../components/card/card";

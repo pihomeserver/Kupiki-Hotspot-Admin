@@ -2,7 +2,7 @@
   <nav class="sidebar-nav">
     <ul class="nav">
       <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('system')}">
-        <a class="nav-link nav-dropdown-toggle" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-gear"></i> System </a>
+        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-gear"></i> System </a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
             <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icofont icofont-dashboard-web"></i> Dashboard</a>
@@ -13,27 +13,21 @@
         </ul>
       </li>
       <li class="divider"></li>
-      <!--
-
-
-      <li class="nav-title">
-        Hotspot
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="app.charts"><i class="fa fa-wifi"></i> Configuration</a>
-      </li>
-
-      <li class="nav-item nav-dropdown" ng-class="{open: $state.includes('app.components')}">
-        <a class="nav-link nav-dropdown-toggle" ng-class="{active: $state.includes('app.components')}" href="#"><i class="fa fa-users"></i> Management </a>
+      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('hotspot')}">
+        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('hotspot')}" href="#"><i class="icofont icofont-ui-wifi"></i> Hotspot </a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="app.components.buttons"><i class="fa fa-user"></i> Users</a>
+            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.configuration"><i class="icofont icofont-wifi-alt"></i> Configuration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="app.components.social-buttons"><i class="fa fa-bar-chart"></i> Statistics</a>
+            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.users"><i class="icofont icofont-users"></i> Users management</a>
           </li>
         </ul>
       </li>
+      <!--
+      Portal
+        Configuration
+        Advanced (Nginx)
       -->
     </ul>
   </nav>

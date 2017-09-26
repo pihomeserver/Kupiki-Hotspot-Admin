@@ -6,12 +6,11 @@
       <span class="switch-label" data-on="On" data-off="Off"></span>
       <span class="switch-handle"></span>
     </label>
-    <p class="small">{{ $ctrl.subtitle }}</p>
+    <p ng-if="$ctrl.subtitle" class="small">{{ $ctrl.subtitle }}</p>
   </div>
   <div ng-if="!$ctrl.spinner || ($ctrl.spinner && !$ctrl.loading)" class="card-block">
     <ng-transclude></ng-transclude>
   </div>
-  <!--<div ng-if="$ctrl.spinner && $ctrl.loading" class="card-block spinner"></div>-->
   <div ng-if="$ctrl.spinner && $ctrl.loading" class="card-block indicator">
     <svg id="indicator" width="16px" height="12px">
       <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>

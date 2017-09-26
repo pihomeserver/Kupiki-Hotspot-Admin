@@ -6,19 +6,27 @@ export default function routes($stateProvider) {
   $stateProvider .state('system', {
     abstract: true,
     url: '/system',
-    authenticate: true
+    authenticate: true,
+    views: {
+      'navbar': {
+        template: '<navbar></navbar>'
+      },
+      'sidebar': {
+        template: '<sidebar></sidebar>'
+      }
+    }
   });
 
   $stateProvider.state('system.sysdashboard', {
     url: '/sysdashboard',
     authenticate: true,
     views: {
-      'navbar@': {
-        template: '<navbar></navbar>'
-      },
-      'sidebar@': {
-        template: '<sidebar></sidebar>'
-      },
+      // 'navbar@': {
+      //   template: '<navbar></navbar>'
+      // },
+      // 'sidebar@': {
+      //   template: '<sidebar></sidebar>'
+      // },
       'content@': {
         template: require('./sysdashboard/sysdashboard.html'),
         controller: 'SysdashboardController',
@@ -31,12 +39,12 @@ export default function routes($stateProvider) {
       url: '/sysadmin',
       authenticate: true,
       views: {
-        'navbar@': {
-          template: '<navbar></navbar>'
-        },
-        'sidebar@': {
-          template: '<sidebar></sidebar>'
-        },
+        // 'navbar@': {
+        //   template: '<navbar></navbar>'
+        // },
+        // 'sidebar@': {
+        //   template: '<sidebar></sidebar>'
+        // },
         'content@': {
           template: require('./sysadmin/sysadmin.html'),
           controller: 'SysadminController',
