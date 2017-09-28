@@ -1,4 +1,4 @@
-<div class="row">
+<div ng-if="vm.configuration" class="row">
   <div class="col-sm-12 col-lg-6">
     <card title="Configuration" spinner=true loading="vm.loading.configuration">
       <div class="hotspot-conf padding-right-15px padding-left-15px" ng-repeat="field in vm.configuration.data">
@@ -31,7 +31,7 @@
              tooltip-class="tooltip-left"
              uib-tooltip="{{ field.help }}"
              tooltip-trigger="'outsideClick'"></i>
-          <i class="icofont icofont-ui-delete" ng-click="vm.print()"></i>
+          <!--<i class="icofont icofont-ui-delete" ng-click="vm.print()"></i>-->
         </div>
       </div>
 <!--
@@ -49,14 +49,14 @@
       <div class="code">
         <div ng-repeat="field in vm.configuration.data">{{ field.field }}={{ field.value }}</div>
       </div>
-      <div class="margin-top-15px hotspot-conf">
+      <div class="margin-top-15px hotspot-conf-actions">
         <div>
-          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.print()"><i class="icofont icofont-save"></i> Save</button>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveConfiguration()"><i class="icofont icofont-save"></i> Save</button>
           <!--<button class='btn btn-sm btn-primary margin-right-15px'><i class='icofont icofont-refresh'></i> Save & Reload</button>-->
         </div>
         <div style="margin-left: auto;">
-          <button class='btn btn-sm btn-secondary margin-right-15px'><i class='icofont icofont-undo'></i> Reload</button>
-          <button class='btn btn-sm btn-danger'><i class='icofont icofont-ui-reply'></i> Reset</button>
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.loadConfiguration()"><i class='icofont icofont-undo'></i> Reload</button>
+          <button class='btn btn-sm btn-danger' ng-click="vm.loadDefaultConfiguration()"><i class='icofont icofont-ui-reply'></i> Reset</button>
         </div>
       </div>
     </card>

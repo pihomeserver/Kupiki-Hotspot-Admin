@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-export function KupikiModal($rootScope, $uibModal) {
+export function KupikiModal($rootScope, $uibModal, $sce, $compile) {
   'ngInject';
 
   function openModal(scope = {}, modalClass = 'default') {
@@ -20,8 +20,9 @@ export function KupikiModal($rootScope, $uibModal) {
   }
 
   return {
-    confirmModal: function (modalScope = {}, modalClass = 'default', confirmFunc) {
+    confirmModal: function (modalScope = {}, modalClass = 'default', parent = undefined, confirmFunc) {
       var modalOptions = $rootScope.$new();
+      if (parent && parent.$scope) modalOptions = parent.$scope.$new();
       angular.extend(modalOptions, modalScope);
 
       modalOptions.buttons= [{
@@ -41,6 +42,15 @@ export function KupikiModal($rootScope, $uibModal) {
       var modalObj = openModal({
         modal: modalOptions
       }, modalClass);
+      modalObj.rendered.then(function(event) {
+        if (modalOptions.bindHtml) {
+          let linkFunc = $compile(modalOptions.bindHtml);
+          linkFunc(modalOptions, function (compElement) {
+            angular.element(document.getElementById('bindHtmlElement')).html('');
+            angular.element(document.getElementById('bindHtmlElement')).append(compElement);
+          });
+        }
+      });
       modalObj.result.then(function(event) {
         Reflect.apply(confirmFunc, undefined, event);
       }).catch(function() {});

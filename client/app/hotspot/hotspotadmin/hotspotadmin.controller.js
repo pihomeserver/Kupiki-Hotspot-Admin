@@ -2,16 +2,12 @@
 
 export default class SysadminController {
   /*@ngInject*/
-  constructor($scope, $http, $sce, socket, toastr, KupikiModal) {
+  constructor($scope, $http, socket, toastr, KupikiModal) {
     this.$http = $http;
     this.$scope = $scope;
     this.socket = socket;
     this.KupikiModal = KupikiModal;
     this.toastr = toastr;
-
-    this.print = function() {
-      console.log('Yo')
-    };
 
     this.hotspotConfFields = {
       interface: {
@@ -87,19 +83,87 @@ export default class SysadminController {
         display: 'Fragmentation threshold',
         help: 'Fragmentation threshold; 2346 = disabled (default); range 256..2346. ' +
         'If this field is not included in hostapd.conf, hostapd will not control ' +
-        'fragmentation threshold and \'iwconfig wlan# frag <val>\' can be used to set it.',
+        'fragmentation threshold and \'iwconfig wlan frag <val>\' can be used to set it.',
         type: 'number',
         data: {min: 256, max: 2346}
       }
     };
 
-    // console.log(this.hotspotConfFields['driver'])
+    this.defaultSetup = [{"field":"interface","value":"wlan0"},
+      {"field":"driver","value":"nl80211"},
+      {"field":"ssid","value":"pihotspot"},
+      {"field":"hw_mode","value":"g"},
+      {"field":"channel","value":"6"},
+      {"field":"auth_algs","value":"1"},
+      {"field":"beacon_int","value":"100"},
+      {"field":"dtim_period","value":"2"},
+      {"field":"max_num_sta","value":"255"},
+      {"field":"rts_threshold","value":"2347"},
+      {"field":"fragm_threshold","value":"2346"}];
   }
 
   $onInit() {
     this.loading = {
       configuration: true
     };
+
+    this.loadConfiguration();
+  }
+
+  saveConfiguration () {
+    this.restart = true;
+
+    var options = {
+      dismissable: true,
+      title: 'Save Hostapd configuration',
+      bindHtml: '<p>Are you sure that you want to save your settings ?<br>' +
+        '<input type="checkbox" id="restart" name="restart" ng-checked="$parent.vm.restart" ng-model="$parent.vm.restart"> Restart Hostapd service</p>'
+    };
+    var $http = this.$http;
+    var toastr = this.toastr;
+    var parent = this;
+    this.KupikiModal.confirmModal(options, 'danger', this, function() {
+      $http({
+        url: '/api/hotspot/configurationn',
+        method: "POST",
+        data: { 'configuration' : parent.configuration.data, 'restart' : parent.restart }
+      }).then(function(response) {
+        switch (response.data.status) {
+          case 'success' :
+            break;
+          case 'failed' :
+            break;
+        }
+      }, function(response) {
+        var message = "Unable to save hostapd configuration";
+        toastr.error(message, 'Hostapd configuration', {
+          closeButton: true,
+          timeOut: 0
+        });
+      });
+    });
+  }
+
+  loadDefaultConfiguration () {
+    this.configuration = {
+      error: false,
+      data: JSON.parse(JSON.stringify(this.defaultSetup))
+    };
+    this.extendConfiguration();
+  }
+
+  extendConfiguration () {
+    for (let i = 0; i < this.configuration.data.length; i++) {
+      let elt = this.configuration.data[i];
+      if (this.hotspotConfFields[elt.field]) {
+        this.configuration.data[i] = Object.assign({},elt, this.hotspotConfFields[elt.field]);
+        if (this.configuration.data[i].type === 'number') this.configuration.data[i].value = parseInt(this.configuration.data[i].value);
+      }
+    }
+  }
+
+  loadConfiguration () {
+    this.loading.configuration = true;
     this.$http.get('/api/hotspot/configuration')
       .then(response => {
         this.configuration = {};
@@ -110,13 +174,7 @@ export default class SysadminController {
               error: false,
               data: response.data.result.message,
             };
-            for (let i = 0; i < this.configuration.data.length; i++) {
-              let elt = this.configuration.data[i];
-              if (this.hotspotConfFields[elt.field]) {
-                this.configuration.data[i] = Object.assign({},elt, this.hotspotConfFields[elt.field]);
-                if (this.configuration.data[i].type === 'number') this.configuration.data[i].value = parseInt(this.configuration.data[i].value);
-              }
-            }
+            this.extendConfiguration();
             this.loading.configuration = false;
             break;
           case 'failed' :
@@ -128,10 +186,11 @@ export default class SysadminController {
             this.loading.configuration = false;
             this.configuration.error = true;
             break;
-        };
+        }
       })
       .catch(error => {
-        this.toastr.error('Unable to get current hostapd configuration.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+        console.log(error);
+        this.toastr.error('Unable to get current hostapd configuration.<br/>Error ' + error.status + '<br/>' + error.statusText, 'System issue', {
           closeButton: true,
           allowHtml: true,
           timeOut: 0

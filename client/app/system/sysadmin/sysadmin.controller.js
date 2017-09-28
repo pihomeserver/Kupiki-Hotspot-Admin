@@ -169,7 +169,7 @@ export default class SysadminController {
     };
     var $http = this.$http;
     var toastr = this.toastr;
-    this.KupikiModal.confirmModal(options, 'danger', function() {
+    this.KupikiModal.confirmModal(options, 'danger', this, function() {
       $http.get('/api/system/shutdown')
         .then(response => {
           switch (response.data.status) {
@@ -199,7 +199,7 @@ export default class SysadminController {
     };
     var $http = this.$http;
     var toastr = this.toastr;
-    this.KupikiModal.confirmModal(options, 'danger', function() {
+    this.KupikiModal.confirmModal(options, 'danger', this, function() {
       $http.get('/api/system/reboot')
         .then(response => {
           switch (response.data.status) {
@@ -229,13 +229,13 @@ export default class SysadminController {
     };
     var $http = this.$http;
     var toastr = this.toastr;
-    this.KupikiModal.confirmModal(options, 'primary', function() {
+    this.KupikiModal.confirmModal(options, 'primary', this, function() {
       $http.get('/api/system/update')
         .then(response => {
-          console.log(response)
+          // console.log(response)
           switch (response.data.status) {
             case 'success':
-              toastr.success('The update of the system has been started.', 'System update');
+              toastr.success(response.data.result.message, 'System update');
               break;
             case 'failed':
               toastr.error('Unable to perform the update.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {

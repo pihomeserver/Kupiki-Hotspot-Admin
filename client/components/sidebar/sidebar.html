@@ -2,13 +2,13 @@
   <nav class="sidebar-nav">
     <ul class="nav">
       <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('system')}">
-        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-gear"></i> System </a>
+        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-ui-settings"></i> System </a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
             <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icofont icofont-dashboard-web"></i> Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icofont icofont-gears"></i> Administration</a>
+            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icofont icofont-gear"></i> Administration</a>
           </li>
         </ul>
       </li>
@@ -17,17 +17,23 @@
         <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('hotspot')}" href="#"><i class="icofont icofont-ui-wifi"></i> Hotspot </a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.configuration"><i class="icofont icofont-wifi-alt"></i> Configuration</a>
+            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.configuration"><i class="icofont icofont-wifi-router"></i> Configuration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.users"><i class="icofont icofont-users"></i> Users management</a>
+            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.users"><i class="icofont icofont-share"></i> Coova management</a>
           </li>
         </ul>
       </li>
       <!--
       Portal
         Configuration
-        Advanced (Nginx)
+          Portal authentication (none, checkbox, user/passwd, etc.)
+          Portal options (background image, terms, redirect, etc.)
+        Advanced (Nginx) ? SSL, etc.
+      Management
+        Users
+        Batches
+        Statistics
       -->
     </ul>
   </nav>

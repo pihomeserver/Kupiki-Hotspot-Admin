@@ -3,10 +3,14 @@
 const execPromise = require('child-process-promise').exec;
 const shared = require('../../config/environment/shared');
 
+export function setConfiguration(req, res) {
+  res.status(200).json({status: 'success', result: {code: 0, message: '' }});
+}
+
 export function getConfiguration(req, res) {
   execPromise('cat /etc/hostapd/hostapd.conf', { timeout : shared.httpSudoTimeout })
     .then(function (result) {
-      console.log(result)
+      // console.log(result)
       var configuration = [];
       result.stdout.split('\n').forEach(function(elt) {
         if (elt.trim().length > 0) {

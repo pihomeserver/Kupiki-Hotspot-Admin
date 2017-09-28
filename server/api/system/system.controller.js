@@ -141,7 +141,7 @@ export function update(req, res) {
     socket.emit('system:update', { status: 'progress', result: '' });
     execPromise('sudo /usr/bin/apt-get update -y -qq', { timeout : shared.httpSudoTimeout })
       .then(function (result) {
-        execPromise('sudo /usr/bin/apt-get -qq -y -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade', { timeout : shared.httpSudoTimeout })
+        execPromise('sudo /home/kupiki/Kupiki-Hotspot-Admin/upgrade.sh', { timeout : shared.httpSudoTimeout })
           .then(function(result) {
             res.status(200).json({ status : 'success', result: { code : 0, message : 'System updated finished.' }});
           })
