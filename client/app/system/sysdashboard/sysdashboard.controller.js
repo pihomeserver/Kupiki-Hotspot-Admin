@@ -23,7 +23,7 @@ export default class SysdashboardController {
       } else {
         this.$scope.$parent.vm.services.data = this.$scope.$parent.vm.data;
       }
-    }
+    };
     // this.socket = socket;
 
     // $scope.$on('$destroy', function() {
@@ -98,7 +98,7 @@ export default class SysdashboardController {
             this.loading.services = false;
             this.services.error = true;
             break;
-        };
+        }
       })
       .catch(error => {
         this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {

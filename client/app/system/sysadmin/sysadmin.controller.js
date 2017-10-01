@@ -46,14 +46,15 @@ export default class SysadminController {
         }
       })
         .then(function(response) {
+          var message = '';
           switch (response.data.status) {
             case 'success' :
-              var message = elt.name+" service started";
+              message = elt.name+" service started";
               if (!elt.status) message = elt.name+" service stoped";
               toastr.success(message);
               break;
             case 'failed' :
-              var message = "Unable to start service ";
+              message = "Unable to start service ";
               if (!elt.status) message = "Unable to stop service ";
               message += elt.name+'<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message;
               toastr.error(message, 'Service ' + elt.name, {
@@ -84,7 +85,7 @@ export default class SysadminController {
       } else {
         this.$scope.$parent.vm.services.data = this.$scope.$parent.vm.data;
       }
-    }
+    };
   }
 
   $onInit() {
@@ -123,7 +124,7 @@ export default class SysadminController {
             this.loading.services = false;
             this.services.error = true;
             break;
-        };
+        }
       })
       .catch(error => {
         this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
@@ -183,13 +184,13 @@ export default class SysadminController {
                 timeOut: 0
               });
               break;
-          };
+          }
         })
         .catch(function() {
           toastr.error('The shutdown of the system can not be started.', 'System shutdown');
         });
     });
-  };
+  }
 
   reboot() {
     var options = {
@@ -213,13 +214,13 @@ export default class SysadminController {
                 timeOut: 0
               });
               break;
-          };
+          }
         })
         .catch(function() {
           toastr.error('The reboot of the system can not be started.', 'System shutdown');
         });
     });
-  };
+  }
 
   update() {
     var options = {
@@ -244,11 +245,11 @@ export default class SysadminController {
                 timeOut: 0
               });
               break;
-          };
+          }
         })
         .catch(function() {
           toastr.error('The update of the system can not be started.', 'System shutdown');
         });
     });
-  };
+  }
 }

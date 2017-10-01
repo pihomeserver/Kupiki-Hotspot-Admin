@@ -13,3 +13,4 @@ dev.sqlite
 package-lock.json
 dist.sqlite
 .yo-rc.json
+deployment-config.json

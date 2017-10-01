@@ -76,9 +76,10 @@ angular.module('kupikiHotspotAdminApp', [
   .run(function($rootScope, $location, Auth, editableOptions, editableThemes) {
     'ngInject';
 
-    editableOptions.theme = 'default';
-    editableThemes['default'].submitTpl = '<button class="btn btn-sm btn-primary margin-right-2px" type="submit"><i class="icofont icofont-save"></i></button>';
-    editableThemes['default'].cancelTpl = '<button class="btn btn-sm btn-danger" type="submit"><i class="icofont icofont-undo"></i></button>';
+    editableOptions.theme = 'bs3';
+    editableThemes.bs3.submitTpl = '<button class="btn btn-sm btn-primary btn-kupiki-edit" type="submit"><i class="icofont icofont-save"></i></button>';
+    editableThemes.bs3.cancelTpl = '<button class="btn btn-sm btn-danger btn-kupiki-edit" ng-click="$form.$cancel()"><i class="icofont icofont-undo"></i></button>';
+    editableThemes.bs3.inputClass= 'form-control-sm';
 
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function(event, next) {

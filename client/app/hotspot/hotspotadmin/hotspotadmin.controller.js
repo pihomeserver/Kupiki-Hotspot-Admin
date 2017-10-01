@@ -1,11 +1,10 @@
 'use strict';
 
-export default class SysadminController {
+export default class HotspotadminController {
   /*@ngInject*/
-  constructor($scope, $http, socket, toastr, KupikiModal) {
+  constructor($scope, $http, toastr, KupikiModal) {
     this.$http = $http;
     this.$scope = $scope;
-    this.socket = socket;
     this.KupikiModal = KupikiModal;
     this.toastr = toastr;
 
@@ -124,14 +123,21 @@ export default class SysadminController {
     var parent = this;
     this.KupikiModal.confirmModal(options, 'danger', this, function() {
       $http({
-        url: '/api/hotspot/configurationn',
+        url: '/api/hotspot/configuration',
         method: "POST",
         data: { 'configuration' : parent.configuration.data, 'restart' : parent.restart }
       }).then(function(response) {
         switch (response.data.status) {
           case 'success' :
+            toastr.success('Hostapd configuration has been saved', 'Hostapd');
             break;
           case 'failed' :
+            console.log(response)
+            toastr.error('Unable to save hostapd configuration.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'Hostapd issue', {
+              closeButton: true,
+              allowHtml: true,
+              timeOut: 0
+            });
             break;
         }
       }, function(response) {
@@ -145,11 +151,19 @@ export default class SysadminController {
   }
 
   loadDefaultConfiguration () {
-    this.configuration = {
-      error: false,
-      data: JSON.parse(JSON.stringify(this.defaultSetup))
+    var parent = this;
+    var options = {
+      dismissable: true,
+      title: 'Load default Hostapd configuration',
+      html: '<p>Are you sure that you want to load default settings ?'
     };
-    this.extendConfiguration();
+    this.KupikiModal.confirmModal(options, 'danger', this, function() {
+      parent.configuration = {
+        error: false,
+        data: JSON.parse(JSON.stringify(parent.defaultSetup))
+      };
+      parent.extendConfiguration();
+    });
   }
 
   extendConfiguration () {
@@ -160,6 +174,18 @@ export default class SysadminController {
         if (this.configuration.data[i].type === 'number') this.configuration.data[i].value = parseInt(this.configuration.data[i].value);
       }
     }
+  }
+
+  reloadConfiguration () {
+    var parent = this;
+    var options = {
+      dismissable: true,
+      title: 'Reload Hostapd configuration',
+      html: '<p>Are you sure that you want to reload current settings ?'
+    };
+    this.KupikiModal.confirmModal(options, 'primary', this, function() {
+      parent.loadConfiguration();
+    });
   }
 
   loadConfiguration () {
