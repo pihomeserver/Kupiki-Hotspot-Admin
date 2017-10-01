@@ -6,6 +6,26 @@
 
 @import "toggle";
 
+.sidebar .nav .nav-item ul li {
+  // margin-left: 5px;
+}
+
+.nav-dropdown-items li a.nav-link {
+  border-left: 10px solid $gray !important;
+}
+
+.nav-dropdown-items li a.nav-link.active {
+  border-left: 10px solid $brand-primary !important;
+}
+
+a.nav-link.nav-dropdown-toggle.nav-title {
+  border-left: 3px solid $gray !important;
+}
+
+a.nav-link.nav-dropdown-toggle.nav-title.active {
+  border-left: 3px solid $brand-primary !important;
+}
+
 .btn-kupiki-edit {
   padding: .15rem .2rem;
   font-size: .500rem;

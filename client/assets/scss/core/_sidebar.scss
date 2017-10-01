@@ -69,14 +69,15 @@
 
     .nav-title {
       padding: $sidebar-nav-title-padding-y $sidebar-nav-title-padding-x;
-      font-size: 11px;
+      font-size: .875rem;
       font-weight: 600;
       color: $sidebar-nav-title-color;
-      text-transform: uppercase;
     }
 
     .divider {
       height: 10px;
+      // height: 2px;
+      // background-color: $gray;
     }
 
     .nav-item {
@@ -181,7 +182,8 @@
 
           .nav-link {
             color: $sidebar-nav-dropdown-color;
-            border-left: 0 !important;
+            // border-left: 0 !important;
+            border-left: 0;
           }
 
           > .nav-link.nav-dropdown-toggle::before {
