@@ -35,7 +35,6 @@ export default function(app) {
   app.set('appPath', path.join(config.root, 'client'));
   app.use(express.static(app.get('appPath')));
   app.use(morgan('dev'));
-
   app.set('views', `${config.root}/server/views`);
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -45,7 +44,6 @@ export default function(app) {
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
-
 
   // Persist sessions with MongoStore / sequelizeStore
   // We need to enable sessions for passport-twitter because it's an
@@ -63,9 +61,10 @@ export default function(app) {
    */
   if(env !== 'test' && !process.env.SAUCE_USERNAME) {
     app.use(lusca({
-      csrf: {
-        angular: true
-      },
+      csrf: false,
+      // csrf: {
+      //   angular: true
+      // },
       xframe: 'SAMEORIGIN',
       hsts: {
         maxAge: 31536000, //1 year, in seconds

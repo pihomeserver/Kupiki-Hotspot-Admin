@@ -12,7 +12,21 @@
           </li>
         </ul>
       </li>
-      <!-- <li class="divider"></li> -->
+      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('configuration')}">
+        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('configuration')}" href="#"><i class="icofont icofont-ui-wifi"></i> Configuration </a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.basic"><i class="icofont icofont-wifi-router"></i> Basic</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.security"><i class="icofont icofont-ssl-security"></i> Security</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.advanced"><i class="icofont icofont-wrench"></i> Advanced</a>
+          </li>
+        </ul>
+      </li>
+      <!--
       <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('hotspot')}">
         <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('hotspot')}" href="#"><i class="icofont icofont-ui-wifi"></i> Hotspot </a>
         <ul class="nav-dropdown-items">
@@ -24,6 +38,7 @@
           </li>
         </ul>
       </li>
+       -->
       <!--
       Portal
         Configuration

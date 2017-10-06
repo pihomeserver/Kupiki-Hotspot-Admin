@@ -26,8 +26,10 @@ import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
 import system from './system';
-import hotspot from './hotspot';
+// import hotspot from './hotspot';
+import configuration from './configuration';
 import coreuiDirectives from '../components/coreui/coreui.directives';
+import fileModel from '../components/fileModel/fileModel.directive';
 import compile from '../components/compile/compile.directive';
 import sidebar from '../components/sidebar/sidebar.component';
 import navbar from '../components/navbar/navbar.component';
@@ -64,8 +66,9 @@ angular.module('kupikiHotspotAdminApp', [
   KupikiModal,
   kupikiButton,
   system,
-  hotspot,
+  configuration,
   compile,
+  fileModel,
   constants,
   socket,
   util,

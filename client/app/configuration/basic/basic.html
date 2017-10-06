@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <card title="Basic configuration" spinner=true loading="vm.loading.configuration" ng-if="vm.configuration.ssid >= 0">
+      <form name="form" class="form" ng-submit="" novalidate>
+        <div class="form-group" ng-class="{'has-danger': (form.ssid.$error.minlength || form.ssid.$error.required) && (form.ssid.$dirty || vm.submitted)}">
+          <label for="ssid">Your hotspot name</label>
+          <input type="text"
+                 id="ssid"
+                 name="ssid"
+                 class="form-control form-control-danger"
+                 placeholder="Input a name for your hotspot"
+                 ng-minlength="3"
+                 required
+                 ng-model="vm.configuration.data[vm.configuration.ssid].value">
+          <span class="help-block text-danger" ng-show="vm.errors.other">
+            {{ vm.errors.other }}
+          </span>
+        </div>
+      </form>
+      <div class="margin-top-15px hotspot-conf-actions">
+        <div>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveConfiguration()"><i class="icofont icofont-save"></i> Save</button>
+        </div>
+        <div style="margin-left: auto;">
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadConfiguration()"><i class='icofont icofont-undo'></i> Reload</button>
+        </div>
+      </div>
+    </card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <card title="Portal background">
+      <div class="row">
+        <div class="col-sm-12 col-lg-8">
+          <form name="form" class="form" ng-submit="" novalidate>
+            <input type="file" file-model="vm.backgroundFile"/>
+            <button ng-click="vm.uploadFile()">Upload</button>
+          </form>
+          <br/>
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadBackground()"><i class='icofont icofont-undo'></i> Restore default background</button>
+        </div>
+        <div class="col-sm-12 col-lg-4">
+          <img id="portalBackground" name="portalBackground" src="{{ vm.portalBackground }}" style="max-width:100%"/>
+        </div>
+    </card>
+  </div>
+</div>

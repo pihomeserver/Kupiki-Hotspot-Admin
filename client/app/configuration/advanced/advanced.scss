@@ -1,0 +1,33 @@
+.hotspot-conf,
+.hotspot-conf-actions {
+  display: flex;
+  flex-direction: row;
+}
+.hotspot-conf:hover {
+  background: $gray-lightest;
+}
+.hotspot-field-name {
+  flex: 0 0 50%;
+}
+.hotspot-field-value {
+  flex-grow: 1;
+}
+
+.code {
+  border: solid 1px $gray-lightest;
+  padding: 10px;
+}
+
+.hotspot-conf:hover .delete-field {
+  color: $gray;
+}
+.delete-field {
+  color: $gray-lighter;
+}
+.delete-field .icofont-ui-delete:hover {
+  color: $brand-danger !important;
+}
+
+.delete-field .icofont-question-circle:hover {
+  color: $brand-primary !important;
+}
