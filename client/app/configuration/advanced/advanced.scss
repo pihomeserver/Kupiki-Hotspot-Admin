@@ -4,7 +4,7 @@
   flex-direction: row;
 }
 .hotspot-conf:hover {
-  background: $gray-lightest;
+  background: theme-color("light");
 }
 .hotspot-field-name {
   flex: 0 0 50%;
@@ -14,20 +14,20 @@
 }
 
 .code {
-  border: solid 1px $gray-lightest;
+  border: solid 1px theme-color("light");
   padding: 10px;
 }
 
 .hotspot-conf:hover .delete-field {
-  color: $gray;
+  color: theme-color("secondary");
 }
 .delete-field {
-  color: $gray-lighter;
+  color: theme-color("light");
 }
 .delete-field .icofont-ui-delete:hover {
-  color: $brand-danger !important;
+  color: theme-color("danger") !important;
 }
 
 .delete-field .icofont-question-circle:hover {
-  color: $brand-primary !important;
+  color: theme-color("primary") !important;
 }

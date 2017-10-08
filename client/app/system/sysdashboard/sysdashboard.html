@@ -9,23 +9,23 @@
             progress-color="{{ vm.disk.class }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
-    <widget bg-color="card-primary"
+    <widget bg-color="bg-primary"
             text-color="text-white"
             icon="fa fa-microchip"
             title="{{ vm.memory.free }}<sup>{{ vm.memory.freeUnit }}</sup>"
-            subtitle="System memory : {{ vm.memory.total }}{{ vm.memory.totalUnit }}"
+            subtitle="Total {{ vm.memory.total }}{{ vm.memory.totalUnit }}"
             progress="{{ vm.memory.percent }}"
             progress-color="{{ vm.memory.class }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
-    <widget bg-color="card-primary"
+    <widget bg-color="bg-primary"
             text-color="text-white"
             icon="icofont icofont-heart-beat-alt"
             title="{{ vm.cpu['1m'] }}<sup>1m</sup>"
             subtitle="5m:{{ vm.cpu['5m'] }} | 15m:{{ vm.cpu['15m'] }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
-    <widget bg-color="card-primary"
+    <widget bg-color="bg-primary"
             text-color="text-white"
             icon="icofont icofont-heartbeat"
             title="{{ vm.uptime.title }}<sup>{{ vm.uptime.unit }}</sup>"

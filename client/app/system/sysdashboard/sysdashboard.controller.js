@@ -1,9 +1,5 @@
 'use strict';
-// const angular = require('angular');
 
-// const uiRouter = require('angular-ui-router');
-
-// import routing from './sysdashboard.routes';
 import moment from 'moment';
 
 export default class SysdashboardController {
@@ -24,11 +20,6 @@ export default class SysdashboardController {
         this.$scope.$parent.vm.services.data = this.$scope.$parent.vm.data;
       }
     };
-    // this.socket = socket;
-
-    // $scope.$on('$destroy', function() {
-    //   socket.unsyncUpdates('thing');
-    // });
   }
 
   $onInit() {
@@ -137,25 +128,4 @@ export default class SysdashboardController {
         this.uptime.class = "bg-info";
       });
   }
-
-  // addThing() {
-  //   if(this.newThing) {
-  //     this.$http.post('/api/things', {
-  //       name: this.newThing
-  //     });
-  //     this.newThing = '';
-  //   }
-  // }
-
-  // deleteThing(thing) {
-  //   this.$http.delete(`/api/things/${thing._id}`);
-  // }
 }
-
-// export default angular.module('kupikiHotspotAdminApp.sysdashboard', [uiRouter])
-//   .config(routing)
-//   .component('sysdashboard', {
-//     template: require('./sysdashboard.html'),
-//     controller: MainController
-//   })
-//   .name;

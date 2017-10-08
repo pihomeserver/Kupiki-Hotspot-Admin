@@ -13,6 +13,9 @@ export class SidebarComponent {
     this.$state = $state;
   }
 
+  minimizeSidebar() {
+    angular.element('body').toggleClass('sidebar-minimized brand-minimized');
+  }
 }
 
 export default angular.module('directives.sidebar', [])

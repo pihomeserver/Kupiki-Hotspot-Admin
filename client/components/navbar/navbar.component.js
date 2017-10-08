@@ -14,9 +14,27 @@ export class NavbarComponent {
 
 }
 
+function kupikiMenuCollapseDirective() {
+  var directive = {
+    restrict: 'E',
+    link: link
+  }
+  return directive;
+
+  function link(scope, element, attrs) {
+    if (element.hasClass('dropdown-toggle')) {
+      element.on('click', function(event){
+        element.parent().find('.dropdown-menu').toggleClass('show')
+      })
+    }
+  }
+}
+
+
 export default angular.module('directives.navbar', [])
   .component('navbar', {
     template: require('./navbar.html'),
     controller: NavbarComponent
   })
+  .directive('a', kupikiMenuCollapseDirective)
   .name;

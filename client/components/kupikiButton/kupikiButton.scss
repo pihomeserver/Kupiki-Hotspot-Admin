@@ -51,7 +51,7 @@ $border-thickness: -2px;
   opacity: 1;
 }
 .buttons span.button-icon:hover::before {
-  background-color: $brand-primary;
+  background-color: theme-color("primary");
 }
 .buttons span {
   font-size: 50px;
@@ -63,10 +63,10 @@ $border-thickness: -2px;
   margin-left:         calc(50% - 32px);
 }
 .buttons span.button-icon {
-  color: $brand-primary;
+  color: theme-color("primary");
 }
 .buttons span.button-icon:hover {
-  color: $brand-danger;
+  color: theme-color("danger");
 }
 .buttons {
   width:100%;

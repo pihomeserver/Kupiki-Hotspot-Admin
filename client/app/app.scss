@@ -28,7 +28,10 @@ $simple-line-font-path: '/assets/fonts/Simple-Line/';
 
 @import "system/sysadmin/sysadmin";
 @import "system/sysdashboard/sysdashboard";
-@import "hotspot/hotspotadmin/hotspotadmin";
+@import "configuration/basic/basic";
+@import "configuration/advanced/advanced";
+@import "configuration/security/security";
+// @import "hotspot/hotspotadmin/hotspotadmin";
 
 @import "../components/widget/widget";
 @import "../components/card/card";

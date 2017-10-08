@@ -13,17 +13,17 @@
   }
 }
 .modal-primary .modal-header {
-  background: $brand-primary;
+  background: theme-color("primary");
 }
 .modal-info .modal-header {
-  background: $brand-info;
+  background: theme-color("info");
 }
 .modal-success .modal-header {
-  background: $brand-success;
+  background: theme-color("success");
 }
 .modal-warning .modal-header {
-  background: $brand-warning;
+  background: theme-color("warning");
 }
 .modal-danger .modal-header {
-  background: $brand-danger;
+  background: theme-color("danger");
 }

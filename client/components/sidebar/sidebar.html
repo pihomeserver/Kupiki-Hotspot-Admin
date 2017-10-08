@@ -1,44 +1,29 @@
 <div class="sidebar">
   <nav class="sidebar-nav">
     <ul class="nav">
-      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('system')}">
-        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('system')}" href="#"><i class="icofont icofont-ui-settings"></i> System </a>
-        <ul class="nav-dropdown-items">
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icofont icofont-dashboard-web"></i> Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icofont icofont-gear"></i> Administration</a>
-          </li>
-        </ul>
+      <li class="nav-title">
+        System
       </li>
-      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('configuration')}">
-        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('configuration')}" href="#"><i class="icofont icofont-ui-wifi"></i> Configuration </a>
-        <ul class="nav-dropdown-items">
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.basic"><i class="icofont icofont-wifi-router"></i> Basic</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.security"><i class="icofont icofont-ssl-security"></i> Security</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="configuration.advanced"><i class="icofont icofont-wrench"></i> Advanced</a>
-          </li>
-        </ul>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icon-speedometer"></i> Dashboard</a>
       </li>
-      <!--
-      <li class="nav-item nav-dropdown" ng-class="{open: $ctrl.$state.includes('hotspot')}">
-        <a class="nav-link nav-dropdown-toggle nav-title" ng-class="{active: $ctrl.$state.includes('hotspot')}" href="#"><i class="icofont icofont-ui-wifi"></i> Hotspot </a>
-        <ul class="nav-dropdown-items">
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.configuration"><i class="icofont icofont-wifi-router"></i> Configuration</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" ui-sref-active="active" ui-sref="hotspot.users"><i class="icofont icofont-share"></i> Coova management</a>
-          </li>
-        </ul>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icon-settings"></i> Administration</a>
       </li>
-       -->
+      <li class="divider"></li>
+      <li class="nav-title">
+        Configuration
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.basic"><i class="icon-wrench"></i> Basic</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.security"><i class="icon-lock"></i> Security</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.advanced"><i class="icon-rocket"></i> Advanced</a>
+      </li>
+
       <!--
       Portal
         Configuration
@@ -52,4 +37,5 @@
       -->
     </ul>
   </nav>
+  <button class="sidebar-minimizer brand-minimizer" type="button" ng-click='$ctrl.minimizeSidebar()'></button>
 </div>
