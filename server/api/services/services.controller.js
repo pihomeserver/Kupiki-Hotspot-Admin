@@ -1,10 +1,9 @@
 'use strict';
 
-const execPromise = require('child-process-promise').exec;
-const shared = require('../../config/environment/shared');
+import * as script from '../../system/system.service';
 
 export function index(req, res) {
-  execPromise('sudo /usr/sbin/service --status-all', { timeout : shared.httpSudoTimeout })
+  script.execPromise('services')
     .then(function (result) {
       var services = [];
       result.stdout.split('\n').forEach(function(elt) {
@@ -31,9 +30,9 @@ export function index(req, res) {
 export function switchService(req, res) {
   if (req.body) {
     if (req.body.service) {
-      let command = 'sudo /usr/sbin/service '+req.body.service;
+      let command = 'service '+req.body.service;
       (req.body.status)?command += ' start':command += ' stop';
-      execPromise(command, { timeout : shared.httpSudoTimeout })
+      script.execPromise(command)
         .then(function (result) {
           res.status(200).json({ status: 'success', result: { code : 0, message : '' }});
         })

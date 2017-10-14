@@ -1,28 +1,128 @@
 <div class="row">
   <div class="col-sm-12 col-lg-12">
-    <card title="Basic configuration" spinner=true loading="vm.loading.configuration" ng-if="vm.configuration.ssid >= 0">
+    <card title="Basic configuration" spinner=true loading="vm.loading.hostapd" ng-if="vm.configuration.hostapd.ssid >= 0">
       <form name="form" class="form" ng-submit="" novalidate>
-        <div class="form-group" ng-class="{'has-danger': (form.ssid.$error.minlength || form.ssid.$error.required) && (form.ssid.$dirty || vm.submitted)}">
-          <label for="ssid">Your hotspot name</label>
-          <input type="text"
-                 id="ssid"
-                 name="ssid"
-                 class="form-control form-control-danger"
-                 placeholder="Input a name for your hotspot"
-                 ng-minlength="3"
-                 required
-                 ng-model="vm.configuration.data[vm.configuration.ssid].value">
-          <span class="help-block text-danger" ng-show="vm.errors.other">
-            {{ vm.errors.other }}
-          </span>
+        <div class="form-group row" ng-class="{'has-danger': (form.ssid.$error.minlength || form.ssid.$error.required) && (form.ssid.$dirty || vm.submitted)}">
+          <label class="col-md-3 form-control-label" for="ssid">Your hotspot name</label>
+          <div class="col-md-9">
+            <input type="text"
+                   id="ssid"
+                   name="ssid"
+                   class="form-control form-control-danger"
+                   placeholder="Input a name for your hotspot"
+                   ng-minlength="3"
+                   required
+                   ng-model="vm.configuration.hostapd.data[vm.configuration.hostapd.ssid].value">
+            <span class="help-block text-danger" ng-show="vm.errors.other">
+              {{ vm.errors.other }}
+            </span>
+          </div>
         </div>
       </form>
       <div class="margin-top-15px hotspot-conf-actions">
         <div>
-          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveConfiguration()"><i class="icofont icofont-save"></i> Save</button>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveHostapdConfiguration()"><i class="icofont icofont-save"></i> Save</button>
         </div>
         <div style="margin-left: auto;">
-          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadConfiguration()"><i class='icofont icofont-undo'></i> Reload</button>
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadHostapdConfiguration()"><i class='icofont icofont-undo'></i> Reload</button>
+        </div>
+      </div>
+    </card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <card title="Portal options">
+      <div>
+        <div class="form-group row">
+          <label class="col-md-3 form-control-label" for="termsActive">Display terms and conditions</label>
+          <div class="col-md-9">
+            <label class="switch switch-sm switch-text switch-info mb-0">
+              <input type="checkbox" id="termsActive" class="switch-input" ng-model="vm.configuration.portal.options.terms.active">
+              <span class="switch-label" data-on="On" data-off="Off"></span>
+              <span class="switch-handle"></span>
+            </label>
+          </div>
+        </div>
+        <div ng-if="vm.configuration.portal.options.terms.active">
+          <div class="form-group row" ng-class="{'has-danger': (form.termsMessage.$error.required) && (form.termsMessage.$dirty || vm.submitted)}">
+            <label class="col-md-3 form-control-label" for="termsMessage">Message to display</label>
+            <div class="col-md-9">
+              <input type="text"
+                     id="termsMessage"
+                     name="termsMessage"
+                     class="form-control form-control-danger"
+                     placeholder="Input the message near the terms checkbox"
+                     required
+                     ng-model="vm.configuration.portal.options.terms.message">
+              <span class="help-block text-danger" ng-show="vm.errors.other">
+                {{ vm.errors.other }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group row" ng-class="{'has-danger': (form.termsLink.$error.required) && (form.termsLink.$dirty || vm.submitted)}">
+            <label class="col-md-3 form-control-label" for="termsLink">Link to terms </label>
+            <div class="col-md-9">
+              <input type="text"
+                     id="termsLink"
+                     name="termsLink"
+                     class="form-control form-control-danger"
+                     placeholder="Input text for the link to the full version of your terms"
+                     required
+                     ng-model="vm.configuration.portal.options.terms.link">
+              <span class="help-block text-danger" ng-show="vm.errors.other">
+                {{ vm.errors.other }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group row" ng-class="{'has-danger': (form.termsText.$error.required) && (form.termsText.$dirty || vm.submitted)}">
+            <label class="col-md-3 form-control-label" for="termsText">Link to terms </label>
+            <div class="col-md-9">
+              <textarea
+                     id="termsText"
+                     name="termsText"
+                     rows="9"
+                     class="form-control form-control-danger"
+                     placeholder="Your terms and conditions"
+                     required
+                     ng-model="vm.configuration.portal.options.terms.terms"></textarea>
+              <span class="help-block text-danger" ng-show="vm.errors.other">
+                {{ vm.errors.other }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group row" ng-class="{'has-danger': (form.termsError.$error.required) && (form.termsError.$dirty || vm.submitted)}">
+            <label class="col-md-3 form-control-label" for="termsError">Link to terms </label>
+            <div class="col-md-9">
+              <input type="text"
+                id="termsError"
+                name="termsError"
+                class="form-control form-control-danger"
+                placeholder="Error message to display if terms are not accepted"
+                required
+                ng-model="vm.configuration.portal.options.terms.error">
+              <span class="help-block text-danger" ng-show="vm.errors.other">
+                {{ vm.errors.other }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 form-control-label" for="termsResult">Result </label>
+            <div class="col-md-9">
+              <input type="checkbox" id="termsResult" ng-model="vm.termsResult"> {{ vm.configuration.portal.options.terms.message }} ( <a href="#" ng-click="vm.alertMessage(vm.configuration.portal.options.terms.terms)"> {{ vm.configuration.portal.options.terms.link }} </a> )
+              <p class="help-block text-danger" ng-show="!vm.termsResult">
+                {{ vm.configuration.portal.options.terms.error }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-top-15px hotspot-conf-actions">
+        <div>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.savePortalConfiguration()"><i class="icofont icofont-save"></i> Save</button>
+        </div>
+        <div style="margin-left: auto;">
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadPortalConfiguration()"><i class='icofont icofont-undo'></i> Reload</button>
         </div>
       </div>
     </card>
@@ -35,10 +135,9 @@
         <div class="col-sm-12 col-lg-8">
           <form name="form" class="form" ng-submit="" novalidate>
             <input type="file" file-model="vm.backgroundFile"/>
-            <button ng-click="vm.uploadFile()">Upload</button>
+            <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.uploadFile()">Upload</button>
+            <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadBackground()"><i class='icofont icofont-undo'></i> Restore default background</button>
           </form>
-          <br/>
-          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadBackground()"><i class='icofont icofont-undo'></i> Restore default background</button>
         </div>
         <div class="col-sm-12 col-lg-4">
           <img id="portalBackground" name="portalBackground" src="{{ vm.portalBackground }}" style="max-width:100%"/>

@@ -124,7 +124,7 @@ export default class SysdashboardController {
           this.uptime.unit = "days";
           this.uptime.subtitle = this.uptime.days+"d "+this.uptime.subtitle;
         }
-        this.uptime.subtitle = "Uptime "+this.uptime.subtitle;
+        this.uptime.subtitle = "Up "+this.uptime.subtitle;
         this.uptime.class = "bg-info";
       });
   }

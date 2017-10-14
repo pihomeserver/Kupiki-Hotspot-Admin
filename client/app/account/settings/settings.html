@@ -2,46 +2,52 @@
   <div class="col-sm-12 col-lg-12">
     <card title="Change Password">
       <form name="form" class="form" ng-submit="vm.changePassword(form)" novalidate>
-        <div class="form-group" ng-class="{'has-danger': vm.errors.other}">
-          <label for="password"><i class="fa fa-key"></i> Current password</label>
-          <input type="password"
+        <div class="form-group row" ng-class="{'has-danger': vm.errors.other}">
+          <label class="col-md-3 form-control-label" for="password">Current password</label>
+          <div class="col-md-9">
+            <input type="password"
                  id="password"
                  name="password"
                  class="form-control form-control-danger"
                  placeholder="Current Password"
                  ng-model="vm.user.oldPassword">
-          <span class="help-block text-danger" ng-show="vm.errors.other">
-            {{ vm.errors.other }}
-          </span>
+            <span class="help-block text-danger" ng-show="vm.errors.other">
+              {{ vm.errors.other }}
+            </span>
+          </div>
         </div>
-        <div class="form-group" ng-class="{'has-danger': (form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)}">
-          <label for="newPassword"><i class="icofont icofont-ui-password"></i> New password</i></label>
-          <input type="password"
-                 id="newPassword"
-                 name="newPassword"
-                 class="form-control form-control-danger"
-                 placeholder="New Password"
-                 ng-model="vm.user.newPassword"
-                 ng-minlength="3">
-          <span class="help-block text-danger"
-             ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)">
-            Password must be at least 3 characters.
-          </span>
+        <div class="form-group row" ng-class="{'has-danger': (form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)}">
+          <label class="col-md-3 form-control-label" for="newPassword">New password</i></label>
+          <div class="col-md-9">
+            <input type="password"
+                   id="newPassword"
+                   name="newPassword"
+                   class="form-control form-control-danger"
+                   placeholder="New Password"
+                   ng-model="vm.user.newPassword"
+                   ng-minlength="3">
+            <span class="help-block text-danger"
+               ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || vm.submitted)">
+              Password must be at least 3 characters.
+            </span>
+          </div>
         </div>
-        <div class="form-group" ng-class="{'has-danger': form.confirmPassword.$error.match && vm.submitted}">
-          <label for="confirmPassword"><i class="icofont icofont-ui-password"></i> Confirm password</i></label>
-          <input type="password"
-                 id="confirmPassword"
-                 name="confirmPassword"
-                 class="form-control form-control-danger"
-                 placeholder="Confirm New Password"
-                 match="vm.user.newPassword"
-                 ng-model="vm.user.confirmPassword"
-                 ng-minlength="3">
-          <span class="help-block text-danger"
-             ng-show="form.confirmPassword.$error.match && vm.submitted">
-            Passwords must match.
-          </span>
+        <div class="form-group row" ng-class="{'has-danger': form.confirmPassword.$error.match && vm.submitted}">
+          <label class="col-md-3 form-control-label" for="confirmPassword">Confirm password</i></label>
+          <div class="col-md-9">
+            <input type="password"
+                   id="confirmPassword"
+                   name="confirmPassword"
+                   class="form-control form-control-danger"
+                   placeholder="Confirm New Password"
+                   match="vm.user.newPassword"
+                   ng-model="vm.user.confirmPassword"
+                   ng-minlength="3">
+            <span class="help-block text-danger"
+               ng-show="form.confirmPassword.$error.match && vm.submitted">
+              Passwords must match.
+            </span>
+          </div>
         </div>
         <p class="help-block text-success"> {{ vm.message }} </p>
         <div class="form-group form-actions">

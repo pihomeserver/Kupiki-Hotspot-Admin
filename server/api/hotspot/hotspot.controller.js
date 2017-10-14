@@ -1,7 +1,6 @@
 'use strict';
 
-const execPromise = require('child-process-promise').exec;
-const shared = require('../../config/environment/shared');
+import * as script from '../../system/system.service';
 
 export function getDefaultConfiguration(req, res) {
   var configuration = [{"field":"interface","value":"wlan0"},
@@ -123,10 +122,10 @@ export function setConfiguration(req, res) {
           res.status(200).json({status: 'failed', result: {code: -1, message: 'Unable to write the configuration file' }});
         });
         stream.on('close', function(err) {
-          execPromise('sudo cp /tmp/hostapd.conf /etc/hostapd/hostapd.conf', { timeout : shared.httpSudoTimeout })
+          script.execPromise('hostapd save')
             .then(function(result) {
               if (req.body.restart) {
-                execPromise('sudo /usr/sbin/service hostapd restart', { timeout : shared.httpSudoTimeout })
+                script.execPromise('service hostapd restart')
                   .then(function (result) {
                     res.status(200).json({ status: 'success', result: { code : 0, message : '' }});
                   })
@@ -150,7 +149,7 @@ export function setConfiguration(req, res) {
 }
 
 export function getConfiguration(req, res) {
-  execPromise('cat /etc/hostapd/hostapd.conf', { timeout : shared.httpSudoTimeout })
+  script.execPromise('hostapd load')
     .then(function (result) {
       var configuration = [];
       result.stdout.split('\n').forEach(function(elt) {
