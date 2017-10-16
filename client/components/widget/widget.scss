@@ -1,5 +1,5 @@
 .widget {
-  padding: 20px;
+  padding: 5px;
 }
 .widget-container {
   display: flex;
@@ -18,10 +18,16 @@
   font-size: 56px;
   letter-spacing: -.005em;
   line-height: 56px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   font-weight: 100;
 }
 .widget-body-subtitle {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: .7rem;
+}
+.widget-chart {
+  position:absolute;
+  left:0;
+  bottom: 0;
 }

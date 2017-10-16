@@ -37,6 +37,14 @@ export default class SysdashboardController {
         this.cpu.class = "bg-info";
         if (this.cpu.percent > 60) this.cpu.class = "bg-warning";
         if (this.cpu.percent > 90) this.cpu.class = "bg-danger";
+        var objData = JSON.parse(this.cpu.chartData);
+        this.cpu.chartData = [[]];
+        this.cpu.chartLabels = [];
+        for (var i = 0; i < objData.length; i++) {
+          this.cpu.chartLabels.push(objData[i][0]);
+          this.cpu.chartData[0].push(objData[i][1]);
+        }
+
       });
     this.$http.get('/api/disk')
       .then(response => {
@@ -44,6 +52,13 @@ export default class SysdashboardController {
         this.disk.class = "bg-info";
         if (this.disk.percent > 60) this.disk.class = "bg-warning";
         if (this.disk.percent > 90) this.disk.class = "bg-danger";
+        var objData = JSON.parse(this.disk.chartData);
+        this.disk.chartData = [[]];
+        this.disk.chartLabels = [];
+        for (var i = 0; i < objData.length; i++) {
+          this.disk.chartLabels.push(objData[i][0]);
+          this.disk.chartData[0].push(objData[i][1]);
+        }
       });
     this.$http.get('/api/information')
       .then(response => {
@@ -56,6 +71,13 @@ export default class SysdashboardController {
         this.memory.class = "bg-info";
         if (this.memory.percent > 60) this.memory.class = "bg-warning";
         if (this.memory.percent > 90) this.memory.class = "bg-danger";
+        var objData = JSON.parse(this.memory.chartData);
+        this.memory.chartData = [[]];
+        this.memory.chartLabels = [];
+        for (var i = 0; i < objData.length; i++) {
+          this.memory.chartLabels.push(objData[i][0]);
+          this.memory.chartData[0].push(objData[i][1]);
+        }
       });
     this.$http.get('/api/services')
       .then(response => {

@@ -17,6 +17,7 @@ import uiGrid from 'angular-ui-grid';
 import toastr from  'angular-toastr';
 import 'angular-xeditable';
 import 'checklist-model';
+import chartJs from 'angular-chart.js';
 
 import {
   routeConfig
@@ -56,6 +57,7 @@ angular.module('kupikiHotspotAdminApp', [
   'validation.match',
   'xeditable',
   'checklist-model',
+  chartJs,
   coreuiDirectives,
   account,
   admin,

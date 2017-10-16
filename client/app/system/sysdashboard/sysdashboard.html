@@ -3,10 +3,13 @@
     <widget bg-color="bg-primary"
             text-color="text-white"
             icon="icofont icofont-hard-disk"
-            title="{{ vm.disk.free }}<sup>{{ vm.disk.freeUnit }}</sup>"
-            subtitle="Of {{ vm.disk.total }}{{ vm.disk.totalUnit }}"
+            title="{{ vm.disk.used }}<sup>{{ vm.disk.usedUnit }}</sup>"
+            subtitle="Capacity {{ vm.disk.total }}{{ vm.disk.totalUnit }}"
             progress="{{ vm.disk.percent }}"
-            progress-color="{{ vm.disk.class }}"></widget>
+            progress-color="{{ vm.disk.class }}"
+            chart-data="{{ vm.disk.chartData }}"
+            chart-labels="{{ vm.disk.chartLabels }}"
+            chart-max-y="{{ vm.disk.chartMaxY }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
     <widget bg-color="bg-primary"
@@ -15,14 +18,19 @@
             title="{{ vm.memory.free }}<sup>{{ vm.memory.freeUnit }}</sup>"
             subtitle="Total {{ vm.memory.total }}{{ vm.memory.totalUnit }}"
             progress="{{ vm.memory.percent }}"
-            progress-color="{{ vm.memory.class }}"></widget>
+            progress-color="{{ vm.memory.class }}"
+            chart-data="{{ vm.memory.chartData }}"
+            chart-labels="{{ vm.memory.chartLabels }}"
+            chart-max-y="{{ vm.memory.chartMaxY }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
     <widget bg-color="bg-primary"
             text-color="text-white"
             icon="icofont icofont-heart-beat-alt"
             title="{{ vm.cpu['1m'] }}<sup>1m</sup>"
-            subtitle="5m:{{ vm.cpu['5m'] }} | 15m:{{ vm.cpu['15m'] }}"></widget>
+            subtitle="5m:{{ vm.cpu['5m'] }} | 15m:{{ vm.cpu['15m'] }}"
+            chart-data="{{ vm.cpu.chartData }}"
+            chart-labels="{{ vm.cpu.chartLabels }}"></widget>
   </div>
   <div class="col-sm-6 col-lg-3">
     <widget bg-color="bg-primary"
