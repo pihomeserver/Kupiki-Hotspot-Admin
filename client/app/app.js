@@ -27,8 +27,9 @@ import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
 import system from './system';
-// import hotspot from './hotspot';
+import management from './management';
 import configuration from './configuration';
+import constants from './app.constants';
 import coreuiDirectives from '../components/coreui/coreui.directives';
 import fileModel from '../components/fileModel/fileModel.directive';
 import compile from '../components/compile/compile.directive';
@@ -37,7 +38,6 @@ import navbar from '../components/navbar/navbar.component';
 import kupikiButton from '../components/kupikiButton/kupikiButton.component';
 import widget from '../components/widget/widget.component';
 import card from '../components/card/card.component';
-import constants from './app.constants';
 import KupikiModal from '../components/kupikiModal/kupikiModal.service';
 import util from '../components/util/util.module';
 import socket from '../components/socket/socket.service';
@@ -68,6 +68,7 @@ angular.module('kupikiHotspotAdminApp', [
   KupikiModal,
   kupikiButton,
   system,
+  management,
   configuration,
   compile,
   fileModel,
@@ -75,6 +76,11 @@ angular.module('kupikiHotspotAdminApp', [
   socket,
   util,
   uiGrid,
+  'ui.grid.selection',
+  'ui.grid.resizeColumns',
+  'ui.grid.autoResize',
+  'ui.grid.pinning',
+  'ui.grid.pagination',
   toastr
 ])
   .config(routeConfig)

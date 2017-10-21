@@ -5,7 +5,7 @@
 'use strict';
 
 import express from 'express';
-import sqldb from './sqldb';
+import sqldb from './sqldb/localDb';
 import config from './config/environment';
 import http from 'http';
 import seedDatabaseIfNeeded from './config/seed';

@@ -11,7 +11,7 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import {Thing} from '../../sqldb';
+import {Thing} from '../../sqldb/localDb';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;

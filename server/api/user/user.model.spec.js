@@ -1,7 +1,7 @@
 'use strict';
 
 import app from '../..';
-import {User} from '../../sqldb';
+import {User} from '../../sqldb/localDb';
 var user;
 var genUser = function() {
   user = User.build({

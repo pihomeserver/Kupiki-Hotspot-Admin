@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+      <card title="Users management" spinner=true loading="vm.users.loading">
+        <button class="btn btn-sm btn-primary margin-right-15px" style="margin-bottom: 10px;" ng-click="vm.createUser()"><i class='icon-plus'></i> Add new user</button>
+        <div ng-if="vm.users.data" ui-grid="vm.users" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-pagination class="myGrid"></div>
+        <div ng-if="vm.users.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load users from Freeradius</div>
+<!--
+        <div class="navigation">
+          <p>Current page: {{ vm.gridApi.pagination.getPage() }} of {{ vm.gridApi.pagination.getTotalPages() }}</p>
+          <button type="button" class="btn btn-success" ng-click="vm.gridApi.pagination.previousPage()">
+            previous page
+          </button>
+          <button type="button" class="btn btn-success" ng-click="vm.gridApi.pagination.nextPage()">
+            next page
+          </button>
+        </div>
+-->
+      </card>
+  </div>
+</div>

@@ -11,7 +11,6 @@ export default class SysadminController {
 
     this.socket.socket.on('system:update', function(data) {
       if (data) {
-        // console.log(data)
         switch (data.status) {
           case 'success' :
             toastr.success('System update finished');
@@ -98,10 +97,12 @@ export default class SysadminController {
         switch (response.data.status) {
           case 'success' :
             let cellTemplateButton = "" +
+              "<div class='ui-grid-cell-contents'>" +
               "<label class='tgl' style='font-size:10px'>" +
               "<input type='checkbox' ng-checked='row.entity.status' ng-model='row.entity.status' ng-change='grid.appScope.switchService(row.entity)'/>" +
               "<span data-on='On' data-off='Off'></span>" +
-              "</label>";
+              "</label>" +
+              "</div>";
             this.data = response.data.result.message;
             this.services = {
               error: false,
@@ -233,7 +234,6 @@ export default class SysadminController {
     this.KupikiModal.confirmModal(options, 'primary', this, function() {
       $http.get('/api/system/update')
         .then(response => {
-          // console.log(response)
           switch (response.data.status) {
             case 'success':
               toastr.success(response.data.result.message, 'System update');

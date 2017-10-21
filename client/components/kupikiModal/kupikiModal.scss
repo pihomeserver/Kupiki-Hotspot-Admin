@@ -1,3 +1,9 @@
+body.modal-open .full-container {
+  -webkit-filter: blur($blur-radius);
+  -moz-filter:    blur($blur-radius);
+  filter:         blur($blur-radius);
+}
+
 .modal-content {
   border-radius: 5px;
 }

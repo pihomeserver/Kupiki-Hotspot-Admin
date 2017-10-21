@@ -25,11 +25,12 @@
       ga('send', 'pageview');
     </script>
 
-    <div ui-view name="navbar"></div>
-
-    <div class="app-body">
-      <div ui-view name="sidebar"></div>
-      <div ui-view name="content" class="main container-fluid animated fadeIn margin-top-15px"></div>
+    <div class="full-container">
+      <div ui-view name="navbar"></div>
+      <div class="app-body">
+        <div ui-view name="sidebar"></div>
+        <div ui-view name="content" class="main container-fluid animated fadeIn margin-top-15px"></div>
+      </div>
     </div>
   </body>
 </html>

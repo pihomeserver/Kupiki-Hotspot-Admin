@@ -22,7 +22,7 @@ var routerStub = {
 };
 
 // require the index with our stubbed out modules
-var thingIndex = proxyquire('./index.js', {
+var thingIndex = proxyquire('./localDb.js', {
   express: {
     Router() {
       return routerStub;

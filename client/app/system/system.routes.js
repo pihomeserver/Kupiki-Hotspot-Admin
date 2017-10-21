@@ -21,12 +21,6 @@ export default function routes($stateProvider) {
     url: '/sysdashboard',
     authenticate: true,
     views: {
-      // 'navbar@': {
-      //   template: '<navbar></navbar>'
-      // },
-      // 'sidebar@': {
-      //   template: '<sidebar></sidebar>'
-      // },
       'content@': {
         template: require('./sysdashboard/sysdashboard.html'),
         controller: 'SysdashboardController',
@@ -39,12 +33,6 @@ export default function routes($stateProvider) {
       url: '/sysadmin',
       authenticate: true,
       views: {
-        // 'navbar@': {
-        //   template: '<navbar></navbar>'
-        // },
-        // 'sidebar@': {
-        //   template: '<sidebar></sidebar>'
-        // },
         'content@': {
           template: require('./sysadmin/sysadmin.html'),
           controller: 'SysadminController',

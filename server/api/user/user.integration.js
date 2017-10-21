@@ -3,7 +3,7 @@
 /* globals describe, expect, it, before, after, beforeEach, afterEach */
 
 import app from '../..';
-import {User} from '../../sqldb';
+import {User} from '../../sqldb/localDb';
 import request from 'supertest';
 
 describe('User API:', function() {

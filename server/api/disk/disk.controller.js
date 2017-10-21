@@ -15,20 +15,17 @@ export function index(req, res) {
     percent: undefined
   };
   diskspace.check('/', function (err, result) {
-
-    console.log(result)
-
     if (err || result.status !== 'READY') {
       res.status(500).json(disk);
     } else {
       var freeDisk = formatBytes(result.free, 0);
       var usedDisk = formatBytes(result.used, 0);
       var totalDisk = formatBytes(result.total, 0);
-      disk.free = freeDisk.value.toFixed(0);
+      disk.free = freeDisk.value.toFixed(1);
       disk.freeUnit = freeDisk.unit;
-      disk.used = usedDisk.value.toFixed(0);
+      disk.used = usedDisk.value.toFixed(1);
       disk.usedUnit = usedDisk.unit;
-      disk.total = totalDisk.value.toFixed(0);
+      disk.total = totalDisk.value.toFixed(1);
       disk.totalUnit = totalDisk.unit;
       disk.percent = 100*result.used/result.total;
       disk.chartMaxY = result.total;

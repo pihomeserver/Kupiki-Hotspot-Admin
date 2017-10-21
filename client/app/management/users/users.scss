@@ -1,0 +1,11 @@
+.usermgmt-action i {
+  color: theme-color("dark");
+}
+
+.usermgmt-action i.fa-pencil-square-o:hover {
+  color: theme-color("primary");
+}
+
+.usermgmt-action i.fa-trash-o:hover {
+  color: theme-color("danger");
+}

@@ -6,6 +6,8 @@
 
 @import "toggle";
 
+$blur-radius: 5px;
+
 .sidebar .nav-link.active {
   border-left: 3px solid theme-color("primary") !important;
 }

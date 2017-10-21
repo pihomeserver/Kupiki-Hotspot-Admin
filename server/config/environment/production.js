@@ -15,14 +15,23 @@ module.exports = {
     || 8080,
 
   sequelize: {
-    uri: process.env.SEQUELIZE_URI
+    localDb: {
+      uri: process.env.SEQUELIZE_URI
       || 'sqlite://',
-    options: {
-      logging: false,
-      storage: 'dist.sqlite',
-      define: {
-        timestamps: false
+      options: {
+        logging: false,
+        storage: 'dist.sqlite',
+        define: {
+          timestamps: false
+        }
       }
+    },
+    freeradius: {
+      username: 'root',
+      password: 'raspbian',
+      database: 'radius',
+      host: '127.0.0.1',
+      dialect: 'mysql'
     }
   },
   seedDB: true

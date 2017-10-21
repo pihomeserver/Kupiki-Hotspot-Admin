@@ -5,7 +5,7 @@
 'use strict';
 
 import {EventEmitter} from 'events';
-var Thing = require('../../sqldb').Thing;
+var Thing = require('../../sqldb/localDb').Thing;
 var ThingEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)

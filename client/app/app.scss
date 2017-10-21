@@ -31,7 +31,7 @@ $simple-line-font-path: '/assets/fonts/Simple-Line/';
 @import "configuration/basic/basic";
 @import "configuration/advanced/advanced";
 @import "configuration/security/security";
-// @import "hotspot/hotspotadmin/hotspotadmin";
+@import "management/users/users";
 
 @import "../components/widget/widget";
 @import "../components/card/card";

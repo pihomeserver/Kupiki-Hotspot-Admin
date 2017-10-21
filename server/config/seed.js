@@ -4,7 +4,7 @@
  */
 
 'use strict';
-import sqldb from '../sqldb';
+import sqldb from '../sqldb/localDb';
 import config from './environment/';
 
 export default function seedDatabaseIfNeeded() {

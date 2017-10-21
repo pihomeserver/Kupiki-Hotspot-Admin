@@ -206,7 +206,6 @@ export default class BasicController {
             this.loading.portal = false;
             break;
         }
-        console.log(this.configuration.portal.options)
       })
       .catch(error => {
         console.log(error);

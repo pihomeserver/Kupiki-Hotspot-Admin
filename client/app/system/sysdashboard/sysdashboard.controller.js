@@ -85,10 +85,12 @@ export default class SysdashboardController {
         switch (response.data.status) {
           case 'success' :
             var cellTemplateButton = "" +
+              "<div class='ui-grid-cell-contents'>" +
               "<label class='tgl tgl-disabled' style='font-size:10px'>" +
               "<input type='checkbox' disabled ng-checked='row.entity.status'/>" +
               "<span data-on='On' data-off='Off'></span>" +
-              "</label>";
+              "</label>" +
+              "</div>";
             this.data = response.data.result.message;
             this.services = {
               error: false,

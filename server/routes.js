@@ -10,6 +10,7 @@ import path from 'path';
 export default function(app) {
   // Insert routes below
   app.use('/api/users', require('./api/user'));
+  app.use('/api/freeradius', require('./api/freeradius'));
   app.use('/api/cpu', require('./api/cpu'));
   app.use('/api/disk', require('./api/disk'));
   app.use('/api/information', require('./api/information'));

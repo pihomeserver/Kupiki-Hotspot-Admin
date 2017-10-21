@@ -5,7 +5,7 @@
 'use strict';
 
 import {EventEmitter} from 'events';
-import {User} from '../../sqldb';
+import {User} from '../../sqldb/localDb';
 var UserEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)

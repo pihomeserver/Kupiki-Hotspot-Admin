@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 col-lg-9">
     <card title="Services" switch="vm.services.switch" switch-function="filterServices" switch-activated="vm.switch" spinner=true loading="vm.loading.services">
-      <div ng-if="vm.services.data" ui-grid="vm.services" ng-if="vm.services.data" class="myGrid"></div>
+      <div ng-if="vm.services.data" ui-grid="vm.services" class="myGrid"></div>
       <div ng-if="vm.services.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load services data</div>
     </card>
   </div>

@@ -5,15 +5,24 @@
 // ==================================
 module.exports = {
 
-  // Sequelize connection opions
+  // Sequelize connection options
   sequelize: {
-    uri: 'sqlite://',
-    options: {
-      logging: false,
-      storage: 'dev.sqlite',
-      define: {
-        timestamps: false
+    localDb: {
+      uri: 'sqlite://',
+      options: {
+        logging: false,
+        storage: 'dev.sqlite',
+        define: {
+          timestamps: false
+        }
       }
+    },
+    freeradius: {
+      username: 'root',
+      password: 'raspbian',
+      database: 'radius',
+      host: '192.168.1.43',
+      dialect: 'mysql'
     }
   },
 
