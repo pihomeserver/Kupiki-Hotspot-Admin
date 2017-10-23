@@ -58,7 +58,7 @@ export default class UsersMgmtController {
   }
 
   createUser() {
-    $state.go('management.user', { action: 'edit', username: '' });
+    this.$state.go('management.user', { action: 'create', username: '' });
   }
 
   $onInit() {
@@ -107,6 +107,7 @@ export default class UsersMgmtController {
 
     this.$http.get('/api/freeradius/users')
       .then(response => {
+        console.log(response);
         this.users.loading = false;
         this.users.data = response.data;
       })

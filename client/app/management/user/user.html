@@ -1,1 +1,85 @@
-Hello
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <card title="{{ vm.user.title }}" subtitle="{{ vm.user.radcheck.username }}" spinner=true loading="vm.user.loading">
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#userinfo" role="tab" aria-controls="userinfo"><i class="icon-user"></i> User info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#checkAttributes" role="tab" aria-controls="checkAttributes"><i class="icon-check"></i> Check attributes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#replyAttributes" role="tab" aria-controls="replyAttributes"><i class="icon-action-undo"></i> Reply attributes</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="userinfo" role="tabpanel">
+          1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+          dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        <div class="tab-pane" id="checkAttributes" role="tabpanel">
+          <form name="form" class="form" ng-submit="" novalidate>
+            <div class="form-group row" ng-class="{'has-danger': (form.username.$error.minlength || form.username.$error.required) && (form.username.$dirty || vm.submitted)}">
+              <label class="col-md-3 form-control-label" for="username">User name</label>
+              <div class="col-md-9">
+                <input type="text"
+                       id="username"
+                       name="username"
+                       class="form-control form-control-danger"
+                       placeholder="Input the user name"
+                       ng-minlength="6"
+                       required
+                       ng-model="vm.user.radcheck.username">
+                <!--<span class="help-block">This is a help text</span>-->
+                <span class="help-block text-danger" ng-show="vm.errors.other">
+                  {{ vm.errors.other }}
+                </span>
+              </div>
+            </div>
+            <div class="form-group row" ng-class="{'has-danger': (form.ssid.$error.minlength || form.ssid.$error.required) && (form.ssid.$dirty || vm.submitted)}">
+              <label class="col-md-3 form-control-label" for="password">User password</label>
+              <div class="col-md-9">
+                <div class="row">
+                  <div class="col-md-4">
+                    <select id="passwordType" name="passwordType" class="form-control">
+                      <option value="0">Clear text password</option>
+                      <option value="1">Crypt password</option>
+                      <option value="2">MD5 password</option>
+                    </select>
+                  </div>
+                  <div class="col-md-8">
+                    <input type="text"
+                           id="password"
+                           name="password"
+                           class="form-control form-control-danger"
+                           placeholder="Input the user password"
+                           ng-minlength="6"
+                           required
+                           ng-model="vm.user.password">
+                    <span class="help-block text-danger" ng-show="vm.errors.other">
+                      {{ vm.errors.other }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane" id="replyAttributes" role="tabpanel">
+          3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+          dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+
+      <div class="margin-top-15px hotspot-conf-actions">
+        <div>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveUser()"><i class="fa fa-floppy-o"></i> Save</button>
+        </div>
+        <div ng-if="vm.user.action === 'edit'" style="margin-left: auto;">
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadUser()"><i class='icon-action-undo'></i> Reload</button>
+        </div>
+      </div>
+    </card>
+  </div>
+</div>

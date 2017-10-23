@@ -36,5 +36,5 @@ export default angular.module('directives.navbar', [])
     template: require('./navbar.html'),
     controller: NavbarComponent
   })
-  .directive('a', kupikiMenuCollapseDirective)
+  // .directive('a', kupikiMenuCollapseDirective)
   .name;

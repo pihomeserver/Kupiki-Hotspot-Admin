@@ -107,4 +107,13 @@ angular.element(document)
     angular.bootstrap(document, ['kupikiHotspotAdminApp'], {
       strictDi: true
     });
+
+    $(document).on('click.bs.tab.data-api', '[data-toggle="tab"]', function() {
+      $("[class*='nav-link active']").removeClass('active');
+      $(this).addClass('active');
+    });
+
+    $(document).on('click.bs.tab.data-api', '[data-toggle="dropdown"]', function() {
+      $(this).parent().children('div.dropdown-menu').toggleClass('show');
+    });
   });
