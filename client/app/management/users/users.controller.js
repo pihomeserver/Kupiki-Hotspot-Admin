@@ -15,7 +15,6 @@ export default class UsersMgmtController {
     };
 
     this.$scope.editUser = function (user) {
-      console.log(user);
       $state.go('management.user', { action: 'edit', username: user.username });
     };
 
@@ -107,7 +106,6 @@ export default class UsersMgmtController {
 
     this.$http.get('/api/freeradius/users')
       .then(response => {
-        console.log(response);
         this.users.loading = false;
         this.users.data = response.data;
       })
@@ -115,6 +113,11 @@ export default class UsersMgmtController {
         console.log(error);
         this.users.error = true;
         this.users.loading = false;
+        this.toastr.error('Unable to load users from freeradius<br/>Error '+error.status+'<br/>'+error.statusText, 'Users management', {
+          closeButton: true,
+          allowHtml: true,
+          timeOut: 0
+        });
       });
   }
 }

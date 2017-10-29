@@ -6,16 +6,53 @@
 
 @import "toggle";
 
+// For modal background
 $blur-radius: 5px;
 
-.tab-content {
-  margin-top: -1px !important;
-  background: #fff !important;
-  border: 1px solid $border-color !important;
-  .tab-pane {
-    padding: $spacer;
+// Disable state transitation animation to allow ng-animate override
+.main {
+  transition: none;
+}
+
+$ui-view-transition-speed: 0.4s !default;
+
+.main.ng-enter,
+.main.ng-leave {
+  -webkit-transition:$ui-view-transition-speed linear all;
+  -moz-transition:$ui-view-transition-speed linear all;
+  -o-transition:$ui-view-transition-speed linear all;
+  transition:$ui-view-transition-speed linear all;
+  opacity: 0;
+}
+
+.main.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+.sidebar-fixed .sidebar {
+  height: -webkit-calc(100% - #{$navbar-height});
+  height: -moz-calc(100% - #{$navbar-height});
+  height: calc(100% - #{$navbar-height});
+}
+
+.has-error {
+  label {
+    color: theme-color("danger");
+  };
+  div input {
+    color: theme-color("danger");
+    border: 1px solid red !important;
   }
 }
+
+//.tab-content {
+//  margin-top: -1px !important;
+//  background: #fff !important;
+//  border: 1px solid $border-color !important;
+//  .tab-pane {
+//    padding: $spacer;
+//  }
+//}
 
 span.help-block {
   font-size: 10px;
@@ -36,9 +73,6 @@ span.help-block {
 }
 .tooltip-inner {
   text-align: justify;
-}
-.modal-backdrop.in {
-  opacity: 0.8;
 }
 
 a.nav-link.dropdown-toggle {

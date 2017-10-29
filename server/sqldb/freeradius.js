@@ -12,5 +12,6 @@ var db = {
 // Insert models below
 db.radcheck = db.sequelize.import('../api/freeradius/radcheck.model');
 db.radacct  = db.sequelize.import('../api/freeradius/radacct.model');
+db.userinfo  = db.sequelize.import('../api/freeradius/userinfo.model');
 
 module.exports = db;

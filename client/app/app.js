@@ -8,7 +8,7 @@ import angular from 'angular';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
-// import ngAnimate from 'angular-animate';
+import ngAnimate from 'angular-animate';
 import 'angular-socket-io';
 import uiRouter from 'angular-ui-router';
 import uiBootstrap from 'angular-ui-bootstrap';
@@ -18,6 +18,7 @@ import toastr from  'angular-toastr';
 import 'angular-xeditable';
 import 'checklist-model';
 import chartJs from 'angular-chart.js';
+import vAccordion from 'v-accordion';
 
 import {
   routeConfig
@@ -46,7 +47,7 @@ import './app.scss';
 
 angular.module('kupikiHotspotAdminApp', [
   ngCookies,
-  // ngAnimate,
+  ngAnimate,
   ngResource,
   ngSanitize,
   'btford.socket-io',
@@ -76,6 +77,7 @@ angular.module('kupikiHotspotAdminApp', [
   socket,
   util,
   uiGrid,
+  vAccordion,
   'ui.grid.selection',
   'ui.grid.resizeColumns',
   'ui.grid.autoResize',
