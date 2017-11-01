@@ -1,7 +1,38 @@
 <div class="row">
   <div class="col-sm-12 col-lg-12">
       <card title="Users management" spinner=true loading="vm.users.loading">
-        <button ng-if="vm.users.data" class="btn btn-sm btn-primary margin-right-15px" style="margin-bottom: 10px;" ng-click="vm.createUser()"><i class='icon-plus'></i> Add new user</button>
+        <form name="formCreateUser" class="form container" ng-submit="" novalidate ng-if="vm.users.data">
+          <div class="form-group row" ng-class="{'has-danger': formCreateUser.username.$error.minlength}">
+            <div class="col-md-3">
+              <button ng-if="vm.users.data" class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.showAddUser = 1 - vm.showAddUser"><i class='icon-plus'></i> Add new user</button>
+            </div>
+            <div class="col-md-7" ng-show="vm.showAddUser">
+              <input type="text"
+                     id="username"
+                     name="username"
+                     class="form-control"
+                     placeholder="Input the user name"
+                     ng-minlength="4"
+                     required
+                     ng-model="vm.newUser"
+                     ng-change="vm.checkUser()">
+              <div class="help-block text-danger" ng-show="formCreateUser.username.$error.minlength">
+                Minimal username length is 4 characters
+              </div>
+              <div class="help-block text-danger" ng-show="vm.newUserExists">
+                User name already exists
+              </div>
+              <small id="usernameHelpBlock" class="form-text text-muted">
+                Username will be the user login
+              </small>
+            </div>
+            <div class="col-md-2" ng-show="vm.showAddUser && !vm.newUserExists && formCreateUser.$valid">
+              <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.createUser(vm.newUser)"><i class='icon-save'></i> Create</button>
+            </div>
+          </div>
+        </form>
+
+        <!--<button ng-if="vm.users.data" class="btn btn-sm btn-primary margin-right-15px" style="margin-bottom: 10px;" ng-click="vm.createUser()"><i class='icon-plus'></i> Add new user</button>-->
         <div ng-if="vm.users.data" ui-grid="vm.users" ui-grid-selection ui-grid-auto-resize ui-grid-resize-columns ui-grid-pagination class="myGrid"></div>
         <div ng-if="vm.users.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load users from Freeradius</div>
       </card>

@@ -30,7 +30,7 @@ export default function routes($stateProvider) {
   });
 
   $stateProvider.state('management.user', {
-    url: '/mgmtuser/:action/:username',
+    url: '/mgmtuser/:username',
     authenticate: true,
     views: {
       'content@': {

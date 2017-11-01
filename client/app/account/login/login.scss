@@ -1,0 +1,18 @@
+.loginImage {
+  position:absolute;
+  z-index: -1;
+  top: 0px;
+  left: 0px;
+}
+
+@media screen and (min-aspect-ratio: 3/2) {
+  .loginImage {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-aspect-ratio: 3/2) {
+  .loginImage {
+    max-height: 100%;
+  }
+}

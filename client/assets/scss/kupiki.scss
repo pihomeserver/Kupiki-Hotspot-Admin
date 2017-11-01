@@ -41,18 +41,27 @@ $ui-view-transition-speed: 0.4s !default;
   };
   div input {
     color: theme-color("danger");
-    border: 1px solid red !important;
+    border: 1px solid theme-color("danger") !important;
   }
 }
 
-//.tab-content {
-//  margin-top: -1px !important;
-//  background: #fff !important;
-//  border: 1px solid $border-color !important;
-//  .tab-pane {
-//    padding: $spacer;
-//  }
-//}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    $gray-200 !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    $gray-200 !important;
+  opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    $gray-200 !important;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:    $gray-200 !important;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+  color:    $gray-200 !important;
+}
 
 span.help-block {
   font-size: 10px;
@@ -96,23 +105,6 @@ $listSize: 1px 2px 5px 10px 15px;
   .padding-left-#{$size} { padding-left: $size }
   .padding-top-#{$size} { padding-top: $size }
   .padding-bottom-#{$size} { padding-bottom: $size }
-}
-
-.loginImage {
-  position:absolute;
-  z-index: -1;
-}
-
-@media screen and (min-aspect-ratio: 3/2) {
-  .loginImage {
-    max-width: 100%;
-  }
-}
-
-@media screen and (max-aspect-ratio: 3/2) {
-  .loginImage {
-    max-height: 100%;
-  }
 }
 
 @media screen and (max-width: 991px) {

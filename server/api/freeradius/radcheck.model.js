@@ -26,7 +26,10 @@ export default function(sequelize, DataTypes) {
     }
   }, {
     freezeTableName: true,
-    tableName: 'radcheck'
+    tableName: 'radcheck',
+    createdAt: false,
+    updatedAt: false,
+    deletedAt: false
   });
 
   return radcheck;

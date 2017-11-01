@@ -33,7 +33,7 @@
                        ng-minlength="4"
                        required
                        ng-model="vm.user.userinfo.username"
-                       ng-disabled="vm.user.action === 'edit'">
+                       disabled>
                 <div class="help-block text-danger" ng-show="formUserinfo.username.$error.minlength">
                   Minimal username length is 4 characters
                 </div>
@@ -204,7 +204,7 @@
 
           <div class="margin-top-15px hotspot-conf-actions">
             <div>
-              <button class="btn btn-sm btn-primary margin-right-15px" ng-disabled="!formUserinfo.$valid" ng-click="vm.saveUserinfo(formUserinfo)">
+              <button class="btn btn-sm btn-primary margin-right-15px" ng-disabled="!formUserinfo.$valid" ng-click="vm.saveUserUserinfo(formUserinfo)">
                 <i ng-if="formUserinfo.$valid" class="fa fa-floppy-o"></i><i ng-if="!formUserinfo.$valid" class="fa fa-ban"></i> Save user information</button>
             </div>
             <div ng-if="vm.user.action === 'edit'" style="margin-left: auto;">
@@ -214,13 +214,13 @@
 
         </div>
         <div class="tab-pane active" id="checkAttributes" role="tabpanel">
-          <v-accordion class="vAccordion--default" multiple>
-            <v-pane expanded>
-              <v-pane-header>
-                <i class="icofont icofont-calculations"></i> Basic configuration
-              </v-pane-header>
-              <v-pane-content>
-                <form name="formCheckAttributes" class="form" ng-submit="" novalidate>
+          <form name="formCheckAttributes" class="form" ng-submit="" novalidate>
+            <v-accordion class="vAccordion--default" multiple>
+              <v-pane expanded>
+                <v-pane-header>
+                  <i class="icofont icofont-calculations"></i> Basic configuration
+                </v-pane-header>
+                <v-pane-content>
                   <div class="form-group row" ng-class="{'has-danger': formCheckAttributes.password.$error.minlength}">
                     <span class="col-md-1"></span>
                     <label class="col-md-2 form-control-label" for="password">User password</label>
@@ -230,8 +230,8 @@
                           <select id="passwordType"
                                   name="passwordType"
                                   class="form-control"
-                                  ng-model="vm.user.radcheck[vm.user.radcheck.passwordAttributeIndex].attribute">
-                            <option value="Crypt-Password">Crypt password (recommanded)</option>
+                                  ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].attribute">
+                            <option value="Crypt-Password">Crypt password (recommended)</option>
                             <option value="Cleartext-Password">Clear text password</option>
                             <option value="MD5-Password">MD5 password</option>
                           </select>
@@ -240,11 +240,11 @@
                           <input type="text"
                                  id="password"
                                  name="password"
-                                 class="form-control form-control-danger"
+                                 class="form-control"
                                  placeholder="Input the user password"
                                  ng-minlength="6"
                                  required
-                                 ng-model="vm.user.radcheck[vm.user.radcheck.passwordAttributeIndex].value">
+                                 ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].value">
                           <div class="help-block text-danger" ng-show="formCheckAttributes.password.$error.minlength">
                             Minimal password length is 6 characters
                           </div>
@@ -252,24 +252,24 @@
                       </div>
                     </div>
                   </div>
-                </form>
-              </v-pane-content>
-            </v-pane>
+                </v-pane-content>
+              </v-pane>
 
-            <v-pane expanded>
-              <v-pane-header>
-                <i class="icofont icofont-wrench"></i> Advanced configuration
-              </v-pane-header>
-              <v-pane-content>
-                <div ng-if="vm.user.radcheckGrid.data" ui-grid="vm.user.radcheckGrid" class="myGrid"></div>
-              </v-pane-content>
-            </v-paneexpanded>
+              <v-pane expanded>
+                <v-pane-header>
+                  <i class="icofont icofont-wrench"></i> Advanced configuration
+                </v-pane-header>
+                <v-pane-content>
+                  <div ng-if="vm.user.radcheckGrid.data" ui-grid="vm.user.radcheckGrid" class="myGrid"></div>
+                </v-pane-content>
+              </v-paneexpanded>
 
-          </v-accordion>
+            </v-accordion>
+          </form>
 
           <div class="margin-top-15px hotspot-conf-actions">
             <div>
-              <button class="btn btn-sm btn-primary margin-right-15px" ng-disabled="!formCheckAttributes.$valid" ng-click="vm.saveCheckAttributes(formCheckAttributes)">
+              <button class="btn btn-sm btn-primary margin-right-15px" ng-disabled="!formCheckAttributes.$valid || !vm.user.userinfo.username" ng-click="vm.saveUserRadcheck(formCheckAttributes)">
                 <i ng-if="formCheckAttributes.$valid" class="fa fa-floppy-o"></i><i ng-if="!formCheckAttributes.$valid" class="fa fa-ban"></i> Save check attributes</button>
             </div>
             <div ng-if="vm.user.action === 'edit'" style="margin-left: auto;">

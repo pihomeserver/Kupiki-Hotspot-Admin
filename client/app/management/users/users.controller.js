@@ -10,12 +10,14 @@ export default class UsersMgmtController {
     this.toastr = toastr;
     this.$state = $state;
 
+    this.showAddUser = 0;
+
     this.$scope.switchUser = function (user) {
       console.log(user)
     };
 
     this.$scope.editUser = function (user) {
-      $state.go('management.user', { action: 'edit', username: user.username });
+      $state.go('management.user', { username: user.username });
     };
 
     this.$scope.deleteUser = function (user) {
@@ -29,11 +31,15 @@ export default class UsersMgmtController {
         $http({
           url: '/api/freeradius/delete',
           method: "POST",
-          data: { 'user' : user }
+          data: { username : user.username }
         }).then(response => {
             switch (response.data.status) {
               case 'success':
-                toastr.success('User has been deleted successfully', 'Delete user');
+                $scope.vm.users.data = $scope.vm.users.data.filter(userData => {
+                  return userData.username !== user.username;
+                });
+
+                toastr.success('User ' + user.username + ' has been deleted successfully', 'Delete user');
                 break;
               case 'failed':
                 toastr.error('Unable to delete user.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'Delete user', {
@@ -56,11 +62,33 @@ export default class UsersMgmtController {
     };
   }
 
-  createUser() {
-    this.$state.go('management.user', { action: 'create', username: '' });
+  checkUser() {
+    this.newUserExists = false;
+    this.users.data.forEach(elt => {
+      if (elt.username === this.newUser) this.newUserExists = true;
+    });
   }
 
+  createUser(username) {
+    this.$http({
+      url: '/api/freeradius/create',
+      method: "POST",
+      data: { username : username }
+    }).then(response => {
+      this.$state.go('management.user', { username: username });
+    }).catch(error => {
+      this.toastr.error('Unable to create the user<br/>Error '+error.status+'<br/>'+error.statusText, 'Users management', {
+        closeButton: true,
+        allowHtml: true,
+        timeOut: 0
+      });
+    })
+  };
+
   $onInit() {
+    this.newUser = '';
+    this.newUserExists = false;
+
     let cellTemplateButton = "" +
       "<div class='ui-grid-cell-contents'>" +
       "<label class='tgl' style='font-size:10px'>" +
@@ -84,18 +112,17 @@ export default class UsersMgmtController {
       enableSelectAll: true,
       selectionRowHeaderWidth: 35,
       rowHeight: 35,
-      showGridFooter:true,
       multiSelect: true,
 
+      showGridFooter:false,
       enablePaginationControls: false,
-      paginationPageSize: 2,
 
       columnDefs: [
-        { displayName: "#", field: 'id', width:50, enableColumnResizing: false, enableHiding: false },
         { displayName: "User name (login)", field: 'username', pinnedLeft:true, enableHiding: false },
-        { displayName: "Group", name: 'groupname', enableHiding: false },
+        { displayName: "Firstname", field: 'firstname', pinnedLeft:true, enableHiding: false },
+        { displayName: "Lastname", field: 'lastname', pinnedLeft:true, enableHiding: false },
         { displayName: "Status", name: 'status', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton, enableColumnResizing: false, enableHiding: false },
-        { name: 'Actions', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateActions, enableColumnResizing: false, enableColumnMenu: false, enableHiding: false }
+        { name: 'Actions', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateActions, enableColumnResizing: false, enableColumnMenu: false, enableHiding: false, enableSorting: false }
       ]
     };
 

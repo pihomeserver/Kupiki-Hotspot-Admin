@@ -114,7 +114,10 @@ export default function(sequelize, DataTypes) {
     }
   }, {
     freezeTableName: true,
-    tableName: 'radacct'
+    tableName: 'radacct',
+    createdAt: false,
+    updatedAt: false,
+    deletedAt: false
   });
 
   return radacct;
