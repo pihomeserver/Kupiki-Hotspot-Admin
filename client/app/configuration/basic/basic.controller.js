@@ -24,9 +24,9 @@ export default class BasicController {
     this.loadPortalConfiguration();
   }
 
-  alertMessage(message) {
-    alert(message);
-  }
+  // alertMessage(message) {
+  //   alert(message);
+  // }
 
   reloadBackground () {
     var options = {

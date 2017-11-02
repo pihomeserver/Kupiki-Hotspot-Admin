@@ -22,7 +22,8 @@ module.exports = {
       password: 'raspbian',
       database: 'radius',
       host: '127.0.0.1',
-      dialect: 'mysql'
+      dialect: 'mysql',
+      insecureAuth : true
     }
   },
 

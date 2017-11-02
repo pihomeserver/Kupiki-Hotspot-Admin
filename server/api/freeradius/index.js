@@ -14,6 +14,8 @@ router.post('/user/radcheck', auth.hasRole('admin'), controller.saveUserRadcheck
 router.get('/user/userinfo', auth.hasRole('admin'), controller.getUserUserinfo);
 router.post('/user/userinfo', auth.hasRole('admin'), controller.saveUserUserinfo);
 
+router.post('/check', auth.hasRole('admin'), controller.checkUserConnectivity);
+router.post('/disconnect', auth.hasRole('admin'), controller.disconnectUser);
 router.post('/delete', auth.hasRole('admin'), controller.deleteUser);
 router.post('/create', auth.hasRole('admin'), controller.createUser);
 

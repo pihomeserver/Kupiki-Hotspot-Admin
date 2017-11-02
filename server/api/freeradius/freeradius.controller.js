@@ -2,11 +2,12 @@
 
 import Sequelize from 'sequelize';
 import async from 'async';
-
 import freeradiusDb from '../../sqldb/freeradius';
 import {radcheck} from '../../sqldb/freeradius';
 import {radacct}  from '../../sqldb/freeradius';
 import {userinfo}  from '../../sqldb/freeradius';
+import * as script from '../../system/system.service';
+
 
 function handleError(res, statusCode) {
   // console.log(res)
@@ -14,6 +15,28 @@ function handleError(res, statusCode) {
   return function(err) {
     return res.status(statusCode).send(err);
   };
+}
+
+export function disconnectUser(req, res) {
+  script.execPromise('freeradius disconnect '+req.query.username)
+    .then(function (result) {
+      res.status(200).json({status: 'success', result: {code: 0, message: result.stdout }});
+    })
+    .catch(function (error) {
+      console.log(error);
+      res.status(200).json({ status: 'failed', result: { code : error.code, message : error.stderr }});
+    });
+}
+
+export function checkUserConnectivity(req, res) {
+  script.execPromise('freeradius check '+req.query.username+' '+req.query.password)
+    .then(function (result) {
+      res.status(200).json({status: 'success', result: {code: 0, message: result.stdout }});
+    })
+    .catch(function (error) {
+      console.log(error);
+      res.status(200).json({ status: 'failed', result: { code : error.code, message : error.stderr }});
+    });
 }
 
 export function getUsers(req, res) {
@@ -39,7 +62,6 @@ export function getUserUserinfo(req, res) {
 }
 
 export function saveUserUserinfo(req, res) {
-  console.log(userinfoData)
   var userinfoData = JSON.parse(req.query.userinfo);
   return upsert(userinfo, {
       username: userinfoData.username

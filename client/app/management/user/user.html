@@ -6,13 +6,13 @@
           <a class="nav-link" data-toggle="tab" href="#userinfo" role="tab" aria-controls="userinfo"><i class="icon-user"></i> User info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#checkAttributes" role="tab" aria-controls="checkAttributes"><i class="icofont icofont-checked"></i> Check attributes</a>
+          <a class="nav-link" data-toggle="tab" href="#checkAttributes" role="tab" aria-controls="checkAttributes"><i class="icofont icofont-checked"></i> Check attributes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#replyAttributes" role="tab" aria-controls="replyAttributes"><i class="icofont icofont-reply"></i> Reply attributes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#maintenance" role="tab" aria-controls="maintenance"><i class="icofont icofont-under-construction-alt "></i> Maintenance</a>
+          <a class="nav-link active" data-toggle="tab" href="#maintenance" role="tab" aria-controls="maintenance"><i class="icofont icofont-under-construction-alt "></i> Maintenance</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics"><i class="icofont icofont-chart-bar-graph"></i> Statistics</a>
@@ -21,7 +21,7 @@
 
       <div class="tab-content">
         <div class="tab-pane" id="userinfo" role="tabpanel">
-          <form name="formUserinfo" class="form container" ng-submit="vm.saveUser(formUserinfo)" novalidate>
+          <form name="formUserinfo" class="form container" novalidate>
             <div class="form-group row" ng-class="{'has-danger': formUserinfo.username.$error.minlength}">
               <label class="col-md-3 form-control-label" for="username">User name</label>
               <div class="col-md-9">
@@ -34,7 +34,7 @@
                        required
                        ng-model="vm.user.userinfo.username"
                        disabled>
-                <div class="help-block text-danger" ng-show="formUserinfo.username.$error.minlength">
+                <div class="help-block text-danger text-size-9px" ng-show="formUserinfo.username.$error.minlength">
                   Minimal username length is 4 characters
                 </div>
                 <small id="usernameHelpBlock" class="form-text text-muted">
@@ -73,7 +73,7 @@
                        class="form-control"
                        placeholder="E-mail"
                        ng-model="vm.user.userinfo.email">
-                <div class="help-block text-danger" ng-show="formUserinfo.email.$error.email">
+                <div class="help-block text-danger text-size-9px" ng-show="formUserinfo.email.$error.email">
                   Input a valid email address
                 </div>
               </div>
@@ -205,7 +205,8 @@
           <div class="margin-top-15px hotspot-conf-actions">
             <div>
               <button class="btn btn-sm btn-primary margin-right-15px" ng-disabled="!formUserinfo.$valid" ng-click="vm.saveUserUserinfo(formUserinfo)">
-                <i ng-if="formUserinfo.$valid" class="fa fa-floppy-o"></i><i ng-if="!formUserinfo.$valid" class="fa fa-ban"></i> Save user information</button>
+                <i ng-if="formUserinfo.$valid" class="fa fa-floppy-o"></i><i ng-if="!formUserinfo.$valid" class="fa fa-ban"></i> Save user information
+              </button>
             </div>
             <div ng-if="vm.user.action === 'edit'" style="margin-left: auto;">
               <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadUserinfo()"><i class='icon-action-undo'></i> Reload</button>
@@ -213,7 +214,7 @@
           </div>
 
         </div>
-        <div class="tab-pane active" id="checkAttributes" role="tabpanel">
+        <div class="tab-pane" id="checkAttributes" role="tabpanel">
           <form name="formCheckAttributes" class="form" ng-submit="" novalidate>
             <v-accordion class="vAccordion--default" multiple>
               <v-pane expanded>
@@ -222,47 +223,52 @@
                 </v-pane-header>
                 <v-pane-content>
                   <div class="form-group row" ng-class="{'has-danger': formCheckAttributes.password.$error.minlength}">
-                    <span class="col-md-1"></span>
                     <label class="col-md-2 form-control-label" for="password">User password</label>
-                    <div class="col-md-9">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <select id="passwordType"
-                                  name="passwordType"
-                                  class="form-control"
-                                  ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].attribute">
-                            <option value="Crypt-Password">Crypt password (recommended)</option>
-                            <option value="Cleartext-Password">Clear text password</option>
-                            <option value="MD5-Password">MD5 password</option>
-                          </select>
-                        </div>
-                        <div class="col-md-8">
-                          <input type="text"
-                                 id="password"
-                                 name="password"
-                                 class="form-control"
-                                 placeholder="Input the user password"
-                                 ng-minlength="6"
-                                 required
-                                 ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].value">
-                          <div class="help-block text-danger" ng-show="formCheckAttributes.password.$error.minlength">
-                            Minimal password length is 6 characters
-                          </div>
-                        </div>
+                    <div class="col-md-10">
+                      <select id="passwordType"
+                              name="passwordType"
+                              class="form-control"
+                              hidden
+                              ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].attribute"
+                              ng-change="vm.generatePassword()">
+                        <option value="Crypt-Password">Crypt password</option>
+                        <option value="Cleartext-Password">Clear text password</option>
+                        <option value="MD5-Password">MD5 password (It should not be used)</option>
+                      </select>
+                      <input type="text"
+                             id="passwordClear"
+                             name="passwordClear"
+                             class="form-control"
+                             placeholder="Input the user password"
+                             ng-minlength="6"
+                             required
+                             ng-model="vm.user.passwordClear"
+                             ng-change="vm.generatePassword()">
+                      <input type="text"
+                             id="password"
+                             name="password"
+                             class="form-control"
+                             placeholder="Input the user password"
+                             required
+                             hidden
+                             ng-model="vm.user.radcheck[vm.user.passwordAttributeIndex].value"
+                             disabled>
+                      <div class="help-block text-danger text-size-9px" ng-show="formCheckAttributes.passwordClear.$error.minlength">
+                        Minimal password length is 6 characters
                       </div>
                     </div>
                   </div>
                 </v-pane-content>
               </v-pane>
 
-              <v-pane expanded>
+              <v-pane>
                 <v-pane-header>
                   <i class="icofont icofont-wrench"></i> Advanced configuration
                 </v-pane-header>
                 <v-pane-content>
                   <div ng-if="vm.user.radcheckGrid.data" ui-grid="vm.user.radcheckGrid" class="myGrid"></div>
                 </v-pane-content>
-              </v-paneexpanded>
+              </v-pane>
 
             </v-accordion>
           </form>
@@ -281,8 +287,73 @@
         <div class="tab-pane" id="replyAttributes" role="tabpanel">
           TO DO
         </div>
-        <div class="tab-pane" id="maintenance" role="tabpanel">
-          TO DO
+        <div class="tab-pane active" id="maintenance" role="tabpanel">
+            <v-accordion class="vAccordion--default" multiple>
+              <v-pane expanded>
+                <v-pane-header>
+                  <i class="icofont icofont-ui-wifi"></i> Test user connectivity
+                </v-pane-header>
+                <v-pane-content>
+                  <form name="formCheckConnectivity" class="form" novalidate>
+                    <div class="form-group row">
+                      <label class="col-md-3 form-control-label" for="username">Username</label>
+                      <div class="col-md-9">
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               class="form-control"
+                               ng-model="vm.user.userinfo.username"
+                               disabled>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-md-3 form-control-label" for="password">Password</label>
+                      <div class="col-md-9">
+                        <input type="text"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               ng-model="vm.user.passwordCheck"
+                               required>
+                        <div class="help-block text-danger text-size-9px" ng-show="formCheckConnectivity.password.$error.required">
+                          Password is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row margin-left-15px">
+                      <p>Running : echo User-Name="{{ vm.user.userinfo.username }}",User-Password="{{ vm.user.passwordCheck }}" | radclient -c '1' -n '3' -r '3' -t '3' -x '127.0.0.1:1812' 'auth' "$RADIUSSECRET" 2>&1
+                      <br/><span class="text-size-8px">$RADIUSSECRET will be set when the command is executed</span>
+                      </p>
+                    </div>
+                    <div class="form-group row margin-left-15px">
+                      <button class='btn btn-sm btn-primary' ng-disabled="!formCheckConnectivity.$valid || vm.user.checking" ng-click="vm.checkUserConnectivity(formCheckConnectivity)">
+                        <i ng-class="{'fa fa-spin fa-spinner': vm.user.checking, 'icofont icofont-check-alt': !vm.user.checking}"></i> Test
+                      </button>
+                    </div>
+                  </form>
+                </v-pane-content>
+              </v-pane>
+
+              <v-pane expanded>
+                <v-pane-header>
+                  <i class="icofont icofont-logout"></i> Disconnect user
+                </v-pane-header>
+                <v-pane-content>
+                  <form name="formDisconnect" class="form" novalidate>
+                    <div class="form-group row margin-left-15px">
+                      <p>Running : echo "User-Name={{ vm.user.userinfo.username }}" | radclient -x localhost:3779 disconnect $RADIUSSECRET 2>&1
+                        <br/><span class="text-size-8px">$RADIUSSECRET will be set when the command is executed</span>
+                      </p>
+                    </div>
+                    <div class="form-group row margin-left-15px">
+                      <button class='btn btn-sm btn-primary' ng-disabled="vm.user.disconnecting" ng-click="vm.disconnectUser()">
+                        <i ng-class="{'fa fa-spin fa-spinner': vm.user.disconnecting, 'icofont icofont-logout': !vm.user.disconnecting}"></i> Disconnect
+                      </button>
+                    </div>
+                  </form>
+                </v-pane-content>
+              </v-pane>
+            </v-accordion>
         </div>
         <div class="tab-pane" id="statistics" role="tabpanel">
           TO DO
