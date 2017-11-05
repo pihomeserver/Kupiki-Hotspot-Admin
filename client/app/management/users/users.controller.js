@@ -121,7 +121,7 @@ export default class UsersMgmtController {
         { displayName: "User name (login)", field: 'username', pinnedLeft:true, enableHiding: false },
         { displayName: "Firstname", field: 'firstname', pinnedLeft:true, enableHiding: false },
         { displayName: "Lastname", field: 'lastname', pinnedLeft:true, enableHiding: false },
-        { displayName: "Status", name: 'status', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton, enableColumnResizing: false, enableHiding: false },
+        { displayName: "Online", name: 'status', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton, enableColumnResizing: false, enableHiding: false },
         { name: 'Actions', width:100, cellClass: 'cellTextCentered', cellTemplate: cellTemplateActions, enableColumnResizing: false, enableColumnMenu: false, enableHiding: false, enableSorting: false }
       ]
     };

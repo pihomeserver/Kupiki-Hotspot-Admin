@@ -4,6 +4,7 @@ import Sequelize from 'sequelize';
 import async from 'async';
 import freeradiusDb from '../../sqldb/freeradius';
 import {radcheck} from '../../sqldb/freeradius';
+import {radreply} from '../../sqldb/freeradius';
 import {radacct}  from '../../sqldb/freeradius';
 import {userinfo}  from '../../sqldb/freeradius';
 import * as script from '../../system/system.service';
@@ -137,6 +138,19 @@ export function deleteUser(req, res) {
   });
 }
 
+export function getUserRadreply(req, res) {
+  return radreply.findAll({
+    where: {
+      username: req.query.username
+    },
+    attributes: { exclude : ['createdAt', 'updatedAt'] }
+  }).then(userReplyAttributes => {
+    res.status(200).json(userReplyAttributes);
+  })
+    .catch(handleError(res));
+}
+
+
 
 export function getUserRadcheck(req, res) {
   return radcheck.findAll({
@@ -179,7 +193,7 @@ export function saveUserRadcheck(req, res) {
         if (!err) {
           res.status(200).json({ status: 'success', result: { code : 0, message : '' }});
         } else {
-          console.log(err)
+          console.log(err);
           res.status(200).json({ status: 'failed', result: { code : 500, message : 'Unable to update attributes' }});
         }
       });
@@ -189,3 +203,40 @@ export function saveUserRadcheck(req, res) {
 
   }
 }
+
+export function getLastSession(req, res) {
+  return radacct.findAll({
+    limit: 1,
+    where: {
+      username: req.query.username
+    },
+    order: [ [ 'acctstarttime', 'DESC' ]],
+    attributes: { exclude : ['createdAt', 'updatedAt'] }
+  }).then(userLastSession => {
+    res.status(200).json(userLastSession);
+  })
+    .catch(handleError(res));
+}
+
+export function getAllSessions(req, res) {
+  return radacct.findAll({
+    where: {
+      username: req.query.username
+    },
+    order: [ [ 'acctstarttime', 'ASC' ]],
+    attributes: { exclude : ['createdAt', 'updatedAt'] }
+  }).then(userAllSessions => {
+    res.status(200).json(userAllSessions);
+  })
+    .catch(handleError(res));
+}
+
+export function getSessionsTotal(req, res) {
+  let getAllStats = "SELECT count(radacctid) as sessionsCount, sum(acctsessiontime) as sessionsTime, sum(acctinputoctets) as downloadTotal, sum(acctoutputoctets) as uploadTotal FROM radacct WHERE username = '"+req.query.username+"'";
+  freeradiusDb.sequelize.query(getAllStats, { type: Sequelize.QueryTypes.SELECT })
+    .then(stats => {
+      res.status(200).json(stats);
+    })
+    .catch(handleError(res));
+}
+

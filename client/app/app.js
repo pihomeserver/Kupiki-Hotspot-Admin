@@ -19,12 +19,10 @@ import 'angular-xeditable';
 import 'checklist-model';
 import chartJs from 'angular-chart.js';
 import vAccordion from 'v-accordion';
-// import 'angular-crypto-js';
-
+import angularMoment from 'angular-moment';
 import {
   routeConfig
 } from './app.config';
-
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin';
@@ -79,7 +77,7 @@ angular.module('kupikiHotspotAdminApp', [
   util,
   uiGrid,
   vAccordion,
-  // 'angular-crypto-js',
+  angularMoment,
   'ui.grid.selection',
   'ui.grid.resizeColumns',
   'ui.grid.autoResize',

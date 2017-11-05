@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12 col-lg-12">
-    <card title="{{ vm.user.title }}" subtitle="{{ vm.user.username }}" spinner=true loading="vm.user.loading">
+    <card title="{{ vm.user.title }}" subtitle="{{ vm.user.username }}" spinner=false>
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#userinfo" role="tab" aria-controls="userinfo"><i class="icon-user"></i> User info</a>
@@ -12,10 +12,10 @@
           <a class="nav-link" data-toggle="tab" href="#replyAttributes" role="tab" aria-controls="replyAttributes"><i class="icofont icofont-reply"></i> Reply attributes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#maintenance" role="tab" aria-controls="maintenance"><i class="icofont icofont-under-construction-alt "></i> Maintenance</a>
+          <a class="nav-link" data-toggle="tab" href="#maintenance" role="tab" aria-controls="maintenance"><i class="icofont icofont-under-construction-alt "></i> Maintenance</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics"><i class="icofont icofont-chart-bar-graph"></i> Statistics</a>
+          <a class="nav-link active" data-toggle="tab" href="#statistics" role="tab" aria-controls="statistics"><i class="icofont icofont-chart-bar-graph"></i> Statistics</a>
         </li>
       </ul>
 
@@ -285,9 +285,27 @@
 
         </div>
         <div class="tab-pane" id="replyAttributes" role="tabpanel">
-          TO DO
+          <form name="formReplyAttributes" class="form" ng-submit="" novalidate>
+            <v-accordion class="vAccordion--default" multiple>
+              <v-pane>
+                <v-pane-header>
+                  <i class="icofont icofont-calculations"></i> Basic configuration
+                </v-pane-header>
+                <v-pane-content>
+                </v-pane-content>
+              </v-pane>
+              <v-pane expanded>
+                <v-pane-header>
+                  <i class="icofont icofont-wrench"></i> Advanced configuration
+                </v-pane-header>
+                <v-pane-content>
+                  <div ng-if="vm.user.radreplyGrid.data" ui-grid="vm.user.radreplyGrid" class="myGrid"></div>
+                </v-pane-content>
+              </v-pane>
+            </v-accordion>
+          </form>
         </div>
-        <div class="tab-pane active" id="maintenance" role="tabpanel">
+        <div class="tab-pane" id="maintenance" role="tabpanel">
             <v-accordion class="vAccordion--default" multiple>
               <v-pane expanded>
                 <v-pane-header>
@@ -355,8 +373,97 @@
               </v-pane>
             </v-accordion>
         </div>
-        <div class="tab-pane" id="statistics" role="tabpanel">
-          TO DO
+        <div class="tab-pane active" id="statistics" role="tabpanel">
+          <div class="row">
+            <div class="col-sm-12 col-lg-8">
+              <div class="card">
+                <div class="card-header">
+                  Connections history
+                </div>
+                <div class="card-block">
+                  <canvas id="connectionsChart"
+                          class         = "chart chart-line"
+                          chart-labels  = "vm.user.allsessions.connections.labels"
+                          chart-data    = "vm.user.allsessions.connections.data"
+                          chart-series  = "vm.user.allsessions.connections.series"
+                          chart-options = "vm.user.allsessions.connections.options">
+                  </canvas>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  Volume history
+                </div>
+                <div class="card-block">
+                  <canvas id="volumeChart"
+                          class         = "chart chart-bar"
+                          chart-labels  = "vm.user.allsessions.volume.labels"
+                          chart-data    = "vm.user.allsessions.volume.data"
+                          chart-series  = "vm.user.allsessions.volume.series"
+                          chart-options = "vm.user.allsessions.volume.options">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <card title="Last session" spinner=true loading="vm.user.loading.lastsession">
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Started on</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.lastsession.acctstarttime | amDateFormat:'MM/DD/YYYY HH:mm:ss' }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Online</div>
+                  <div class="col-sm-6 col-lg-6">
+                    <span ng-show="vm.user.lastsession.acctstoptime !== null"><i class="icofont icofont-close-line-circled text-danger"></i> Off</span>
+                    <span ng-show="vm.user.lastsession.acctstoptime === null"><i class="icofont icofont-check-circled text-success"></i> On</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Duration</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.lastsession.acctsessiontime | amDurationFormat : 'seconds' }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Download</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.lastsession.acctinputoctets }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Upload</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.lastsession.acctoutputoctets }}</div>
+                </div>
+              </card>
+              <card title="All activities" spinner=true loading="vm.user.loading.sessionstotal">
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Sessions</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.sessionstotal.sessionsCount }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Duration</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.sessionstotal.sessionsTime | amDurationFormat : 'seconds' }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Download volume</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.sessionstotal.downloadTotal }}</div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-6">Upload volume</div>
+                  <div class="col-sm-6 col-lg-6">{{ vm.user.sessionstotal.uploadTotal }}</div>
+                </div>
+              </card>
+              <div class="card">
+                <div class="card-header">
+                  Sessions ending type
+                </div>
+                <div class="card-block">
+                  <canvas id="endingsChart"
+                          class         = "chart chart-doughnut"
+                          chart-labels  = "vm.user.allsessions.endings.labels"
+                          chart-data    = "vm.user.allsessions.endings.data">
+                  </canvas>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
 
