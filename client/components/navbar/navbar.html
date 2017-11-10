@@ -3,24 +3,34 @@
   <a class="navbar-brand" ui-sref="system.sysdashboard"></a>
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item">
-      <a class="nav-link navbar-toggler sidebar-toggler" href="#"><span class="icofont icofont-navigation-menu"></span></a>
+      <a class="nav-link navbar-toggler sidebar-toggler" href="#" ng-click="$ctrl.toggleSidebar()"><span class="icofont icofont-navigation-menu"></span></a>
     </li>
   </ul>
-  <ul class="nav navbar-nav ml-auto d-md-down-none">
-    <li class="nav-item dropdown" ng-hide="!$ctrl.isLoggedIn()">
+  <ul class="nav navbar-nav ml-auto d-md-down-none" ng-hide="!$ctrl.isLoggedIn()">
+    <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-        <span class="d-md-down-none">{{ $ctrl.getCurrentUser().name }}</span>
+        <span class="d-md-down-none"><i class="icofont icofont-world"></i> {{ $ctrl.currentUser.language }}</span>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-
         <div class="dropdown-header text-center">
-          <strong>Account</strong>
+          <strong>Language</strong>
         </div>
-
-        <a class="dropdown-item" ui-sref="settings"><i class="fa fa-user"></i> Profile</a>
-        <a class="dropdown-item" ui-sref="logout"><i class="icofont icofont-exit"></i> Logout</a>
+        <a class="dropdown-item" ng-click="$ctrl.changeLanguage('en')">English</a>
+        <a class="dropdown-item" ng-click="$ctrl.changeLanguage('fr')">Français</a>
       </div>
     </li>
 
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="d-md-down-none">{{ $ctrl.currentUser.name }}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-header text-center">
+          <strong>{{ 'user.account' | translate }}</strong>
+        </div>
+        <a class="dropdown-item" ui-sref="settings"><i class="fa fa-user"></i> {{ 'user.profile' | translate }}</a>
+        <a class="dropdown-item" ui-sref="logout"><i class="icofont icofont-exit"></i> {{ 'user.logout' | translate }}</a>
+      </div>
+    </li>
   </ul>
 </header>

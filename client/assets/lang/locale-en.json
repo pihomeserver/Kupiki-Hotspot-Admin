@@ -1,0 +1,46 @@
+{
+  "user": {
+    "account": "Account",
+    "profile": "Profile",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "sidebar": {
+    "system": "System",
+    "dashboard": "Dashboard",
+    "administration": "Administration",
+    "configuration": "configuration",
+    "basic": "Basic",
+    "advanced": "Advanced",
+    "management": "management",
+    "users": "Users"
+  },
+  "dashboard": {
+    "capacity": "Capacity",
+    "total": "Total",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "secondes",
+    "up": "Up",
+    "services": "Services",
+    "service": "Service",
+    "unable": "Unable to load services",
+    "summary": "System summary",
+    "architecture": "Architecture",
+    "CPU": "CPU",
+    "hostname": "Hostname",
+    "OS Type": "OS Type",
+    "plateform": "Plateform",
+    "release": "Release",
+    "update": "Update",
+    "reboot": "Reboot",
+    "shutdown": "Shutdown"
+  },
+  "actions": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "reload": "Reload",
+    "reset": "Reset"
+  }
+}

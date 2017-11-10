@@ -4,12 +4,12 @@ const os = require('os');
 
 export function index(req, res) {
   var information = {
-    'Architecture' : os.arch(),
+    'architecture' : os.arch(),
     'CPU' : os.cpus().length,
-    'Hostname' : os.hostname(),
+    'hostname' : os.hostname(),
     'OS Type' : os.type(),
-    'Plateform' : os.platform(),
-    'Release' : os.release()
+    'plateform' : os.platform(),
+    'release' : os.release()
   };
   res.status(200).json(information);
 }

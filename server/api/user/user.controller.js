@@ -28,6 +28,7 @@ export function index(req, res) {
       '_id',
       'name',
       'username',
+      'language',
       'email',
       'role',
       'provider'
@@ -129,6 +130,7 @@ export function me(req, res, next) {
       '_id',
       'name',
       'username',
+      'language',
       'email',
       'role',
       'provider'
@@ -148,4 +150,28 @@ export function me(req, res, next) {
  */
 export function authCallback(req, res) {
   res.redirect('/');
+}
+
+export function setLanguage(req, res) {
+  console.log(req.body)
+
+  var userId = req.body._id;
+
+  User.findOne({
+    where: {
+      _id: userId
+    }
+  })
+    .then(user => {
+      console.log(user)
+      if(!user) {
+        res.status(200).json({ status: 'failed', result: { code : 500, message : 'Unable to save user language.'} });
+      }
+      user.update({
+        language: req.body.language
+      }).then(function () {
+        res.status(200).json({ status: 'success', result: { code : 0, message : 'New language selected' }});
+      });
+    })
+    .catch(err => next(err));
 }

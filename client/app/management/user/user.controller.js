@@ -1,5 +1,7 @@
 'use strict';
 
+import moment from 'moment';
+
 export default class UserMgmtController {
   /*@ngInject*/
   constructor($http, $stateParams, toastr) {
@@ -267,25 +269,27 @@ export default class UserMgmtController {
         this.user.allsessions.connections = {};
         this.user.allsessions.volume      = {};
 
-        this.user.allsessions.connections.series = ['Connections', 'Duration'];
+        // this.user.allsessions.connections.series = ['Connections', 'Duration'];
+        this.user.allsessions.connections.series = ['Duration'];
         this.user.allsessions.connections.labels = [];
-        this.user.allsessions.connections.data = [[], []];
+        // this.user.allsessions.connections.data = [[], []];
+        this.user.allsessions.connections.data = [];
         this.user.allsessions.connections.options = {
           scales: {
-            yAxes: [
-              {
-                id: 'y-axis-1',
-                type: 'linear',
-                display: true,
-                position: 'left'
-              }
-            ],
             xAxes: [
               {
-                display: true
+                type: "time",
+                time: {
+                  format: 'MM/DD/YYYY HH:mm',
+                  tooltipFormat: 'll HH:mm'
+                }
               }
             ]
           }
+        };
+        this.user.allsessions.connections.datasetOverride = {
+          fill: false,
+          lineTension: 0
         };
 
         let displayVolumeUnit = 1024*1024;
@@ -296,17 +300,13 @@ export default class UserMgmtController {
         this.user.allsessions.volume.data = [[], []];
         this.user.allsessions.volume.options = {
           scales: {
-            yAxes: [
-              {
-                id: 'y-axis-1',
-                type: 'linear',
-                display: true,
-                position: 'left'
-              }
-            ],
             xAxes: [
               {
-                display: true
+                // type: "time",
+                // time: {
+                //   format: 'MM/DD/YYYY HH:mm',
+                //   tooltipFormat: 'll HH:mm'
+                // }
               }
             ]
           }
@@ -352,13 +352,11 @@ export default class UserMgmtController {
         };
 
         response.data.forEach(elt => {
-          this.user.allsessions.connections.data[0].push(elt.acctstarttime);
-          this.user.allsessions.connections.data[1].push(elt.acctsessiontime);
-          this.user.allsessions.connections.labels.push('');
+          this.user.allsessions.connections.data.push({ x: moment(elt.acctstarttime), y: elt.acctsessiontime});
 
           this.user.allsessions.volume.data[0].push((elt.acctinputoctets/displayVolumeUnit).toFixed(2));
           this.user.allsessions.volume.data[1].push((elt.acctoutputoctets/displayVolumeUnit).toFixed(2));
-          this.user.allsessions.volume.labels.push('');
+          this.user.allsessions.volume.labels.push(moment(elt.acctstarttime).format("MMM D, Y"));
 
           this.user.allsessions.endings.data[this.user.allsessions.endings.labels.indexOf(elt.acctterminatecause)]++;
         });

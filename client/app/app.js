@@ -20,6 +20,8 @@ import 'checklist-model';
 import chartJs from 'angular-chart.js';
 import vAccordion from 'v-accordion';
 import angularMoment from 'angular-moment';
+import translate from 'angular-translate';
+import translateLoader from 'angular-translate-loader-static-files';
 import {
   routeConfig
 } from './app.config';
@@ -30,7 +32,6 @@ import system from './system';
 import management from './management';
 import configuration from './configuration';
 import constants from './app.constants';
-import coreuiDirectives from '../components/coreui/coreui.directives';
 import fileModel from '../components/fileModel/fileModel.directive';
 import compile from '../components/compile/compile.directive';
 import sidebar from '../components/sidebar/sidebar.component';
@@ -57,8 +58,9 @@ angular.module('kupikiHotspotAdminApp', [
   'validation.match',
   'xeditable',
   'checklist-model',
+  translate,
+  translateLoader,
   chartJs,
-  coreuiDirectives,
   account,
   admin,
   navbar,
@@ -116,6 +118,11 @@ angular.element(document)
     });
 
     $(document).on('click.bs.tab.data-api', '[data-toggle="dropdown"]', function() {
+      $(".nav-item.dropdown").children('div.dropdown-menu').removeClass('show')
       $(this).parent().children('div.dropdown-menu').toggleClass('show');
+    });
+
+    $(document).on('click', function() {
+      $(".nav-item.dropdown").children('div.dropdown-menu').removeClass('show')
     });
   });

@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-export function KupikiModal($rootScope, $uibModal, $sce, $compile) {
+export function KupikiModal($rootScope, $uibModal, $compile) {
   'ngInject';
 
   function openModal(scope = {}, modalClass = 'default') {

@@ -2,48 +2,31 @@
   <nav class="sidebar-nav">
     <ul class="nav">
       <li class="nav-title">
-        System
+        {{ 'sidebar.system' | translate }}
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icon-speedometer"></i> Dashboard</a>
+        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysdashboard"><i class="icon-speedometer"></i> {{ 'sidebar.dashboard' | translate }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icon-settings"></i> Administration</a>
+        <a class="nav-link" ui-sref-active="active" ui-sref="system.sysadmin"><i class="icon-settings"></i> {{ 'sidebar.administration' | translate }}</a>
       </li>
       <li class="divider"></li>
       <li class="nav-title">
-        Configuration
+        {{ 'sidebar.configuration' | translate }}
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.basic"><i class="icon-wrench"></i> Basic</a>
+        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.basic"><i class="icon-wrench"></i> {{ 'sidebar.basic' | translate }}</a>
       </li>
-<!--
       <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.security"><i class="icon-lock"></i> Security</a>
-      </li>
--->
-      <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.advanced"><i class="icon-rocket"></i> Advanced</a>
+        <a class="nav-link" ui-sref-active="active" ui-sref="configuration.advanced"><i class="icon-rocket"></i> {{ 'sidebar.advanced' | translate }}</a>
       </li>
       <li class="divider"></li>
       <li class="nav-title">
-        Management
+        {{ 'sidebar.management' | translate }}
       </li>
       <li class="nav-item">
-        <a class="nav-link" ui-sref-active="active" ui-sref="management.users"><i class="icon-people"></i> Users</a>
+        <a class="nav-link" ui-sref-active="active" ui-sref="management.users"><i class="icon-people"></i> {{ 'sidebar.users' | translate }}</a>
       </li>
-
-      <!--
-      Portal
-        Configuration
-          Portal authentication (none, checkbox, user/passwd, etc.)
-          Portal options (background image, terms, redirect, etc.)
-        Advanced (Nginx) ? SSL, etc.
-      Management
-        Users
-        Batches
-        Statistics
-      -->
     </ul>
   </nav>
   <button class="sidebar-minimizer brand-minimizer" type="button" ng-click='$ctrl.minimizeSidebar()'></button>

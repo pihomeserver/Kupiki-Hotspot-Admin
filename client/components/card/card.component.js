@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 export class CardComponent {
-  constructor($scope, $sce) {
+  constructor($scope) {
     'ngInject';
     this.$scope = $scope;
   }

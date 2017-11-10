@@ -17,6 +17,7 @@ export default function seedDatabaseIfNeeded() {
       },
       defaults: {
         provider: 'local',
+        language: 'en',
         role: 'admin',
         name: 'Admin',
         username: 'admin',

@@ -17,6 +17,7 @@ export default function(sequelize, DataTypes) {
     },
     name: DataTypes.STRING,
     username: DataTypes.STRING,
+    language: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       unique: {
@@ -48,8 +49,9 @@ export default function(sequelize, DataTypes) {
       // Public profile information
       profile() {
         return {
-          name: this.name,
-          role: this.role
+          name    : this.name,
+          language: this.language,
+          role    : this.role
         };
       },
 

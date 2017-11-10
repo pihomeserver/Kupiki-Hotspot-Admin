@@ -381,12 +381,14 @@
                   Connections history
                 </div>
                 <div class="card-block">
+                  <!-- chart-labels  = "vm.user.allsessions.connections.labels" -->
                   <canvas id="connectionsChart"
                           class         = "chart chart-line"
-                          chart-labels  = "vm.user.allsessions.connections.labels"
+
                           chart-data    = "vm.user.allsessions.connections.data"
                           chart-series  = "vm.user.allsessions.connections.series"
-                          chart-options = "vm.user.allsessions.connections.options">
+                          chart-options = "vm.user.allsessions.connections.options"
+                          chart-dataset-override="vm.user.allsessions.connections.datasetOverride">
                   </canvas>
                 </div>
               </div>
@@ -395,6 +397,7 @@
                   Volume history
                 </div>
                 <div class="card-block">
+                  <!-- chart-labels  = "vm.user.allsessions.volume.labels" -->
                   <canvas id="volumeChart"
                           class         = "chart chart-bar"
                           chart-labels  = "vm.user.allsessions.volume.labels"

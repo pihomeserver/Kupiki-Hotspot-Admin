@@ -22,7 +22,7 @@ export default class SysadminController {
             toastr.info('System update in progress');
             break;
           case 'failed' :
-            toastr.error('Error '+data.result.code+'<br/>'+data.result.stderr, 'System update failed', {
+            toastr.error('Error '+data.result.code+'<br/>'+data.result.stderr, 'System update', {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -49,7 +49,7 @@ export default class SysadminController {
           switch (response.data.status) {
             case 'success' :
               message = elt.name+" service started";
-              if (!elt.status) message = elt.name+" service stoped";
+              if (!elt.status) message = elt.name+" service stopped";
               toastr.success(message);
               break;
             case 'failed' :

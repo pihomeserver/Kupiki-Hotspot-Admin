@@ -1,6 +1,6 @@
 'use strict';
 
-export function routeConfig($urlRouterProvider, $locationProvider, toastrConfig) {
+export function routeConfig($urlRouterProvider, $locationProvider, toastrConfig, $translateProvider) {
   'ngInject';
 
   $urlRouterProvider.otherwise('/system/sysdashboard');
@@ -17,4 +17,20 @@ export function routeConfig($urlRouterProvider, $locationProvider, toastrConfig)
     preventOpenDuplicates: false,
     target: 'body'
   });
+
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/assets/lang/locale-',
+    suffix: '.json'
+  });
+
+  $translateProvider
+    // .translations('en', translationsEn)
+    // .translations('fr', translationsFr)
+    .useStaticFilesLoader({
+      prefix: '/assets/lang/locale-',
+      suffix: '.json'
+    })
+    .preferredLanguage('en')
+    .fallbackLanguage('en')
+    .useSanitizeValueStrategy('sce');
 }

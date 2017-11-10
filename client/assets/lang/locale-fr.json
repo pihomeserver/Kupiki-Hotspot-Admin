@@ -1,0 +1,46 @@
+{
+  "user": {
+    "account": "Compte",
+    "profile": "Profil",
+    "logout": "Déconnecter",
+    "language": "Langue"
+  },
+  "sidebar": {
+    "system": "système",
+    "dashboard": "Dashboard",
+    "administration": "Administration",
+    "configuration": "configuration",
+    "basic": "Simple",
+    "advanced": "Avancée",
+    "management": "Gestion",
+    "users": "Utilisateurs"
+  },
+  "dashboard": {
+    "capacity": "Capacité",
+    "total": "Total",
+    "hours": "heures",
+    "minutes": "minutes",
+    "seconds": "secondes",
+    "up": "Up",
+    "services": "Services",
+    "service": "Service",
+    "unable": "Impossible de charger la liste des services",
+    "summary": "Information système",
+    "architecture": "Architecture",
+    "CPU": "CPU",
+    "hostname": "Hostname",
+    "OS Type": "Type de système",
+    "plateform": "Plateforme",
+    "release": "Version",
+    "update": "Mise à jour",
+    "reboot": "Redémarrer",
+    "shutdown": "Arrêter"
+  },
+  "actions": {
+    "ok": "OK",
+    "cancel": "Annuler",
+    "save": "Sauver",
+    "reload": "Recharger",
+    "reset": "Reset"
+  }
+}

@@ -1,21 +1,21 @@
 <div class="row">
   <div class="col-sm-12 col-lg-9">
-    <card title="Services" switch="vm.services.switch" switch-function="filterServices" switch-activated="vm.switch" spinner=true loading="vm.loading.services">
+    <card title="{{ 'dashboard.services' | translate }}" switch="vm.services.switch" switch-function="filterServices" switch-activated="vm.switch" spinner=true loading="vm.loading.services">
       <div ng-if="vm.services.data" ui-grid="vm.services" class="myGrid"></div>
-      <div ng-if="vm.services.error" class="cardErrorMessage"><i class="fa fa-warning"/> Unable to load services data</div>
+      <div ng-if="vm.services.error" class="cardErrorMessage"><i class="fa fa-warning"/> {{ 'dashboard.unable' | translate }}</div>
     </card>
   </div>
   <div class="col-sm-12 col-lg-3">
     <div class="row">
       <div class="col-sm-4 col-lg-4">
-        <kupiki-button title="Update" icon="icofont icofont-stylish-up" ng-click="vm.update()" badge="{{ vm.availableUpgrades }}">
+        <kupiki-button title="{{ 'dashboard.update' | translate }}" icon="icofont icofont-stylish-up" ng-click="vm.update()" badge="{{ vm.availableUpgrades }}">
         </kupiki-button>
       </div>
       <div class="col-sm-4 col-lg-4">
-        <kupiki-button title="Reboot" icon="rotate fa fa-refresh" ng-click="vm.reboot()"></kupiki-button>
+        <kupiki-button title="{{ 'dashboard.reboot' | translate }}" icon="rotate fa fa-refresh" ng-click="vm.reboot()"></kupiki-button>
       </div>
       <div class="col-sm-4 col-lg-4">
-        <kupiki-button title="Shutdown" icon="rotate fa fa-power-off" ng-click="vm.shutdown()"></kupiki-button>
+        <kupiki-button title="{{ 'dashboard.shutdown' | translate }}" icon="rotate fa fa-power-off" ng-click="vm.shutdown()"></kupiki-button>
       </div>
     </div>
   </div>

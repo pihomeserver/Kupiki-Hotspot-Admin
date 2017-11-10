@@ -4,10 +4,11 @@ import moment from 'moment';
 
 export default class SysdashboardController {
   /*@ngInject*/
-  constructor($http, $scope, appConfig, toastr) {
+  constructor($http, $scope, appConfig, toastr, $translate, $rootScope) {
     this.$http = $http;
     this.$scope = $scope;
     this.toastr = toastr;
+    this.$translate = $translate;
 
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
@@ -20,6 +21,28 @@ export default class SysdashboardController {
         this.$scope.$parent.vm.services.data = this.$scope.$parent.vm.data;
       }
     };
+
+    this.disk = {
+      used: '0'
+    };
+    this.memory = {
+      free: '0'
+    };
+    this.uptime = {
+      title: '-',
+      subtitle: '-'
+    };
+    this.cpu = {
+      '1m': '0'
+    };
+
+    $rootScope.$on('$translateChangeSuccess', function (event, data) {
+      if ($rootScope.$$childTail && $rootScope.$$childTail.vm && $rootScope.$$childTail.vm.services) {
+        $rootScope.$$childTail.vm.services.columnDefs[0].displayName = "toto"
+      }
+      console.log('Done')
+      console.log($rootScope.$$childTail.vm)
+    });
   }
 
   $onInit() {
@@ -98,7 +121,7 @@ export default class SysdashboardController {
               enableSorting: true,
               data: response.data.result.message,
               columnDefs: [
-                { displayName: "Service", field: 'name', width: '80%' },
+                { displayName: "Services", field: 'name', width: '80%' },
                 { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
               ]
             };
