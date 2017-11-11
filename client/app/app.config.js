@@ -24,13 +24,11 @@ export function routeConfig($urlRouterProvider, $locationProvider, toastrConfig,
   });
 
   $translateProvider
-    // .translations('en', translationsEn)
-    // .translations('fr', translationsFr)
     .useStaticFilesLoader({
       prefix: '/assets/lang/locale-',
       suffix: '.json'
     })
     .preferredLanguage('en')
     .fallbackLanguage('en')
-    .useSanitizeValueStrategy('sce');
+    .useSanitizeValueStrategy('');
 }

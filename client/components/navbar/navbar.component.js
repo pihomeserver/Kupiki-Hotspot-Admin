@@ -4,16 +4,19 @@
 import angular from 'angular';
 
 export class NavbarComponent {
-  constructor(Auth, $http, $translate) {
+  constructor(Auth, $http, $translate, $rootScope) {
     'ngInject';
 
     this.Auth = Auth;
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
-    this.currentUser = Auth.getCurrentUserSync();
     this.$http = $http;
     this.$translate = $translate;
-    this.$translate.use(this.currentUser.language);
+    Auth.getCurrentUser().then( (user) => {
+      this.currentUser = user;
+      this.$translate.use(this.currentUser.language);
+    });
+    this.$rootScope = $rootScope;
   }
 
   changeLanguage(language) {
@@ -31,6 +34,7 @@ export class NavbarComponent {
 
   toggleSidebar() {
     angular.element('body').toggleClass('sidebar-hidden');
+    this.$rootScope.$emit('toggleSidebar');
   }
 }
 

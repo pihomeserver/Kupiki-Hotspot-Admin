@@ -4,11 +4,12 @@ import moment from 'moment';
 
 export default class SysdashboardController {
   /*@ngInject*/
-  constructor($http, $scope, appConfig, toastr, $translate, $rootScope) {
+  constructor($http, $scope, appConfig, toastr, $translate, $rootScope, uiGridConstants) {
     this.$http = $http;
     this.$scope = $scope;
     this.toastr = toastr;
     this.$translate = $translate;
+    this.uiGridConstants = uiGridConstants;
 
     this.$scope.filterServices = function(switchStatus) {
       if (switchStatus) {
@@ -36,12 +37,16 @@ export default class SysdashboardController {
       '1m': '0'
     };
 
-    $rootScope.$on('$translateChangeSuccess', function (event, data) {
-      if ($rootScope.$$childTail && $rootScope.$$childTail.vm && $rootScope.$$childTail.vm.services) {
-        $rootScope.$$childTail.vm.services.columnDefs[0].displayName = "toto"
+    $rootScope.$on('toggleSidebar', (event, data) => {
+      this.gridApi.core.handleWindowResize();
+    });
+
+    $rootScope.$on('$translateChangeSuccess', (event, data) => {
+      if (this.services && this.services.columnDefs) {
+        this.services.columnDefs[0].displayName = this.$translate.instant('dashboard.services');
+        this.services.columnDefs[1].displayName = this.$translate.instant('dashboard.status');
+        this.gridApi.core.notifyDataChange(this.uiGridConstants.dataChange.COLUMN);
       }
-      console.log('Done')
-      console.log($rootScope.$$childTail.vm)
     });
   }
 
@@ -123,12 +128,15 @@ export default class SysdashboardController {
               columnDefs: [
                 { displayName: "Services", field: 'name', width: '80%' },
                 { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
-              ]
+              ],
+              onRegisterApi: gridApi => {
+                this.gridApi = gridApi;
+              }
             };
             this.loading.services = false;
             break;
           case 'failed' :
-            this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+            this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, this.$translate.instant('dashboard.issue'), {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -139,7 +147,7 @@ export default class SysdashboardController {
         }
       })
       .catch(error => {
-        this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+        this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.issue'), {
           closeButton: true,
           allowHtml: true,
           timeOut: 0

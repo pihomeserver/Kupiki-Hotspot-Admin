@@ -2,27 +2,41 @@
 
 export default class SysadminController {
   /*@ngInject*/
-  constructor($scope, $http, socket, toastr, KupikiModal, appConfig) {
+  constructor($scope, $http, socket, toastr, KupikiModal, appConfig, $translate, $rootScope, uiGridConstants) {
     this.$http = $http;
     this.$scope = $scope;
     this.socket = socket;
     this.KupikiModal = KupikiModal;
     this.toastr = toastr;
+    this.$translate = $translate;
+    this.uiGridConstants = uiGridConstants;
 
-    this.socket.socket.on('system:update', function(data) {
+    $rootScope.$on('toggleSidebar', (event, data) => {
+      this.gridApi.core.handleWindowResize();
+    });
+
+    $rootScope.$on('$translateChangeSuccess', (event, data) => {
+      if (this.services && this.gridApi && this.gridApi.core) {
+        this.services.columnDefs[0].displayName = this.$translate.instant('dashboard.services');
+        this.services.columnDefs[1].displayName = this.$translate.instant('dashboard.status');
+        this.gridApi.core.notifyDataChange(this.uiGridConstants.dataChange.COLUMN);
+      }
+    });
+
+    this.socket.socket.on('system:update', data => {
       if (data) {
         switch (data.status) {
           case 'success' :
-            toastr.success('System update finished');
+            toastr.success(this.$translate.instant('dashboard.systemupdate.finished'));
             break;
           case 'already' :
-            toastr.info('System update is already in progress');
+            toastr.info(this.$translate.instant('dashboard.systemupdate.alreadyprogress'));
             break;
           case 'progress' :
-            toastr.info('System update in progress');
+            toastr.info(this.$translate.instant('dashboard.systemupdate.progress'));
             break;
           case 'failed' :
-            toastr.error('Error '+data.result.code+'<br/>'+data.result.stderr, 'System update', {
+            toastr.error(this.$translate.instant('generic.Error')+' '+data.result.code+'<br/>'+data.result.stderr, this.$translate.instant('dashboard.systemupdate.title'), {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -30,7 +44,7 @@ export default class SysadminController {
             break;
         }
       } else {
-        toastr.error('Unable to get update status.', 'System update', {
+        toastr.error(this.$translate.instant('dashboard.systemupdate.error-status'), this.$translate.instant('dashboard.systemupdate.title'), {
           closeButton: true,
           timeOut: 0
         });
@@ -45,17 +59,17 @@ export default class SysadminController {
         }
       })
         .then(function(response) {
-          var message = '';
+          let message = '';
           switch (response.data.status) {
             case 'success' :
-              message = elt.name+" service started";
-              if (!elt.status) message = elt.name+" service stopped";
+              message = $translate.instant('dashboard.systemservices.success-start', { service: elt.name });
+              if (!elt.status) message = $translate.instant('dashboard.systemservices.success-stop', { service: elt.name });
               toastr.success(message);
               break;
             case 'failed' :
-              message = "Unable to start service ";
-              if (!elt.status) message = "Unable to stop service ";
-              message += elt.name+'<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message;
+              message = $translate.instant('dashboard.systemservices.error-start', { service: elt.name });
+              if (!elt.status) message = $translate.instant('dashboard.systemservices.error-stop', { service: elt.name });
+              message += '<br/>'+$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message;
               toastr.error(message, 'Service ' + elt.name, {
                 closeButton: true,
                 allowHtml: true,
@@ -65,9 +79,9 @@ export default class SysadminController {
           }
         },
         function(response) {
-          var message = "Unable to start "+elt.name+" service";
-          if (!elt.status) message = "Unable to stop "+elt.name+" service";
-          toastr.error(message, 'Service ' + elt.name, {
+          let message = $translate.instant('dashboard.systemservices.error-start', { service: elt.name });
+          if (!elt.status) message = $translate.instant('dashboard.systemservices.error-stop', { service: elt.name });
+          toastr.error(message, $translate.instant('dashboard.service')+' ' + elt.name, {
             closeButton: true,
             timeOut: 0
           });
@@ -110,14 +124,17 @@ export default class SysadminController {
               enableSorting: true,
               data: response.data.result.message,
               columnDefs: [
-                { displayName: "Service", field: 'name', width: '80%' },
-                { displayName: "Status", field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
-              ]
+                { displayName: this.$translate.instant('dashboard.service'), field: 'name', width: '80%' },
+                { displayName: this.$translate.instant('dashboard.status'), field: 'status', cellClass: 'cellTextCentered', cellTemplate: cellTemplateButton}
+              ],
+              onRegisterApi: gridApi => {
+                this.gridApi = gridApi;
+              }
             };
             this.loading.services = false;
             break;
           case 'failed' :
-            this.toastr.error('Unable to get status of services upgrades.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+            this.toastr.error(this.$translate.instant('dashboard.systemservices.error-information')+'<br/>'+this.$translate.instant('generic.Error')+' ' + response.data.result.code + '<br/>' + response.data.result.message, this.$translate.instant('dashboard.issue'), {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -128,7 +145,7 @@ export default class SysadminController {
         }
       })
       .catch(error => {
-        this.toastr.error('Unable to get status of services upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+        this.toastr.error(this.$translate.instant('dashboard.systemservices.error-information')+'<br/>'+this.$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.issue'), {
           closeButton: true,
           allowHtml: true,
           timeOut: 0
@@ -141,16 +158,15 @@ export default class SysadminController {
         this.availableUpgrades = undefined;
         switch (response.data.status) {
           case 'success' :
-            // console.log(response.data)
             if (parseInt(response.data.result.message) !== 0) {
               this.availableUpgrades = parseInt(response.data.result.message);
-              this.toastr.info(this.availableUpgrades+' packages available. Please update your system.', 'System update');
+              this.toastr.info(this.$translate.instant('dashboard.systemupdate.available', { availableUpgrades: this.availableUpgrades }), this.$translate.instant('dashboard.systemupdate.title'));
             } else {
-              this.toastr.info('Your system is up to date.', 'System update');
+              this.toastr.info(this.$translate.instant('dashboard.systemupdate.confirm'), this.$translate.instant('dashboard.systemupdate.title'));
             }
             break;
           case 'failed' :
-            this.toastr.error('Unable to get available upgrades.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+            this.toastr.error(this.$translate.instant('dashboard.systemupdate.error-information')+'<br/>'+this.$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.systemupdate.title'), {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -166,8 +182,8 @@ export default class SysadminController {
   shutdown () {
     var options = {
       dismissable: true,
-      title: 'System shutdown',
-      html: 'Please confirm that you want to shutdown the system'
+      title: this.$translate.instant('dashboard.systemshutdown.title'),
+      html: this.$translate.instant('dashboard.systemshutdown.ask')
     };
     var $http = this.$http;
     var toastr = this.toastr;
@@ -176,10 +192,10 @@ export default class SysadminController {
         .then(response => {
           switch (response.data.status) {
             case 'success':
-              toastr.success('The shutdown of the system has been started.', 'System shutdown');
+              toastr.success(this.$translate.instant('dashboard.systemshutdown.confirm'), this.$translate.instant('dashboard.systemshutdown.title'));
               break;
             case 'failed':
-              toastr.error('Unable to perform the shutdown.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+              toastr.error(this.$translate.instant('dashboard.systemshutdown.error-executed')+'<br/>'+this.$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.systemshutdown.title'), {
                 closeButton: true,
                 allowHtml: true,
                 timeOut: 0
@@ -188,7 +204,7 @@ export default class SysadminController {
           }
         })
         .catch(function() {
-          toastr.error('The shutdown of the system can not be started.', 'System shutdown');
+          toastr.error(this.$translate.instant('dashboard.systemshutdown.error-started'), this.$translate.instant('dashboard.systemshutdown.title'));
         });
     });
   }
@@ -196,8 +212,8 @@ export default class SysadminController {
   reboot() {
     var options = {
       dismissable: true,
-      title: 'System reboot',
-      html: 'Please confirm that you want to restart the system'
+      title: this.$translate.instant('dashboard.systemreboot.title'),
+      html: this.$translate.instant('dashboard.systemreboot.ask')
     };
     var $http = this.$http;
     var toastr = this.toastr;
@@ -206,10 +222,10 @@ export default class SysadminController {
         .then(response => {
           switch (response.data.status) {
             case 'success':
-              toastr.success('The reboot of the system has been started.', 'System reboot');
+              toastr.success(this.$translate.instant('dashboard.systemreboot.confirm'), this.$translate.instant('dashboard.systemreboot.title'));
               break;
             case 'failed':
-              toastr.error('Unable to perform the reboot.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+              toastr.error(this.$translate.instant('dashboard.systemreboot.error-execution')+'<br/>'+this.$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.systemreboot.title'), {
                 closeButton: true,
                 allowHtml: true,
                 timeOut: 0
@@ -218,7 +234,7 @@ export default class SysadminController {
           }
         })
         .catch(function() {
-          toastr.error('The reboot of the system can not be started.', 'System shutdown');
+          toastr.error('The reboot of the system can not be started.', 'System reboot');
         });
     });
   }
@@ -226,8 +242,8 @@ export default class SysadminController {
   update() {
     var options = {
       dismissable: true,
-      title: 'System update',
-      html: 'Please confirm that you want to update the system'
+      title: this.$translate.instant('dashboard.systemupdate.title'),
+      html: this.$translate.instant('dashboard.systemupdate.ask')
     };
     var $http = this.$http;
     var toastr = this.toastr;
@@ -236,10 +252,10 @@ export default class SysadminController {
         .then(response => {
           switch (response.data.status) {
             case 'success':
-              toastr.success(response.data.result.message, 'System update');
+              toastr.success(response.data.result.message, this.$translate.instant('dashboard.systemupdate.title'));
               break;
             case 'failed':
-              toastr.error('Unable to perform the update.<br/>Error '+response.data.result.code+'<br/>'+response.data.result.message, 'System issue', {
+              toastr.error(this.$translate.instant('dashboard.systemupdate.error-execution')+'<br/>'+this.$translate.instant('generic.Error')+' '+response.data.result.code+'<br/>'+response.data.result.message, this.$translate.instant('dashboard.systemupdate.title'), {
                 closeButton: true,
                 allowHtml: true,
                 timeOut: 0
@@ -248,7 +264,7 @@ export default class SysadminController {
           }
         })
         .catch(function() {
-          toastr.error('The update of the system can not be started.', 'System shutdown');
+          toastr.error(this.$translate.instant('dashboard.systemupdate.error-start'), this.$translate.instant('dashboard.systemupdate.title'));
         });
     });
   }

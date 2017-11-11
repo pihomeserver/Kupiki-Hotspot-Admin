@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-export function KupikiModal($rootScope, $uibModal, $compile) {
+export function KupikiModal($rootScope, $uibModal, $compile, $translate) {
   'ngInject';
 
   function openModal(scope = {}, modalClass = 'default') {
@@ -27,13 +27,13 @@ export function KupikiModal($rootScope, $uibModal, $compile) {
 
       modalOptions.buttons= [{
         classes: 'btn-'+modalClass,
-        text: 'Confirm',
+        text: $translate.instant('actions.confirm'),
         click(e) {
           modalObj.close(e);
         }
       }, {
         classes: 'btn-default',
-        text: 'Cancel',
+        text: $translate.instant('actions.cancel'),
         click(e) {
           modalObj.dismiss(e);
         }

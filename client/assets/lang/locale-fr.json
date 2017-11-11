@@ -34,13 +34,55 @@
     "release": "Version",
     "update": "Mise à jour",
     "reboot": "Redémarrer",
-    "shutdown": "Arrêter"
+    "shutdown": "Arrêter",
+    "status": "Status",
+    "issue": "Erreur système",
+    "systemshutdown": {
+      "title": "Arrêt du système",
+      "ask": "Confirmez que que vous souhaitez arrêter le système",
+      "confirm": "Le système est en cours d'arrêt",
+      "error-start": "L'arrêt du système n'a pas pu être executé",
+      "error-execution": "L'arrêt du système n'a pas pu être executé"
+    },
+    "systemreboot": {
+      "title": "Redémarrer le système",
+      "ask": "Confirmez que que vous souhaitez redémarrer le système",
+      "confirm": "Le système est en cours de relance",
+      "error-execution": "Impossible de redémarrer le système"
+    },
+    "systemupdate": {
+      "title": "Mise à jour système",
+      "available": "{{availableUpgrades}} mises à jour disponibles. Mettez votre système à jour.",
+      "ask": "Confirmez que vous souhaitez mettre à jour le système",
+      "confirm": "Le système est à jour",
+      "error-start": "La mise à jour du système ne peut pas être démarrée",
+      "error-status": "Impossible d'obtenir le statut des mises à jour",
+      "error-execution": "Impossible d'exécuter la mise à jour du système",
+      "error-information": "Impossible d'obtenir les informations de mise à jour",
+      "progress": "Mises à jour en cours",
+      "alreadyprogress": "Mises à jour déjà en cours",
+      "finished": "Mises à jour terminées"
+    },
+    "systemservices": {
+      "error-information": "Impossible d'obtenir les informations sur les services",
+      "error-start": "Impossible de démarrer le service {{service}}",
+      "error-stop": "Impossible d'arrêter le service {{service}}",
+      "success-start": "Service {{service}} démarré",
+      "success-stop": "Service {{service}} arrêté"
+    }
+  },
+  "generic": {
+    "Error": "Erreur",
+    "error": "erreur",
+    "Code": "Code",
+    "code": "code"
   },
   "actions": {
     "ok": "OK",
     "cancel": "Annuler",
     "save": "Sauver",
     "reload": "Recharger",
-    "reset": "Reset"
+    "reset": "Reset",
+    "confirm": "Confirmer"
   }
 }
