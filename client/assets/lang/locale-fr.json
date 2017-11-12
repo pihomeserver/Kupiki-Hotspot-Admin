@@ -71,6 +71,23 @@
       "success-stop": "Service {{service}} arrêté"
     }
   },
+  "management": {
+    "configuration": "Configuration",
+    "generatedFile": "Fichier généré",
+    "advanced": {
+      "reload": {
+        "title": "Recharger la configuration de Hostapd",
+        "confirm": "Confirmez que vous souhaitez recharger la configuration actuelle"
+      },
+      "default": {
+        "title": "Configuration par défaut de Hostapd",
+        "confirm": "Confirmez que vous souhaitez charger la configuration par défaut"
+      },
+      "load": {
+        "error-load": "Impossible de charge la configuration actuelle"
+      }
+    }
+  },
   "generic": {
     "Error": "Erreur",
     "error": "erreur",

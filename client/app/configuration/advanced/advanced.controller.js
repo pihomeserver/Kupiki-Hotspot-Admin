@@ -2,11 +2,12 @@
 
 export default class AdvancedController {
   /*@ngInject*/
-  constructor($scope, $http, toastr, KupikiModal) {
+  constructor($scope, $http, toastr, KupikiModal, $translate) {
     this.$http = $http;
     this.$scope = $scope;
     this.KupikiModal = KupikiModal;
     this.toastr = toastr;
+    this.$translate = $translate;
   }
 
   $onInit() {
@@ -60,11 +61,12 @@ export default class AdvancedController {
   loadDefaultConfiguration () {
     var $http = this.$http;
     var toastr = this.toastr;
+    var $translate = this.$translate;
     var parent = this;
     var options = {
       dismissable: true,
-      title: 'Load default Hostapd configuration',
-      html: '<p>Are you sure that you want to load default settings ?'
+      title: this.$translate.instant('management.advanced.default.title'),
+      html: this.$translate.instant('management.advanced.default.confirm')
     };
     this.KupikiModal.confirmModal(options, 'danger', this, function() {
       $http.get('/api/hotspot/default')
@@ -88,10 +90,9 @@ export default class AdvancedController {
   }
 
   extendConfiguration () {
-    var parent = this;
+    let parent = this;
     this.$http.get('/api/hotspot/configurationFields')
       .then(response => {
-        // console.log(response.data.result.message)
         parent.hotspotConfFields = response.data.result.message;
         for (let i = 0; i < parent.configuration.data.length; i++) {
           let elt = parent.configuration.data[i];
@@ -104,11 +105,11 @@ export default class AdvancedController {
   }
 
   reloadConfiguration () {
-    var parent = this;
-    var options = {
+    let parent = this;
+    let options = {
       dismissable: true,
-      title: 'Reload Hostapd configuration',
-      html: '<p>Are you sure that you want to reload current settings ?'
+      title: this.$translate.instant('management.advanced.reload.title'),
+      html: this.$translate.instant('management.advanced.reload.confirm')
     };
     this.KupikiModal.confirmModal(options, 'primary', this, function() {
       parent.loadConfiguration();
@@ -130,7 +131,7 @@ export default class AdvancedController {
             this.loading.configuration = false;
             break;
           case 'failed' :
-            this.toastr.error('Unable to get current hostapd configuration.<br/>Error ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
+            this.toastr.error(this.$translate.instant('management.advanced.load.error-load')+'<br/>'+this.$translate.instant('generic.Error')+' ' + response.data.result.code + '<br/>' + response.data.result.message, 'System issue', {
               closeButton: true,
               allowHtml: true,
               timeOut: 0
@@ -142,7 +143,7 @@ export default class AdvancedController {
       })
       .catch(error => {
         console.log(error);
-        this.toastr.error('Unable to get current hostapd configuration.<br/>Error ' + error.status + '<br/>' + error.statusText, 'System issue', {
+        this.toastr.error(this.$translate.instant('management.advanced.load.error-load')+'<br/>'+this.$translate.instant('generic.Error')+' ' + error.status + '<br/>' + error.statusText, 'System issue', {
           closeButton: true,
           allowHtml: true,
           timeOut: 0

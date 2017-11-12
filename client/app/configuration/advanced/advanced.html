@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-12 col-lg-6">
-    <card ng-if="vm.configuration" title="Configuration" spinner=true loading="vm.loading.configuration">
+    <card ng-if="vm.configuration" title="{{ 'management.configuration' | translate }}" spinner=true loading="vm.loading.configuration">
       <div class="hotspot-conf padding-right-15px padding-left-15px" ng-repeat="field in vm.configuration.data">
         <div class="hotspot-field-name">{{ field.display || field.field }}</div>
         <div class="hotspot-field-value">
@@ -36,17 +36,17 @@
     </card>
   </div>
   <div class="col-sm-12 col-lg-6">
-    <card ng-if="vm.configuration" title="Generated file" spinner=true loading="vm.loading.configuration">
+    <card ng-if="vm.configuration" title="{{ 'management.generatedFile' | translate }}" spinner=true loading="vm.loading.configuration">
       <div class="code">
         <div ng-repeat="field in vm.configuration.data">{{ field.field }}={{ field.value }}</div>
       </div>
       <div class="margin-top-15px hotspot-conf-actions">
         <div>
-          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveConfiguration()"><i class="fa fa-floppy-o"></i> Save</button>
+          <button class="btn btn-sm btn-primary margin-right-15px" ng-click="vm.saveConfiguration()"><i class="fa fa-floppy-o"></i> {{ 'actions.save' | translate }}</button>
         </div>
         <div style="margin-left: auto;">
-          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadConfiguration()"><i class='icon-action-undo'></i> Reload</button>
-          <button class='btn btn-sm btn-danger' ng-click="vm.loadDefaultConfiguration()"><i class='icon-refresh'></i> Reset</button>
+          <button class='btn btn-sm btn-secondary margin-right-15px' ng-click="vm.reloadConfiguration()"><i class='icon-action-undo'></i> {{ 'actions.reload' | translate }}</button>
+          <button class='btn btn-sm btn-danger' ng-click="vm.loadDefaultConfiguration()"><i class='icon-refresh'></i> {{ 'actions.reset' | translate }}</button>
         </div>
       </div>
     </card>
